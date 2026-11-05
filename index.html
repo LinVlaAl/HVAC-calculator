@@ -6,12 +6,11 @@
 <meta name="theme-color" content="#15446d">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="manifest" href='data:application/manifest+json,%7B%22name%22:%22%D0%98%D0%BC%D0%BF%D1%83%D0%BB%D1%8C%D1%81%20%D0%9F%D0%9A%D0%9E%22,%22short_name%22:%22%D0%98%D0%BC%D0%BF%D1%83%D0%BB%D1%8C%D1%81%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22%23f7f7f7%22,%22theme_color%22:%22%2315446d%22%7D'>
-<title>Инженерия — инженерные калькуляторы ОВИК | ТМ «ИМПУЛЬС»</title>
-<meta name="description" content="Инженерный пакет ОВИК: 25 калькуляторов — психрометрия, воздух, R410A, гидравлика чиллеров и ЦВУ, насосы, фрикулинг, PUE, дренаж. ТМ «ИМПУЛЬС» / ООО «Системотехника».">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;800&display=swap" rel="stylesheet">
+<title>Инженерия — инженерные калькуляторы ОВИК</title>
+<meta name="description" content="Инженерный пакет ОВИК: 25 калькуляторов — психрометрия, воздух, R410A, гидравлика чиллеров и ЦВУ, насосы, фрикулинг, PUE, дренаж.">
+
+
+
 <style>
   :root {
     --accent: #15446d;
@@ -31,7 +30,7 @@
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
-    font-family: "Onest", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     background: var(--bg);
     color: var(--text);
     margin: 0;
@@ -461,10 +460,10 @@
 <header class="site-header">
   <div class="header-in">
     <div class="brand">
-      <img src="https://sstmk.ru/images/fav.png" alt="Системотехника" onerror="this.style.display='none'">
+      
       <div>
-        <div class="tm" id="brandTm">ИМПУЛЬС</div>
-        <div class="tm-sub" id="brandSub">прецизионное кондиционирование • ООО «Системотехника»</div>
+        <div class="tm" id="brandTm">Инженерия ОВИК</div>
+        <div class="tm-sub" id="brandSub">справочные инженерные калькуляторы</div>
       </div>
     </div>
     <nav class="main-nav">
@@ -1076,11 +1075,11 @@
 
 <footer class="site-footer">
   <div class="footer-in">
-    <div><span id="footerTm">ИМПУЛЬС</span> • <span id="footerOrg">ООО «Системотехника»</span></div>
-    <div><span data-req="addr">125239, г. Москва, ул. Коптевская, д. 73, стр. 1</span> • <a data-req="tel" href="tel:+74952550339">+7 (495) 255-03-39</a> • <a data-req="mail" href="mailto:info@sstmk.ru">info@sstmk.ru</a></div>
-    <div style="opacity:.6; font-size:11px; flex-basis:100%;">инженерные калькуляторы ×25 (сборка 2.2) • психрометрия • воздух • R410A • гидравлика чиллеров и ЦВУ • насосы • фрикулинг • PUE • дренаж • питание + охлаждение от ГК «Системотехника» • данные по мануалам и официальным данным ACwatt</div>
+    <div>Инженерные калькуляторы ОВИК • сборка 2.2</div>
+    <div style="opacity:.6; font-size:11px; flex-basis:100%;">психрометрия • воздух • R410A • гидравлика чиллеров и ЦВУ • насосы • фрикулинг • PUE • дренаж • расчёты носят справочный характер; для проектных решений проверяйте значения по актуальным нормативам (СП 541.1325800.2024, ГОСТ Р 58541, ASHRAE TC 9.9) и паспортам оборудования</div>
+    <div style="opacity:.75; font-size:12px; flex-basis:100%; margin-top:6px;">автор LinVlaAL</div>
   </div>
-
+</footer>
 <script>
 (function(){
 'use strict';
@@ -1965,7 +1964,7 @@
 
   function buildText(d) {
     var L = [];
-    L.push('ТМ «ИМПУЛЬС» — РАСЧЁТ ПОТРЕБЛЕНИЯ И ХОЛОДОПРОИЗВОДИТЕЛЬНОСТИ КОНДИЦИОНЕРА');
+    L.push('РАСЧЁТ ПОТРЕБЛЕНИЯ И ХОЛОДОПРОИЗВОДИТЕЛЬНОСТИ КОНДИЦИОНЕРА');
     L.push('Дата: ' + d.date);
     L.push('');
     L.push('СЕТЬ: ' + d.c.phase + ', cos ф = ' + d.c.cos.toFixed(2));
@@ -2045,7 +2044,7 @@
   function buildReportHtml(d) {
     var f1 = function (n) { return n === null ? '—' : fmt(n, 1); };
     var h = '';
-    h += '<h1>ТМ «Импульс» — расчёт потребления и холодопроизводительности кондиционера</h1>';
+    h += '<h1>Расчёт потребления и холодопроизводительности кондиционера</h1>';
     h += '<p class="rdate">Дата: ' + d.date + '</p>';
     h += '<h3>Сеть</h3><p>' + d.c.phase + ', cos φ = ' + d.c.cos.toFixed(2) + '</p>';
     h += '<h3>Компоненты и токи, А</h3>';
