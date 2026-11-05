@@ -1,0 +1,2357 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#15446d">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href='data:application/manifest+json,%7B%22name%22:%22%D0%98%D0%BC%D0%BF%D1%83%D0%BB%D1%8C%D1%81%20%D0%9F%D0%9A%D0%9E%22,%22short_name%22:%22%D0%98%D0%BC%D0%BF%D1%83%D0%BB%D1%8C%D1%81%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22%23f7f7f7%22,%22theme_color%22:%22%2315446d%22%7D'>
+<title>Инженерия — инженерные калькуляторы ОВИК | ТМ «ИМПУЛЬС»</title>
+<meta name="description" content="Инженерный пакет ОВИК: 25 калькуляторов — психрометрия, воздух, R410A, гидравлика чиллеров и ЦВУ, насосы, фрикулинг, PUE, дренаж. ТМ «ИМПУЛЬС» / ООО «Системотехника».">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #15446d;
+    --accent-dark: #0e2f4d;
+    --accent2: #ffc11e;
+    --bg: #f3f5f8;
+    --card: #ffffff;
+    --text: #1f2d3d;
+    --muted: #5d788f;
+    --line: #e3e9f0;
+    --soft: #f2f6fa;
+    --grad: linear-gradient(135deg, #1d5c8f 0%, #15446d 55%, #0e2f4d 100%);
+    --shadow-sm: 0 1px 2px rgba(14,47,77,.05), 0 2px 10px rgba(14,47,77,.06);
+    --shadow-md: 0 6px 24px rgba(14,47,77,.12);
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Onest", system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    line-height: 1.55;
+    font-size: 14.5px;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: rgba(255,193,30,.4); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  /* ---------- Шапка ---------- */
+  .site-header {
+    position: sticky; top: 0; z-index: 900;
+    background: #fff;
+    box-shadow: 0 1px 0 var(--line), 0 4px 18px rgba(14,47,77,.08);
+  }
+  /* Блюр только на десктопе: на мобильных backdrop-filter делает шапку контейнером
+     для position:fixed и ломает нижнюю навигацию */
+  @media (min-width: 721px) {
+    .site-header {
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    }
+  }
+  .header-in {
+    max-width: 100%; margin: 0 auto; padding: 10px 20px;
+    display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand img { height: 44px; border-radius: 8px; background: #fff; padding: 3px 8px; }
+  .brand .tm { font-size: 22px; font-weight: 800; letter-spacing: 1px; color: var(--accent); line-height: 1.1; }
+  .brand .tm-sub { font-size: 10.5px; color: var(--muted); }
+  nav.main-nav { margin-left: auto; display: flex; gap: 3px; flex-wrap: wrap; }
+  nav.main-nav a {
+    text-decoration: none; color: var(--accent); font-weight: 600;
+    padding: 8px 14px; border-radius: 9px; font-size: 13.5px;
+    transition: background .15s ease, color .15s ease, box-shadow .15s ease;
+  }
+  nav.main-nav a:hover { background: var(--soft); }
+  nav.main-nav a.active { background: var(--accent); color: #fff; box-shadow: 0 2px 10px rgba(21,68,109,.35); }
+  /* ---------- Страницы ---------- */
+  main { max-width: 100%; margin: 0 auto; padding: 26px clamp(14px, 2.5vw, 44px) 60px; }
+  .site-page[hidden] { display: none; }
+  .page-title { font-size: 30px; line-height: 1.2; color: var(--accent-dark); margin: 8px 0 10px; font-weight: 800; letter-spacing: -.2px; }
+  .lead { color: var(--muted); max-width: 780px; margin: 0 0 22px; font-size: 14.5px; }
+  /* Главная */
+  .hero {
+    position: relative; overflow: hidden;
+    background: var(--grad); color: #fff; border-radius: 18px;
+    padding: 46px 42px; margin: 4px 0 26px; box-shadow: var(--shadow-md);
+  }
+  .hero::before {
+    content: ""; position: absolute; right: -140px; top: -150px; width: 400px; height: 400px;
+    border-radius: 50%; background: radial-gradient(circle, rgba(255,193,30,.30), transparent 65%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: ""; position: absolute; left: -120px; bottom: -170px; width: 360px; height: 360px;
+    border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,.10), transparent 70%);
+    pointer-events: none;
+  }
+  .hero > * { position: relative; }
+  .hero h1 { margin: 0 0 12px; font-size: 34px; line-height: 1.15; letter-spacing: -.3px; font-weight: 800; }
+  .hero p { margin: 0 0 20px; max-width: 720px; opacity: .92; font-size: 15px; }
+  .hero .accent-word { color: var(--accent2); }
+  .btn {
+    display: inline-block; text-decoration: none; font-weight: 600;
+    padding: 12px 26px; border-radius: 10px; cursor: pointer; border: none; font: inherit; font-size: 14px;
+    transition: background .15s ease, box-shadow .15s ease, transform .12s ease;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-yellow { background: var(--accent2); color: var(--accent-dark); box-shadow: 0 3px 14px rgba(255,193,30,.35); }
+  .btn-yellow:hover { background: #eeb316; box-shadow: 0 5px 18px rgba(255,193,30,.45); }
+  .btn-ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.55); }
+  .btn-ghost:hover { background: rgba(255,255,255,.14); border-color: #fff; }
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 18px 20px; box-shadow: var(--shadow-sm);
+    transition: box-shadow .18s ease, transform .18s ease;
+  }
+  .card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .card h3 { margin: 0 0 7px; color: var(--accent); font-size: 15px; border-left: 4px solid var(--accent2); padding-left: 10px; line-height: 1.3; }
+  .card p { margin: 0; font-size: 13.5px; color: #35506b; }
+  .stat-strip {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 14px; margin: 24px 0;
+  }
+  .stat {
+    background: var(--grad); color: #fff; border-radius: 12px; padding: 16px 18px; text-align: center;
+    box-shadow: var(--shadow-sm);
+  }
+  .stat b { display: block; font-size: 24px; color: var(--accent2); font-variant-numeric: tabular-nums; line-height: 1.15; }
+  .stat span { font-size: 12px; opacity: .92; }
+  /* Продукция */
+  .series-block, .section {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 20px 24px; margin-bottom: 20px; box-shadow: var(--shadow-sm);
+  }
+  .series-block h2 { margin: 0 0 6px; color: var(--accent); font-size: 18px; border-left: 4px solid var(--accent2); padding-left: 11px; line-height: 1.3; }
+  .series-block .series-desc { color: var(--muted); font-size: 13.5px; margin: 0 0 12px; }
+
+  .series-photos { display: flex !important; flex-wrap: wrap !important; justify-content: center !important;
+    align-items: flex-start !important; gap: 14px !important; margin: 4px 0 16px !important; padding: 0 !important; clear: both !important; }
+  .series-photos figure { margin: 0 !important; padding: 0 !important; width: 236px !important; max-width: 236px !important;
+    flex: 0 0 auto !important; float: none !important; position: static !important; text-align: center !important;
+    background: none !important; border: none !important; box-shadow: none !important; overflow: visible !important; }
+  .series-photos .ph-frame { display: flex !important; align-items: center !important; justify-content: center !important;
+    height: 168px !important; box-sizing: border-box !important; overflow: hidden !important; background: var(--soft, #f2f6fa) !important;
+    border: 1px solid var(--line, #e3e9f0) !important; border-radius: 10px !important; margin: 0 !important; padding: 8px !important; }
+  .series-photos .ph-frame img { display: block !important; max-width: 100% !important; max-height: 150px !important;
+    width: auto !important; height: auto !important; margin: 0 auto !important; padding: 0 !important; border: none !important;
+    background: transparent !important; object-fit: contain !important; float: none !important; position: static !important; }
+  .series-photos figcaption { margin: 6px 2px 0 !important; max-width: 236px !important; font-size: 11.5px !important;
+    line-height: 1.35 !important; color: var(--muted, #5d788f) !important; text-align: center !important; }
+  .series-photos .photo-credit { width: 100% !important; text-align: center !important; font-size: 11px !important;
+    color: var(--muted, #5d788f) !important; opacity: .75; margin: 0 !important; padding: 0 !important; }
+  @media (max-width: 640px) { .series-photos figure { width: 46% !important; max-width: 190px !important; }
+    .series-photos .ph-frame { height: 132px !important; } .series-photos .ph-frame img { max-height: 114px !important; } }
+  @media print { .series-photos { break-inside: avoid; } }
+  @media (max-width: 720px) { .table-wrap > table.tbl-wide { min-width: 760px; } }
+  @media print { .table-wrap > table.tbl-wide { min-width: 0; } }
+  /* Таблицы: обёртка для горизонтальной прокрутки на мобильных */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; margin-top: 10px; -webkit-overflow-scrolling: touch; }
+  .table-wrap > table { margin-top: 0; border: none; }
+  .table-wrap::-webkit-scrollbar { height: 8px; }
+  .table-wrap::-webkit-scrollbar-thumb { background: #c3d1de; border-radius: 4px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12.5px; background: #fff; }
+  th, td { border: 1px solid var(--line); padding: 6px 9px; text-align: center; }
+  th { background: var(--accent); color: #fff; font-weight: 600; white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; }
+  td:first-child { font-weight: 600; background: var(--soft); white-space: nowrap; }
+  tr:nth-child(even) td { background-color: #fafbfd; }
+  tr:nth-child(even) td:first-child { background-color: var(--soft); }
+  tbody tr:hover td { background-color: #e9f1f8; }
+  .hint { font-size: 12px; color: var(--muted); margin: 8px 0 0; line-height: 1.5; }
+  /* Печатный документ ТХ вариантов */
+  .print-only { display: none; }
+  #printDoc h1 { font-size: 18px; color: var(--accent); margin: 0 0 4px; }
+  #printDoc .pd-meta { font-size: 11px; color: #444; margin: 0 0 12px; }
+  #printDoc h2 { font-size: 13.5px; color: var(--accent); margin: 16px 0 6px; border-bottom: 1px solid #999; padding-bottom: 3px; }
+  #printDoc table { width: 100%; border-collapse: collapse; font-size: 10.5px; margin-top: 4px; }
+  #printDoc th, #printDoc td { border: 1px solid #999; padding: 4px 6px; text-align: left; }
+  #printDoc th { background: #eee; color: #111; font-weight: 600; }
+  #printDoc .pd-note { font-size: 9.5px; color: #444; margin: 10px 0 0; }
+  .st-ok { color: #1a7a3c; font-weight: 700; }
+  .st-warn { color: #a06b00; font-weight: 700; }
+  .st-bad { color: #b03030; font-weight: 700; }
+  tr.sel-best td { background: #fff9e6 !important; font-weight: 600; }
+  tbody tr.sel-best:hover td { background: #fff3c4 !important; }
+  .btn-outline { background: #fff; color: var(--accent); border: 1px solid var(--accent); }
+  .btn-outline:hover { background: var(--soft); box-shadow: 0 3px 10px rgba(21,68,109,.12); }
+  /* Опросный лист */
+  .requisites {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 14px 18px; margin-bottom: 18px; font-size: 12.5px; color: var(--muted);
+    display: flex; flex-wrap: wrap; gap: 4px 24px; box-shadow: var(--shadow-sm);
+  }
+  .requisites b { color: var(--accent); }
+  .requisites a { color: var(--accent); text-decoration: none; }
+  .requisites a:hover { text-decoration: underline; }
+  .section > h2 {
+    margin: 0 0 14px; font-size: 15.5px; color: var(--accent);
+    border-left: 4px solid var(--accent2); padding-left: 10px;
+    text-transform: uppercase; letter-spacing: .3px;
+  }
+  .sub {
+    font-size: 13px; font-weight: 700; color: var(--accent);
+    margin: 16px 0 8px; padding-bottom: 4px; border-bottom: 1px dashed var(--line);
+  }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 22px; }
+  .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .field { display: flex; flex-direction: column; gap: 4px; }
+  .field label { font-size: 11.5px; color: var(--muted); font-weight: 600; }
+  .field input, .field select, .field textarea {
+    font: inherit; padding: 7px 10px; border: 1px solid #d8dfe8;
+    border-radius: 8px; background: #fdfdfd; width: 100%;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .field textarea { resize: vertical; }
+  .field input:focus, .field textarea:focus, .field select:focus {
+    outline: none; border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(21,68,109,.14); background: #fff;
+  }
+  .wide { grid-column: 1 / -1; }
+  .checks { display: flex; flex-wrap: wrap; gap: 8px 14px; }
+  .checks label {
+    display: flex; align-items: center; gap: 6px; font-size: 13px;
+    background: var(--soft); border: 1px solid var(--line); border-radius: 20px;
+    padding: 4px 12px; cursor: pointer; transition: border-color .15s ease, background .15s ease;
+  }
+  .checks label:hover { border-color: var(--accent); background: #eaf1f7; }
+  .checks label:has(input:checked) { border-color: var(--accent); background: #e6eef6; font-weight: 600; }
+  .checks input { accent-color: var(--accent); }
+  .warn {
+    background: #fff9e6; border: 1px solid var(--accent2); border-radius: 10px;
+    padding: 10px 14px; font-size: 12.5px; margin: 8px 0; line-height: 1.5;
+  }
+  .footer-note { font-size: 11.5px; color: var(--muted); text-align: center; margin-top: 8px; }
+  .sig { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 12px; }
+  .sig .field input { border: none; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; }
+  #sendBtn, #pdfBtn { font: inherit; font-weight: 600; padding: 10px 26px; border: none; border-radius: 10px; cursor: pointer; transition: background .15s ease, box-shadow .15s ease; }
+  #sendBtn { background: var(--accent); color: #fff; }
+  #sendBtn:hover { background: var(--accent-dark); box-shadow: 0 4px 14px rgba(21,68,109,.3); }
+  #pdfBtn { background: var(--accent2); color: var(--accent-dark); }
+  #pdfBtn:hover { background: #eeb316; box-shadow: 0 4px 14px rgba(255,193,30,.4); }
+  /* Контакты */
+  .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .contact-grid .card b { color: var(--accent); display: block; margin-bottom: 4px; }
+  /* Футер */
+  footer.site-footer {
+    background: var(--accent-dark); color: #cfe0ee; font-size: 12.5px;
+    padding: 26px clamp(14px, 2.5vw, 44px); margin-top: 28px;
+  }
+  .footer-in { max-width: 100%; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 8px 30px; justify-content: space-between; }
+  .footer-in a { color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.25); transition: color .15s ease, border-color .15s ease; }
+  .footer-in a:hover { color: var(--accent2); border-color: var(--accent2); }
+  /* Админ-панель */
+  #adminBtn {
+    position: fixed; right: 18px; bottom: 18px; z-index: 1000;
+    background: var(--accent2); color: var(--accent-dark);
+    border: none; border-radius: 24px; padding: 10px 18px;
+    font: inherit; font-weight: 700; cursor: pointer;
+    box-shadow: 0 4px 14px rgba(21,68,109,.3); transition: background .15s ease, box-shadow .15s ease;
+  }
+  #adminBtn:hover { background: #eeb316; box-shadow: 0 6px 18px rgba(21,68,109,.4); }
+  /* Редактор контента */
+  #ceBtn {
+    position: fixed; right: 18px; bottom: 64px; z-index: 1000;
+    background: var(--accent2); color: var(--accent-dark);
+    border: none; border-radius: 24px; padding: 10px 18px;
+    font: inherit; font-weight: 700; cursor: pointer;
+    box-shadow: 0 4px 14px rgba(21,68,109,.3); transition: background .15s ease, box-shadow .15s ease;
+  }
+  #ceBtn:hover { background: #eeb316; box-shadow: 0 6px 18px rgba(21,68,109,.4); }
+  #ceToolbar {
+    position: fixed; left: 18px; bottom: 18px; z-index: 3001; display: none;
+    background: #fff; border: 1px solid var(--line); border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(14,47,77,.25); padding: 12px 14px; max-width: 420px; font-size: 13px;
+  }
+  #ceToolbar .ce-head { font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+  #ceToolbar .ce-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  #ceToolbar button {
+    font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer;
+    border: 1px solid var(--line); border-radius: 9px; padding: 6px 12px; background: #fff;
+  }
+  #ceToolbar button:hover { background: var(--soft); }
+  body.ce-edit [contenteditable="true"] { outline: 2px dashed #eeb316; outline-offset: 2px; background: rgba(255,255,255,.7); cursor: text; min-width: 1em; }
+  body.ce-edit [contenteditable="true"]:hover { outline-color: var(--accent); }
+  body.ce-edit .ce-done { outline: 2px solid #2e9e44; background: rgba(46,158,68,.08); }
+  body.ce-edit .ce-hover-target { outline: 1px dashed rgba(21,68,109,.35); cursor: pointer; }
+  #ceToolbar input[type=file] { font-size: 12px; max-width: 200px; }
+  #adminPanel {
+    position: fixed; top: 0; right: -420px; width: 400px; max-width: 94vw;
+    height: 100vh; overflow-y: auto; z-index: 1001;
+    background: #fff; box-shadow: -6px 0 24px rgba(14,47,77,.25);
+    padding: 16px 18px 30px; transition: right .25s ease; font-size: 13px;
+  }
+  #adminPanel.open { right: 0; }
+  .ap-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; color: var(--accent); font-size: 15px; }
+  .ap-head button { border: none; background: none; font-size: 16px; cursor: pointer; color: var(--muted); }
+  .ap-block { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-bottom: 12px; }
+  .ap-title { font-weight: 700; color: var(--accent); margin-bottom: 8px; border-left: 3px solid var(--accent2); padding-left: 8px; }
+  .ap-block label { display: block; font-size: 11.5px; color: var(--muted); margin-bottom: 8px; }
+  .ap-block label input { display: block; width: 100%; margin-top: 3px; font: inherit; padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; background: #fdfdfd; color: var(--text); }
+  .ap-block label.check-inline { display: flex; gap: 6px; align-items: center; font-size: 12px; color: var(--text); margin-bottom: 8px; }
+  .ap-block label.check-inline input { display: inline-block; width: auto; margin: 0; padding: 0; border: none; background: transparent; }
+  .ap-checks { display: flex; flex-direction: column; gap: 4px; }
+  .ap-checks label { display: flex; gap: 6px; align-items: center; font-size: 12px; color: var(--text); margin: 0; }
+  .ap-checks input { width: auto; margin: 0; }
+  .ap-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ap-btns button, .ap-actions button { font: inherit; font-weight: 600; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line); background: #fff; color: var(--accent); cursor: pointer; transition: background .15s ease; }
+  .ap-prim { background: var(--accent) !important; color: #fff !important; border: none !important; }
+  .ap-prim:hover { background: var(--accent-dark) !important; }
+  #apStatus { font-size: 12px; color: var(--accent); min-height: 16px; }
+  .ap-note { font-size: 11px; color: var(--muted); }
+  /* Баннер блокировки полей */
+  #lockBanner {
+    position: sticky; top: 72px; z-index: 50;
+    background: #fff9e6; border: 1px solid var(--accent2); border-radius: 10px;
+    padding: 10px 14px; font-size: 13px; margin: 0 0 14px; line-height: 1.5;
+    box-shadow: var(--shadow-sm);
+  }
+  body.locked .field input[readonly], body.locked .field textarea[readonly] {
+    background: #eef2f6; color: #63788c; cursor: not-allowed;
+    border-style: dashed;
+  }
+  body.locked .field select:disabled, body.locked .checks input:disabled {
+    background: #eef2f6; opacity: .7; cursor: not-allowed;
+  }
+  /* Корзина */
+  #cartBtn { border: none; background: var(--accent2); color: var(--accent-dark); font: inherit; font-weight: 700; border-radius: 9px; padding: 8px 14px; cursor: pointer; transition: background .15s ease, box-shadow .15s ease; }
+  #cartBtn:hover { background: #eeb316; box-shadow: 0 3px 12px rgba(255,193,30,.4); }
+  #cartBtn .cnt { background: var(--accent-dark); color: #fff; border-radius: 10px; padding: 1px 7px; font-size: 12px; margin-left: 4px; }
+  .cart-overlay { position: fixed; inset: 0; background: rgba(14,47,77,.55); z-index: 2000; display: none; align-items: flex-start; justify-content: center; padding: 4vh 12px; }
+  .cart-overlay.open { display: flex; }
+  .cart-modal { background: #fff; border-radius: 16px; width: 660px; max-width: 96vw; max-height: 92vh; overflow-y: auto; padding: 20px 22px; box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+  .cart-modal h3 { margin: 0 0 10px; color: var(--accent); font-size: 16px; border-left: 4px solid var(--accent2); padding-left: 9px; }
+  .cart-item { border: 1px solid var(--line); border-radius: 10px; padding: 9px 11px; margin-bottom: 8px; font-size: 12.5px; background: #fff; }
+  .cart-item .ci-head { display: flex; justify-content: space-between; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .cart-item b { color: var(--accent); }
+  .cart-item .ci-opts { color: var(--muted); font-size: 11.5px; margin: 4px 0 0; }
+  .cart-item input.ci-qty { width: 60px; padding: 3px 6px; font: inherit; border: 1px solid var(--line); border-radius: 6px; }
+  .ci-del { border: none; background: none; color: #b03030; font-weight: 700; cursor: pointer; font-size: 14px; border-radius: 4px; }
+  .ci-del:hover { background: #fdeaea; }
+  .cart-total { font-weight: 700; color: var(--accent); margin: 8px 0; }
+  .cart-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .cart-btns button { font: inherit; font-weight: 600; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line); background: #fff; color: var(--accent); cursor: pointer; transition: background .15s ease; }
+  .cart-btns .prim { background: var(--accent); color: #fff; border: none; }
+  .cart-btns .prim:hover { background: var(--accent-dark); }
+  .opt-grid { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 6px 0; }
+  .opt-grid label { display: flex; align-items: center; gap: 6px; font-size: 12.5px; background: var(--soft); border: 1px solid var(--line); border-radius: 16px; padding: 4px 10px; cursor: pointer; transition: border-color .15s ease; }
+  .opt-grid label:hover { border-color: var(--accent); }
+  .opt-grid input { accent-color: var(--accent); }
+  .add-cart-btn { font: inherit; font-size: 11.5px; font-weight: 600; padding: 4px 8px; border: 1px solid var(--accent); background: #fff; color: var(--accent); border-radius: 6px; cursor: pointer; white-space: nowrap; transition: background .15s ease, color .15s ease; }
+  .add-cart-btn:hover { background: var(--accent2); border-color: var(--accent2); color: var(--accent-dark); }
+  @media (max-width: 1000px) {
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+    .grid-4 { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 720px) {
+    .grid, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    /* Компактная шапка */
+    .header-in { padding: 8px 14px; gap: 10px; flex-wrap: nowrap; }
+    .brand { flex: 1 1 auto; min-width: 0; }
+    .brand img { height: 34px; }
+    .brand .tm { font-size: 17px; }
+    .brand .tm-sub { font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 190px; }
+    #cartBtn { padding: 7px 10px; font-size: 12.5px; flex-shrink: 0; }
+    /* Hero и заголовки */
+    .hero { padding: 26px 20px; border-radius: 14px; }
+    .hero h1 { font-size: 24px; }
+    .page-title { font-size: 24px; }
+    .field input, .field select, .field textarea { font-size: 16px; padding: 8px 10px; }
+    /* Нижняя навигация: сетка 3×2, все пункты видны без прокрутки */
+    nav.main-nav {
+      position: fixed; bottom: 0; left: 0; right: 0; margin: 0;
+      background: var(--accent-dark);
+      padding: 0 0 env(safe-area-inset-bottom);
+      border-top: 1px solid rgba(255,255,255,.15); z-index: 950;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+    }
+    nav.main-nav a {
+      color: #fff; font-size: 11.5px; padding: 10px 4px;
+      text-align: center; border-radius: 0; white-space: nowrap;
+      border-right: 1px solid rgba(255,255,255,.08);
+    }
+    nav.main-nav a:nth-child(3n) { border-right: none; }
+    nav.main-nav a.active { background: rgba(255,255,255,.08); color: var(--accent2); }
+    main { padding-bottom: 88px; }
+    #adminBtn { bottom: 90px; right: 12px; padding: 8px 14px; }
+    .table-wrap > table { min-width: 560px; }
+    .section, .series-block { padding: 16px; }
+    #lockBanner { top: 60px; }
+  }
+  @media print {
+    .site-header, footer.site-footer, #adminBtn, #adminPanel, #cartBtn, #cartOverlay, #optOverlay, .no-print { display: none !important; }
+    body.locked .field input[readonly] { background: #fff; }
+    .section, .series-block, .hero { box-shadow: none; break-inside: avoid; }
+    .site-page[hidden] { display: none !important; }
+    body.print-doc .site-header, body.print-doc footer.site-footer, body.print-doc #adminBtn, body.print-doc #adminPanel { display: none !important; }
+    body.print-doc .site-page { display: none !important; }
+    body.print-doc .print-only { display: block !important; }
+    body.print-doc main { padding: 0; }
+    .table-wrap { overflow: visible; border: none; border-radius: 0; margin-top: 6px; }
+    .table-wrap > table { min-width: 0; }
+  }
+
+  /* ---------- Калькулятор токов и холодопроизводительности ---------- */
+  .acw-net { display:flex; flex-wrap:wrap; gap:14px; align-items:center; margin-bottom:14px; padding:10px 12px; background:var(--soft); border-radius:10px; font-size:13px; }
+  .acw-net label { display:flex; gap:8px; align-items:center; }
+  .acw-net select, .acw-net input { font:inherit; padding:6px 8px; border:1px solid var(--line); border-radius:8px; background:#fff; }
+  .acw-crow, .acw-chead { display:grid; gap:8px; align-items:center; grid-template-columns:minmax(140px,2.2fr) 1fr 1fr 1fr 34px; }
+  .acw-chead { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.03em; padding:0 0 4px; border-bottom:1px solid var(--line); }
+  .acw-crow { margin-top:6px; }
+  .acw-crow input { font:inherit; width:100%; padding:8px 10px; border:1px solid #d8dfe8; border-radius:8px; background:#fdfdfd; transition: border-color .15s ease, box-shadow .15s ease; }
+  .acw-crow input.acw-num { text-align:right; font-variant-numeric:tabular-nums; }
+  .acw-crow input:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(21,68,109,.14); }
+  .acw-dash { color:#b7bfd0; text-align:center; }
+  .acw-del { border:none; background:none; color:#b03030; font-size:16px; cursor:pointer; border-radius:4px; }
+  .acw-del:hover { background:#fdeaea; }
+  .acw-add { font:inherit; font-size:12.5px; color:var(--accent); background:none; border:1px dashed var(--accent); border-radius:8px; padding:4px 10px; cursor:pointer; transition: background .15s ease; }
+  .acw-add:hover { background:var(--soft); }
+  .acw-comp { margin-bottom:16px; }
+  .acw-comp-head { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:5px; }
+  .acw-comp-head b { font-size:14px; color:var(--accent); border-left:4px solid var(--accent2); padding-left:9px; }
+  .acw-mode { margin-top:12px; padding-top:12px; border-top:1px dashed var(--line); font-size:13px; }
+  .acw-mode b { display:block; margin-bottom:6px; color:var(--accent); }
+  .acw-mode label { display:block; margin:4px 0; }
+  .acw-mode input { margin-right:8px; accent-color:var(--accent); }
+  .acw-tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-top:14px; }
+  .acw-tile { background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px 16px; box-shadow:var(--shadow-sm); }
+  .acw-tile .acw-cap { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; }
+  .acw-tile .acw-val { font-size:26px; font-weight:800; margin-top:3px; font-variant-numeric:tabular-nums; color:var(--accent); }
+  .acw-tile .acw-val small { font-size:14px; font-weight:600; color:var(--muted); }
+  .acw-tile .acw-extra { font-size:12px; color:var(--muted); margin-top:3px; }
+  .acw-tile.acw-hot .acw-val { color:#b03030; }
+  .acw-tile.acw-dark { background:var(--grad); border-color:var(--accent); color:#fff; box-shadow:var(--shadow-sm); }
+  .acw-tile.acw-dark .acw-cap, .acw-tile.acw-dark .acw-val small, .acw-tile.acw-dark .acw-extra { color:#cfe0ee; }
+  .acw-tile.acw-dark .acw-val { color:var(--accent2); }
+  .acw-mini { font:inherit; font-size:11.5px; color:var(--accent); background:var(--soft); border:none; border-radius:6px; padding:3px 8px; cursor:pointer; margin-left:6px; }
+  .acw-mini:hover { background:#e2ecf5; }
+  .acw-err { color:#b03030; font-size:12.5px; margin-top:8px; display:none; }
+  #acwReport { display:none; }
+  @media (max-width:720px) {
+    .acw-crow, .acw-chead { grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) 28px; font-size:12px; }
+    .acw-chead span { white-space: normal; overflow-wrap: break-word; min-width: 0; }
+    .acw-crow input { min-width: 0; }
+  }
+  @media print {
+    body.acw-print .site-header, body.acw-print footer.site-footer, body.acw-print #adminBtn,
+    body.acw-print #adminPanel, body.acw-print #cartBtn, body.acw-print #cartOverlay,
+    body.acw-print #optOverlay, body.acw-print main { display:none !important; }
+    #acwReport { display:block !important; padding:10mm; color:#000; font-size:12pt; }
+    #acwReport h1 { font-size:16pt; margin:0 0 2mm; }
+    #acwReport .rdate { color:#555; font-size:10pt; margin:0 0 6mm; }
+    #acwReport h3 { font-size:12pt; margin:6mm 0 2mm; border-bottom:1px solid #999; padding-bottom:1mm; }
+    #acwReport table { border-collapse:collapse; width:100%; font-size:10pt; margin-bottom:3mm; }
+    #acwReport th, #acwReport td { border:1px solid #999; padding:1.5mm 3mm; text-align:left; }
+    #acwReport th { background:#eee; color:#111; }
+    #acwReport td.acw-num { text-align:right; }
+    #acwReport .acw-big { font-size:12pt; font-weight:700; margin:2mm 0; }
+    #acwReport .rnote { color:#444; font-size:9pt; margin-top:6mm; }
+  }
+</style>
+<header class="site-header">
+  <div class="header-in">
+    <div class="brand">
+      <img src="https://sstmk.ru/images/fav.png" alt="Системотехника" onerror="this.style.display='none'">
+      <div>
+        <div class="tm" id="brandTm">ИМПУЛЬС</div>
+        <div class="tm-sub" id="brandSub">прецизионное кондиционирование • ООО «Системотехника»</div>
+      </div>
+    </div>
+    <nav class="main-nav">
+      <a href="#eng" class="nav-link active">Инженерия</a>
+    </nav>
+    <div></div>
+  </div>
+
+  </div>
+
+  <main>
+<section class="site-page" id="page-eng">
+  <h1 class="page-title">Инженерия</h1>
+  <p class="lead">Полный инженерный пакет ОВИК: психрометрия и воздух, фреоновые трассы R410A, гидравлика чиллеров и водяных контуров (ЦВУ), насосы и расширительные баки, Kvs, фрикулинг и PUE, теплопритоки и дренаж — 25 калькуляторов. Всё считается в браузере без отправки данных.</p>
+
+  <div class="section">
+    <h2>1. Расход воздуха</h2>
+    <div class="grid grid-3">
+      <div class="field"><label>Способ расчёта</label>
+        <select id="engAirMode">
+          <option value="q" selected>По явному теплу и Δt</option>
+          <option value="n">По кратности воздухообмена</option>
+        </select>
+      </div>
+      <div class="field" id="engAirQ1"><label>Явное тепловыделение, кВт</label><input type="number" id="engAirQ" step="0.1" min="0" value="10"></div>
+      <div class="field" id="engAirQ2"><label>Рабочий перепад Δt, K</label><input type="number" id="engAirDt" step="0.5" min="1" value="10"></div>
+      <div class="field" id="engAirV1" style="display:none;"><label>Объём помещения, м³</label><input type="number" id="engAirV" step="1" min="0" value="100"></div>
+      <div class="field" id="engAirV2" style="display:none;"><label>Кратность, 1/ч</label><input type="number" id="engAirN" step="1" min="1" value="6"></div>
+      <div class="field"><label>Запас на утечки, %</label><input type="number" id="engAirLoss" step="1" min="0" value="0"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engAirGo" type="button">Рассчитать</button></div>
+    <p class="hint" id="engAirOut" style="font-size:14px;"></p>
+    <p class="hint">Формулы: L = Q<sub>явн</sub> × 3600 / (ρ × c<sub>p</sub> × Δt) ≈ Q<sub>явн</sub> × 2982 / Δt, м³/ч (ρ·c<sub>p</sub> ≈ 1,206 кДж/(м³·К) для воздуха ~22 °C); L = n × V, где n — кратность 1/ч, V — объём помещения. Для серверных типовая кратность 5–8 1/ч; итог — оценочный, сеть воздуховодов и располагаемый напор уточняются проектом.</p>
+  </div>
+
+  <div class="section">
+    <h2>2. Относительная ↔ абсолютная влажность</h2>
+    <div class="grid grid-3">
+      <div class="field"><label>Температура воздуха, °C</label><input type="number" id="engHumT" step="0.1" value="24"></div>
+      <div class="field"><label>Относительная влажность, % RH</label><input type="number" id="engHumRh" step="1" min="0" max="100" value="50"></div>
+      <div class="field"><label>Абсолютная влажность, г/м³</label><input type="number" id="engHumAbs" step="0.1" min="0" placeholder="заполните для обратного расчёта"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;">
+      <button class="btn btn-yellow" id="engHumRhGo" type="button">RH → абсолютная</button>
+      <button class="btn btn-outline" id="engHumAbsGo" type="button">Абсолютная → RH</button>
+    </div>
+    <p class="hint" id="engHumOut" style="font-size:14px;"></p>
+    <p class="hint">Формула Магнуса (Alduchov–Eskridge): e<sub>s</sub>(t) = 6,112 × e<sup>17,62t/(243,12+t)</sup> гПа; ρ<sub>sat</sub> = 216,7 × e<sub>s</sub> / (t + 273,15), г/м³; RH = ρ<sub>v</sub> / ρ<sub>sat</sub> × 100%. Точность ±0,3% RH в диапазоне −20…+50 °C — достаточна для инженерных оценок; для актов испытаний используйте поверенные приборы.</p>
+  </div>
+
+  <div class="section">
+    <h2>3. Точка росы</h2>
+    <div class="grid grid-3">
+      <div class="field"><label>Температура воздуха, °C</label><input type="number" id="engDewT" step="0.1" value="24"></div>
+      <div class="field"><label>Относительная влажность, % RH</label><input type="number" id="engDewRh" step="1" min="0" max="100" value="50"></div>
+      <div class="field"><label>… или абсолютная влажность, г/м³</label><input type="number" id="engDewAbs" step="0.1" min="0" placeholder="перекрывает RH"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engDewGo" type="button">Рассчитать точку росы</button></div>
+    <p class="hint" id="engDewOut" style="font-size:14px;"></p>
+    <p class="hint">Абсолютная влажность (г/м³) зависит от объёма, поэтому она пересчитывается в парциальное давление пара при текущей температуре: p<sub>v</sub> = ρ·(273,15 + t)/216,7 гПа; точка росы — из p<sub>v</sub> по обратной формуле Магнуса. Проверка конденсации: если температура холодной поверхности (пол, трубы, обвязка) ниже точки росы — выпадет конденсат. Ориентир: при 24 °C / 50% RH точка росы ≈ 12,8 °C.</p>
+  </div>
+
+  <div class="section">
+    <h2>4. Перегрев и переохлаждение по давлению</h2>
+    <div class="grid grid-4">
+      <div class="field"><label>Фреон</label>
+        <select id="engRefSel">
+          <option selected>R410A</option><option>R32</option><option>R407C</option><option>R404A</option><option>R507</option><option>R134a</option><option>R22</option><option>R290</option>
+        </select>
+      </div>
+      <div class="field"><label>Давление на манометре, бар</label><input type="number" id="engRefP" step="0.01"></div>
+      <div class="field"><label>Тип давления</label>
+        <select id="engRefPMode"><option value="g" selected>Избыточное (по манометру)</option><option value="a">Абсолютное</option></select>
+      </div>
+      <div class="field"><label>t° пара на трубке (для перегрева), °C</label><input type="number" id="engRefTsup" step="0.1"></div>
+      <div class="field"><label>t° жидкостной линии (для переохл.), °C</label><input type="number" id="engRefTsub" step="0.1"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engRefGo" type="button">Рассчитать</button></div>
+    <p class="hint" id="engRefOut" style="font-size:14px;"></p>
+    <p class="hint">Перегрев = t° пара на всасе − t° насыщения при измеренном давлении (типично 5–12 K для ТРВ; для инверторных систем — по мануалу). Переохлаждение = t° насыщения − t° жидкостной линии (типично 4–10 K). Для зеотропных смесей (R407C, R404A) используется средняя температура насыщения — глайд уточняйте в данных производителя. Значения справочные, приближённые — сверяйте с PT-таблицей производителя фреона.</p>
+  </div>
+
+  <div class="section">
+    <h2>5. PT-линейка (давление — температура)</h2>
+    <div class="grid grid-4">
+      <div class="field"><label>Фреон</label>
+        <select id="engPtSel">
+          <option selected>R410A</option><option>R32</option><option>R407C</option><option>R404A</option><option>R507</option><option>R134a</option><option>R22</option><option>R290</option>
+        </select>
+      </div>
+      <div class="field"><label>Шаг таблицы, K</label><select id="engPtStep"><option>5</option><option selected>10</option></select></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engPtGo" type="button">Построить таблицу</button></div>
+    <div id="engPtOut"></div>
+  </div>
+
+  <div class="section">
+    <h2>6. Скорость воздуха в сечении</h2>
+    <div class="grid grid-4">
+      <div class="field"><label>Форма сечения</label>
+        <select id="engVelShape"><option value="c" selected>Круглая</option><option value="r">Прямоугольная</option></select>
+      </div>
+      <div class="field"><label>Расход воздуха, м³/ч</label><input type="number" id="engVelQ" step="10" min="0" value="2000"></div>
+      <div class="field" id="engVelD1"><label>Диаметр, мм</label><input type="number" id="engVelD" step="10" min="0" value="250"></div>
+      <div class="field" id="engVelW1" style="display:none;"><label>Ширина, мм</label><input type="number" id="engVelW" step="10" min="0"></div>
+      <div class="field" id="engVelH1" style="display:none;"><label>Высота, мм</label><input type="number" id="engVelH" step="10" min="0"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engVelGo" type="button">Рассчитать</button></div>
+    <p class="hint" id="engVelOut" style="font-size:14px;"></p>
+    <p class="hint">v = L / (3600 × A). Ориентиры: магистральные воздуховоды 4–8 м/с, ответвления 2–4 м/с, жалюзийные решётки 1,5–3 м/с, вход в ФКУ/кондиционер 2,5–5 м/с. Для прямоугольных сечений даётся эквивалентный диаметр по ASHRAE: d<sub>экв</sub> = 1,3 × (W·H)<sup>0,625</sup> / (W+H)<sup>0,25</sup> — для подбора скоростей и потерь по круглым таблицам.</p>
+  </div>
+
+  <div class="section">
+    <h2>7. Мощность охлаждения по Δt и расходу</h2>
+    <div class="grid grid-4">
+      <div class="field"><label>Что найти</label>
+        <select id="engPowMode"><option value="q" selected>Мощность по расходу и Δt</option><option value="l">Расход по мощности и Δt</option></select>
+      </div>
+      <div class="field" id="engPowL1"><label>Расход воздуха, м³/ч</label><input type="number" id="engPowL" step="10" min="0" value="2000"></div>
+      <div class="field" id="engPowT1"><label>Перепад Δt (сух. термометр), K</label><input type="number" id="engPowT" step="0.5" min="0" value="10"></div>
+      <div class="field" id="engPowQ1" style="display:none;"><label>Явная мощность, кВт</label><input type="number" id="engPowQ" step="0.1" min="0"></div>
+      <div class="field"><label>t° воздуха, °C (для плотности)</label><input type="number" id="engPowTemp" step="1" value="24"></div>
+      <div class="field"><label>SHR (доля явного тепла, 0–1)</label><input type="number" id="engPowShr" step="0.01" min="0.1" max="1" value="0.9"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engPowGo" type="button">Рассчитать</button></div>
+    <p class="hint" id="engPowOut" style="font-size:14px;"></p>
+    <p class="hint">Q<sub>явн</sub> = ρ × c<sub>p</sub> × L × Δt / 3600, кВт; ρ = 353 / (273,15 + t°), кг/м³; c<sub>p</sub> = 1,006 кДж/(кг·К). Полное тепло Q<sub>полн</sub> ≈ Q<sub>явн</sub> / SHR (при SHR = 1 совпадает). При 22 °C формула эквивалентна Q ≈ L × Δt / 2982 — той же, что в подборе. Значение по Δt сухого термометра — это только явная часть; скрытое тепло считается по балансу влаги.</p>
+  </div>
+
+  <div class="section">
+    <h2>8. Бак-аккумулятор холода и расход теплоносителя</h2>
+    <div class="sub">8.1. Объём бака-аккумулятора</div>
+    <div class="grid grid-4">
+      <div class="field"><label>Мощность охлаждения, кВт</label><input type="number" id="engTankQ" step="0.1" min="0" value="10"></div>
+      <div class="field"><label>Время работы на бак, мин</label><input type="number" id="engTankT" step="1" min="1" value="10"></div>
+      <div class="field"><label>Δt теплоносителя в баке, K</label><input type="number" id="engTankDt" step="0.5" min="0.5" value="3"></div>
+      <div class="field"><label>Теплоноситель</label>
+        <select id="engTankFluid">
+          <option value="4190" selected>Вода</option>
+          <option value="3796">Этиленгликоль 30%</option>
+          <option value="3675">Этиленгликоль 40%</option>
+          <option value="3863">Пропиленгликоль 30%</option>
+        </select>
+      </div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engTankGo" type="button">Рассчитать объём бака</button></div>
+    <p class="hint" id="engTankOut" style="font-size:14px;"></p>
+    <div class="sub">8.2. Расход теплоносителя через теплообменник</div>
+    <div class="grid grid-4">
+      <div class="field"><label>Способ расчёта</label>
+        <select id="engFlowMode">
+          <option value="q" selected>По мощности</option>
+          <option value="air">По воздушной стороне (расход и Δt воздуха)</option>
+        </select>
+      </div>
+      <div class="field" id="engFlowQ1"><label>Тепловая мощность, кВт</label><input type="number" id="engFlowQ" step="0.1" min="0" value="10"></div>
+      <div class="field" id="engFlowA1" style="display:none;"><label>Расход воздуха, м³/ч</label><input type="number" id="engFlowAir" step="10" min="0" value="2000"></div>
+      <div class="field" id="engFlowA2" style="display:none;"><label>Δt воздуха, K</label><input type="number" id="engFlowAirDt" step="0.5" min="0" value="10"></div>
+      <div class="field"><label>Δt теплоносителя, K</label><input type="number" id="engFlowDt" step="0.5" min="0.5" value="5"></div>
+      <div class="field"><label>Теплоноситель</label>
+        <select id="engFlowFluid">
+          <option value="4190" selected>Вода</option>
+          <option value="3796">Этиленгликоль 30%</option>
+          <option value="3675">Этиленгликоль 40%</option>
+          <option value="3863">Пропиленгликоль 30%</option>
+        </select>
+      </div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engFlowGo" type="button">Рассчитать расход</button></div>
+    <p class="hint" id="engFlowOut" style="font-size:14px;"></p>
+    <p class="hint">Формулы: V = Q × t × 60 / (C<sub>об</sub> × Δt), л; G = Q × 3600 / (C<sub>об</sub> × Δt), м³/ч; C<sub>об</sub> = ρ × c<sub>p</sub>: вода 4190, ЭГ 30% ≈ 3796, ЭГ 40% ≈ 3675, ПГ 30% ≈ 3863 кДж/(м³·К). Расход по воздушной стороне: Q = L<sub>в</sub> × ρ<sub>в</sub> × c<sub>p,в</sub> × Δt<sub>в</sub> / 3600 (ρ при 24 °C ≈ 1,19 кг/м³). Бак подбирают с запасом ≥ 10–20%, рабочий Δt бака 2–4 K; свойства теплоносителя при рабочих температурах уточняются по паспорту.</p>
+  </div>
+
+  <div class="section">
+    <h2>9. Эффективность адиабатического охлаждения</h2>
+    <div class="grid grid-4">
+      <div class="field"><label>Расход воздуха, м³/ч</label><input type="number" id="engAdQ" step="10" min="0" value="10000"></div>
+      <div class="field"><label>t° входа (сух. терм.), °C</label><input type="number" id="engAdT1" step="0.1" value="30"></div>
+      <div class="field"><label>RH входа, %</label><input type="number" id="engAdRh1" step="1" min="0" max="100" value="30"></div>
+      <div class="field"><label>Барометрическое давление, кПа</label><input type="number" id="engAdP" step="0.1" value="101.3"></div>
+      <div class="field"><label>Что задано</label>
+        <select id="engAdMode">
+          <option value="eff" selected>Эффективность η</option>
+          <option value="t2">Выходная t° (измеренная)</option>
+        </select>
+      </div>
+      <div class="field" id="engAdEff1"><label>Эффективность насадки, %</label><input type="number" id="engAdEff" step="1" min="0" max="100" value="90"></div>
+      <div class="field" id="engAdT21" style="display:none;"><label>t° выхода (сух. терм.), °C</label><input type="number" id="engAdT2" step="0.1"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engAdGo" type="button">Рассчитать</button></div>
+    <p class="hint" id="engAdOut" style="font-size:14px;"></p>
+    <p class="hint">η = (t1 − t2) / (t1 − t<sub>мокр</sub>) × 100%. Типовые значения: сотовые (целлюлозные) насадки 85–95%, форсуночные камеры орошения 60–90%, нетканые панели 50–75%. Адиабатный процесс ≈ постоянная энтальпия: явное тепло переходит в скрытое — t° падает, RH растёт, полное теплосодержание не меняется. Расход воды на испарение: G<sub>в</sub> = ρ × L × (w2 − w1) / 1000, л/ч. Выходные параметры считаются по энтальпии h2 ≈ h1 и t2.</p>
+  </div>
+
+  <div class="section">
+    <h2>10. Токи и потребление кондиционера</h2>
+    <p class="hint" style="margin:0 0 12px;">Введите токи из паспортных данных или шильдика. Пусковой ток нужен для компрессора и конденсаторного блока; у остальных — рабочий и максимальный. Итог: рабочий, максимальный и пусковой токи суммируются автоматически, мощность пересчитывается в кВт.</p>
+    <div class="acw-net">
+      <label>Сеть
+        <select id="acwPhase">
+          <option value="3" selected>3 фазы, 400 В</option>
+          <option value="1">1 фаза, 230 В</option>
+        </select>
+      </label>
+      <label>cos φ <input type="number" id="acwCos" step="0.01" min="0.1" max="1" value="0.9" style="width:80px;"></label>
+    </div>
+
+    <div class="acw-comp">
+      <div class="acw-comp-head"><b>Компрессор(ы)</b><button class="acw-add" type="button" data-target="acwRowsCompressor" data-start="1" data-name="Компрессор">+ добавить компрессор</button></div>
+      <div class="acw-chead"><span>Наименование</span><span>Рабочий, А</span><span>Пусковой, А</span><span>Максимальный, А</span><span></span></div>
+      <div id="acwRowsCompressor"></div>
+    </div>
+
+    <div class="acw-comp">
+      <div class="acw-comp-head"><b>Вентиляторы (испаритель / внутренний блок)</b><button class="acw-add" type="button" data-target="acwRowsFans" data-start="0" data-name="Вентилятор">+ добавить вентилятор</button></div>
+      <div class="acw-chead"><span>Наименование</span><span>Рабочий, А</span><span>Пусковой, А</span><span>Максимальный, А</span><span></span></div>
+      <div id="acwRowsFans"></div>
+    </div>
+
+    <div class="acw-comp">
+      <div class="acw-comp-head"><b>Конденсаторный блок (наружный)</b><button class="acw-add" type="button" data-target="acwRowsCondenser" data-start="1" data-name="Конденсаторный блок">+ добавить блок</button></div>
+      <div class="acw-chead"><span>Наименование</span><span>Рабочий, А</span><span>Пусковой, А</span><span>Максимальный, А</span><span></span></div>
+      <div id="acwRowsCondenser"></div>
+      <p class="hint" style="margin:4px 0 0;">Пусковой ток конденсаторного блока обычно включает компрессор(ы) и вентиляторы выносного блока.</p>
+    </div>
+
+    <div class="acw-comp">
+      <div class="acw-comp-head"><b>Автоматика (контроллер, клапаны, приводы)</b></div>
+      <div class="acw-chead"><span>Наименование</span><span>Рабочий, А</span><span>Пусковой, А</span><span>Максимальный, А</span><span></span></div>
+      <div id="acwRowsAuto"></div>
+    </div>
+
+    <div class="acw-comp">
+      <div class="acw-comp-head"><b>Пароувлажнитель</b></div>
+      <div class="acw-chead"><span>Наименование</span><span>Рабочий, А</span><span>Пусковой, А</span><span>Максимальный, А</span><span></span></div>
+      <div id="acwRowsHumid"></div>
+    </div>
+
+    <div class="acw-mode">
+      <b>Формула пускового тока</b>
+      <label><input type="radio" name="acw-startmode" value="run" checked> Пусковые токи (компрессор, конденсаторный блок) + <i>рабочие</i> токи остальных компонентов</label>
+      <label><input type="radio" name="acw-startmode" value="max"> Пусковые токи (компрессор, конденсаторный блок) + <i>максимальные</i> токи остальных компонентов</label>
+      <label><input type="radio" name="acw-startmode" value="only"> Только сумма пусковых токов</label>
+    </div>
+
+    <div class="acw-tiles">
+      <div class="acw-tile acw-dark"><div class="acw-cap">Рабочий ток</div><div class="acw-val" id="acwTRun">0,0 <small>А</small></div><div class="acw-extra" id="acwTRunP">≈ 0,00 кВт</div></div>
+      <div class="acw-tile"><div class="acw-cap">Максимальный ток</div><div class="acw-val" id="acwTMax">0,0 <small>А</small></div><div class="acw-extra">≈ <span id="acwTMaxP">0,00</span> кВт · <span id="acwTBreaker">автомат: —</span></div></div>
+      <div class="acw-tile acw-hot"><div class="acw-cap">Пусковой ток</div><div class="acw-val" id="acwTStart">0,0 <small>А</small></div><div class="acw-extra">для проверки характеристики расцепителя (C/D)</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>11. Холодопроизводительность: явная, полная, чистая</h2>
+    <p class="hint" style="margin:0 0 12px;">Чистая (net) = явная (sensible) − потребление внутренних потребителей (вентиляторы, автоматика, пароувлажнитель) — именно они рассеивают тепло в поток воздуха. Компрессор и наружный конденсаторный блок не вычитаются: их энергия уходит наружу с конденсаторным теплом. EER = полная холодопроизводительность / полное потребление блока.</p>
+    <div class="grid grid-4">
+      <div class="field"><label>Единицы ввода</label>
+        <select id="acwQUnits"><option value="kw" selected>кВт</option><option value="btu">BTU/h</option><option value="kcal">ккал/ч</option></select>
+      </div>
+      <div class="field"><label>Явная холодопроизводительность (sensible)</label><input type="number" id="acwQSens" step="0.1" min="0"></div>
+      <div class="field"><label>Полная холодопроизводительность (total)</label><input type="number" id="acwQFull" step="0.1" min="0"></div>
+      <div class="field"><label>Потребление внутренних потребителей, кВт<button class="acw-mini" type="button" id="acwBtnInner">← из токов</button></label><input type="number" id="acwQPower" step="0.01" min="0"></div>
+    </div>
+    <div class="grid grid-4" style="margin-top:10px;">
+      <div class="field"><label>Полное потребление (для EER), кВт<button class="acw-mini" type="button" id="acwBtnFull">← из токов</button></label><input type="number" id="acwQPowerFull" step="0.01" min="0"></div>
+    </div>
+    <div class="acw-err" id="acwQErr">Проверьте данные: явная не может превышать полную, а чистая — быть отрицательной.</div>
+    <div class="acw-tiles">
+      <div class="acw-tile"><div class="acw-cap">Явная (sensible)</div><div class="acw-val" id="acwRSens">—</div><div class="acw-extra" id="acwRSens2"></div></div>
+      <div class="acw-tile"><div class="acw-cap">Полная (total)</div><div class="acw-val" id="acwRFull">—</div><div class="acw-extra" id="acwRFull2"></div></div>
+      <div class="acw-tile acw-dark"><div class="acw-cap">Чистая (net) = явная − потребление</div><div class="acw-val" id="acwRNet">—</div><div class="acw-extra" id="acwRNet2"></div></div>
+      <div class="acw-tile"><div class="acw-cap">Скрытая (latent) = полная − явная</div><div class="acw-val" id="acwRLat">—</div><div class="acw-extra" id="acwRLat2"></div></div>
+      <div class="acw-tile"><div class="acw-cap">Доля явной теплоты (SHR)</div><div class="acw-val" id="acwRShr">—</div><div class="acw-extra">SHR = явная / полная</div></div>
+      <div class="acw-tile"><div class="acw-cap">Холодильный коэффициент (EER)</div><div class="acw-val" id="acwREer">—</div><div class="acw-extra" id="acwREer2">полная / полное потребление</div></div>
+    </div>
+    <div class="btn-row" style="margin-top:14px;">
+      <button class="btn btn-yellow" id="acwBtnTxt" type="button">⬇ Сохранить расчёт в TXT</button>
+      <button class="btn btn-outline" id="acwBtnPdf" type="button">🖨 Сохранить расчёт в PDF</button>
+    </div>
+    <p class="hint">TXT скачивается файлом. PDF — через окно печати браузера: в принтере выберите «Сохранить как PDF».</p>
+  </div>
+
+  <div class="section">
+    <h2>12. Скрытая холодопроизводительность по t° и влажности</h2>
+    <p class="hint" style="margin:0 0 12px;">Задайте состояния воздуха на входе и выходе блока: скрытая (latent) часть считается по разности влагосодержаний — полное тепло по энтальпии минус явная часть. Если влажность на выходе выше входа — идёт увлажнение, а не осушение. Также считается конденсат.</p>
+    <div class="grid grid-4">
+      <div class="field"><label>Расход воздуха, м³/ч</label><input type="number" id="acwLatL" step="10" min="0" value="5000"></div>
+      <div class="field"><label>t° входа, °C</label><input type="number" id="acwLatT1" step="0.1" value="28"></div>
+      <div class="field"><label>RH входа, %</label><input type="number" id="acwLatRh1" step="1" min="0" max="100" value="50"></div>
+      <div class="field" id="acwLatT2F"><label>t° выхода, °C</label><input type="number" id="acwLatT2" step="0.1" value="15"></div>
+      <div class="field" id="acwLatRh2F"><label>RH выхода, %</label><input type="number" id="acwLatRh2" step="1" min="0" max="100" value="90"></div>
+      <div class="field"><label>Барометрическое давление, кПа</label><input type="number" id="acwLatP" step="0.1" value="101.3"></div>
+      <div class="field" style="grid-column:1/-1;"><label>Режим расчёта</label>
+        <select id="acwLatMode" style="max-width:420px;">
+          <option value="io">Выход задан (t° / RH выхода)</option>
+          <option value="coil">По поверхности теплообменника (t° поверхности, площадь F, K)</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid grid-4" id="acwLatCoil" style="display:none;margin-top:10px;">
+      <div class="field"><label>t° поверхности теплообменника, °C</label><input type="number" id="acwLatTp" step="0.1" value="7"></div>
+      <div class="field"><label>Площадь поверхности F, м²</label><input type="number" id="acwLatF" step="0.1" min="0" value="10"></div>
+      <div class="field"><label>Коэффициент теплопередачи K, Вт/(м²·К)</label><input type="number" id="acwLatK" step="1" min="0" value="40"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="acwLatGo" type="button">Рассчитать</button></div>
+    <p class="hint" id="acwLatOut" style="font-size:14px;"></p>
+    <p class="hint">Формулы: влагосодержание w = 622·p<sub>v</sub>/(P − p<sub>v</sub>), г/кг, где p<sub>v</sub> = RH/100 × 6,112·e<sup>17,62t/(243,12+t)</sup> гПа; энтальпия h = 1,006·t + w·(2501 + 1,805·t)/1000, кДж/кг; Q<sub>полн</sub> = ρ·L·(h1 − h2)/3600; Q<sub>явн</sub> = ρ·c<sub>p</sub>·L·(t1 − t2)/3600; Q<sub>скр</sub> = Q<sub>полн</sub> − Q<sub>явн</sub>. Конденсат: G = ρ·L·(w1 − w2)/1000, л/ч. Плотность ρ = 353/(273,15 + t<sub>ср</sub>). Расчёт оценочный — сверяйте с i-d диаграммой для точных процессов. В режиме «по поверхности теплообменника»: тепловой КПД E = 1 − exp(−NTU), NTU = K·F/(G·c_p); если t° поверхности выше точки росы — сухое охлаждение (скрытая = 0); если ниже — воздух приближается к состоянию насыщения у поверхности (t_p, φ = 100%) по энтальпии и влагосодержанию (аналогия Льюиса).</p>
+  </div>
+
+  <div class="section">
+    <h2>13. Теплообменник воздух–жидкость (этиленгликоль)</h2>
+    <p class="hint" style="margin:0 0 12px;">Определяет, какой температуры нужна жидкость и какой её расход, чтобы охладить воздух до целевой t°. Геометрия задаётся: габариты фронтальной части (алюминиевые ламели), ряды трубок, шаг ламелей и трубок, диаметр трубки. Расход жидкости определяется из принятого нагрева Δt. Расчёт оценочный (ε-NTU, аналогия Льюиса); K — эмпирическая функция скорости во фронте, при необходимости задайте вручную.</p>
+    <div class="grid grid-4">
+      <div class="field"><label>Расход воздуха, м³/ч</label><input type="number" id="engHxL" step="10" min="0" value="5000"></div>
+      <div class="field"><label>t° входа воздуха, °C</label><input type="number" id="engHxT1" step="0.1" value="28"></div>
+      <div class="field"><label>RH входа, %</label><input type="number" id="engHxRh1" step="1" min="0" max="100" value="50"></div>
+      <div class="field"><label>Целевая t° выхода воздуха, °C</label><input type="number" id="engHxT2" step="0.1" value="15"></div>
+      <div class="field"><label>Этиленгликоль, %</label>
+        <select id="engHxConc">
+          <option value="0">0 (вода)</option>
+          <option value="20">20 %</option>
+          <option value="30" selected>30 %</option>
+          <option value="35">35 %</option>
+          <option value="40">40 %</option>
+          <option value="50">50 %</option>
+          <option value="60">60 %</option>
+        </select>
+      </div>
+      <div class="field"><label>Нагрев жидкости Δt, К</label><input type="number" id="engHxDtL" step="0.5" min="0.5" value="5"></div>
+      <div class="field"><label>Ширина фронта, мм</label><input type="number" id="engHxW" step="10" min="0" value="1000"></div>
+      <div class="field"><label>Высота фронта, мм</label><input type="number" id="engHxH" step="10" min="0" value="630"></div>
+      <div class="field"><label>Рядов трубок</label><input type="number" id="engHxRows" step="1" min="1" value="4"></div>
+      <div class="field"><label>Шаг ламелей, мм</label><input type="number" id="engHxSf" step="0.1" min="0.5" value="2.5"></div>
+      <div class="field"><label>Диаметр трубки, мм</label><input type="number" id="engHxDm" step="0.5" min="2" value="10"></div>
+      <div class="field"><label>Шаг трубок, мм</label><input type="number" id="engHxSt" step="0.5" min="5" value="25"></div>
+      <div class="field"><label>Ходов жидкости (passes)</label><input type="number" id="engHxPa" step="1" min="1" value="2"></div>
+      <div class="field"><label>K, Вт/(м²·К) (0 = авто)</label><input type="number" id="engHxK" step="1" min="0" value="0"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engHxGo" type="button">Рассчитать</button></div>
+    <p class="hint" id="engHxOut" style="font-size:14px;"></p>
+    <p class="hint">Формулы: площадь фронта A = W×H; поверхность F ≈ β·A·(глубина), β = 0,9·(2/s<sub>л</sub> + π·d/(s<sub>т</sub>·s<sub>л</sub>)) — удельная поверхность оребрения (алюминиевые ламели); NTU = K·F/(G·c<sub>p</sub>), ε = 1 − exp(−NTU); требуемая t° поверхности — обратной задачей процесса (сухая: t<sub>p</sub> = t1 − (t1 − t2)/ε; влажная — бисекцией по модели приближения к насыщению у поверхности). Средняя t° жидкости ≈ t<sub>p</sub>; вход/выход = t<sub>p</sub> ∓ Δt/2. Расход: G<sub>ж</sub> = Q<sub>полн</sub>/(c<sub>р,ж</sub>·Δt<sub>ж</sub>). Свойства растворов ЭГ (c<sub>p</sub> кДж/(кг·К), ρ кг/м³, t<sub>зам</sub> °C): 0 % — 4,19/999/0; 20 % — 3,96/1033/−9; 30 % — 3,81/1052/−16; 35 % — 3,73/1062/−21; 40 % — 3,64/1071/−28; 50 % — 3,47/1090/−37; 60 % — 3,30/1108/−47. Сопротивления: ΔP<sub>возд</sub> ≈ N·(2,2 + 6/s<sub>л</sub>)·ρ·v²/2, Па; ΔP<sub>жидк</sub> = λ·(L·n<sub>х</sub>/d<sub>i</sub>)·ρ·v²/2·1,3, где d<sub>i</sub> = d − 0,7 мм, λ = 64/Re (ламинарный) или 0,316/Re<sup>0,25</sup>; вязкость растворов ЭГ при ~10 °C (мПа·с): 0 % — 1,3; 20 % — 2,0; 30 % — 2,9; 35 % — 3,5; 40 % — 4,2; 50 % — 6,2; 60 % — 9,0.</p>
+  </div>
+
+  <div class="section">
+    <h2>14. Сопротивление воздушных фильтров</h2>
+    <p class="hint" style="margin:0 0 12px;">Начальное сопротивление и сопротивление к моменту замены по классу (G3–H14) и типу (панельный, карманный, компакт/абсолют) при заданной площади фильтрующего материала и расходе. Плюс рекомендуемая площадь под целевое сопротивление.</p>
+    <div class="grid grid-4">
+      <div class="field"><label>Расход воздуха, м³/ч</label><input type="number" id="engFltL" step="50" min="0" value="5000"></div>
+      <div class="field" id="engFltF-f"><label>Площадь фильтрующего материала, м²</label><input type="number" id="engFltF" step="0.1" min="0" value="13"></div>
+      <div class="field"><label>Класс и тип фильтра</label>
+        <select id="engFltClass">
+          <option value="g3p">G3 панельный</option>
+          <option value="g4p">G4 панельный</option>
+          <option value="g4b" selected>G4 карманный</option>
+          <option value="m5b">M5 карманный</option>
+          <option value="f6b">F6 карманный</option>
+          <option value="f7b">F7 карманный</option>
+          <option value="f8b">F8 карманный</option>
+          <option value="f9b">F9 карманный</option>
+          <option value="e10">E10 компакт</option>
+          <option value="h13">H13 компакт (абсолют)</option>
+          <option value="h14">H14 компакт (абсолют)</option>
+        </select>
+      </div>
+      <div class="field"><label>Целевое ΔP для подбора, Па</label><input type="number" id="engFltPt" step="10" min="10" value="80"></div>
+      <div class="field"><label>Режим площади</label>
+        <select id="engFltMode">
+          <option value="area" selected>Площадь задана</option>
+          <option value="size">По типоразмеру (габарит × глубина × секции)</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid grid-4" id="engFltSize" style="display:none;margin-top:10px;">
+      <div class="field"><label>Тип фильтра</label>
+        <select id="engFltType">
+          <option value="bag" selected>Карманный</option>
+          <option value="panel">Панельный</option>
+          <option value="compact">Кассетный (компакт, фольга)</option>
+          <option value="hepa">Абсолютный mini-pleat</option>
+          <option value="vcell">Клин (V-cell)</option>
+        </select>
+      </div>
+      <div class="field"><label>Габарит секции, мм (Ш×В)</label>
+        <select id="engFltDim">
+          <option value="592x592" selected>592 × 592</option>
+          <option value="592x287">592 × 287</option>
+          <option value="490x490">490 × 490</option>
+          <option value="490x245">490 × 245</option>
+          <option value="287x287">287 × 287</option>
+        </select>
+      </div>
+      <div class="field"><label>Глубина, мм</label>
+        <select id="engFltDepth">
+          <option value="360" selected>360</option>
+          <option value="500">500</option>
+          <option value="600">600</option>
+        </select>
+      </div>
+      <div class="field"><label>Число фильтров, шт</label><input type="number" id="engFltN" step="1" min="1" value="2"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engFltGo" type="button">Рассчитать</button></div>
+    <p class="hint" id="engFltOut" style="font-size:14px;"></p>
+    <p class="hint">Формулы: модель Дарси–Форхгеймера ΔP = a·q + b·q², где q = L/F — удельная нагрузка, м³/(ч·м²). Начальное сопротивление — для чистого фильтра; к моменту замены ΔP<sub>кон</sub> = k·ΔP<sub>0</sub> (G — ×3,5; M5 — ×3,0; F6–F9 — ×2,7; E10 — ×2,2; H13/H14 — ×2,0). Рекомендуемая площадь: q из уравнения при целевом ΔP, F = L/q. Коэффициенты a, b оценочные (откалиброваны по каталогам Camfil и аналогов, точность ±20–30 %) — для проекта сверяйте с паспортом конкретного фильтра.</p>
+  </div>
+
+  <div class="section">
+    <h2>15. Расчёт ПИ/ПИД-регулятора (HVAC)</h2>
+    <p class="hint" style="margin:0 0 12px;">Коэффициенты по модели объекта: усиление K (°C/%), постоянная времени T (мин), запаздывание L (мин) — напрямую или из кривой разгона (ступень Δu, установившееся ΔT, момент начала изменения t₀ и время 63 %). Методы: CHR (без перерегулирования и с 20 %), лямбда/IMC, Циглер–Никольс (при введённых Ku и Tu). Ниже — симуляция отклика на ступеньку уставки (линейная модель, без ограничения выхода).</p>
+    <div class="grid grid-4">
+      <div class="field"><label>Ввод параметров</label>
+        <select id="engPidMode">
+          <option value="model" selected>K, T, L напрямую</option>
+          <option value="curve">По кривой разгона</option>
+        </select>
+      </div>
+      <div class="field" id="engPidKF"><label>K — усиление, °C/%</label><input type="number" id="engPidK" step="0.01" value="0.3"></div>
+      <div class="field" id="engPidTF"><label>T — постоянная времени, мин</label><input type="number" id="engPidT" step="0.5" value="12"></div>
+      <div class="field" id="engPidLF"><label>L — запаздывание, мин</label><input type="number" id="engPidL" step="0.1" value="1.5"></div>
+      <div class="field" id="engPidCu" style="display:none"><label>Ступень мощности Δu, %</label><input type="number" id="engPidDu" step="0.5" value="5"></div>
+      <div class="field" id="engPidCvW" style="display:none"><label>Установившееся ΔT, °C</label><input type="number" id="engPidDtV" step="0.1" value="1.5"></div>
+      <div class="field" id="engPidC0" style="display:none"><label>Начало изменения t₀, мин</label><input type="number" id="engPidT0" step="0.1" value="1.5"></div>
+      <div class="field" id="engPidC3" style="display:none"><label>Достижение 63 % t₆₃, мин</label><input type="number" id="engPidT63" step="0.5" value="13.5"></div>
+      <div class="field"><label>Тип регулятора</label>
+        <select id="engPidType">
+          <option value="pi" selected>ПИ</option>
+          <option value="pid">ПИД</option>
+        </select>
+      </div>
+      <div class="field"><label>Лямбда λ, мин (0 = 3·L)</label><input type="number" id="engPidLam" step="0.5" value="0"></div>
+      <div class="field"><label>Ku для ЦН, %/°C (0 = нет)</label><input type="number" id="engPidKu" step="0.1" value="0"></div>
+      <div class="field"><label>Tu для ЦН, мин (0 = нет)</label><input type="number" id="engPidTu" step="0.1" value="0"></div>
+      <div class="field"><label>Диапазон датчика, °C</label><input type="number" id="engPidRange" step="1" value="50"></div>
+      <div class="field"><label>Тестовая ступень уставки, °C</label><input type="number" id="engPidStep" step="0.1" value="1"></div>
+      <div class="field"><label>Длительность симуляции, мин</label><input type="number" id="engPidDur" step="5" value="60"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engPidGo" type="button">Рассчитать</button></div>
+    <p class="hint" id="engPidOut" style="font-size:14px;"></p>
+    <canvas id="engPidCv" width="900" height="300" style="max-width:100%;height:auto;border:1px solid var(--line);background:#fff;"></canvas>
+    <p class="hint" id="engPidLegend"></p>
+    <p class="hint">Формулы: CHR — ПИ без перерегул.: Kp = 0,35·T/(K·L), Ti = 1,2·L; с 20 %: Kp = 0,6·T/(K·L), Ti = L; ПИД: Kp = 0,6·T/(K·L), Ti = T, Td = 0,5·L (0 %) и Kp = 1,2·T/(K·L), Ti = 2·L, Td = 0,42·L (20 %). Лямбда/IMC: Kp = T/(K·(λ+L)), Ti = T. ЦН: ПИ — Kp = 0,45·Ku, Ti = Tu/1,2; ПИД — Kp = 0,6·Ku, Ti = Tu/2, Td = Tu/8. Xp = 100/Kp. Симуляция: объект первого порядка с запаздыванием (FOPDT), дискретный шаг ≤ 0,05 мин; перерегулирование и время установления (±2 % ступени) считаются по кривой отклика.</p>
+  </div>
+  <div class="section">
+    <h2>16. Психрометрия: энтальпия, влагосодержание, влажный термометр</h2>
+    <div class="grid grid-3">
+      <div class="field"><label>Температура, °C</label><input type="number" id="engPsyT" step="0.1" value="24"></div>
+      <div class="field"><label>Относительная влажность, % RH</label><input type="number" id="engPsyRh" step="1" min="1" max="100" value="50"></div>
+      <div class="field"><label>Барометрическое давление, кПа</label><input type="number" id="engPsyP" step="0.1" min="50" max="110" value="101.3"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engPsyGo" type="button">Рассчитать</button></div>
+    <p class="hint" id="engPsyOut" style="font-size:14px;"></p>
+    <p class="hint">Насыщение по Магнусу: p<sub>s</sub> = 611,2·exp(17,62·t/(243,12+t)), Па. Влагосодержание w = 0,62198·p<sub>v</sub>/(P−p<sub>v</sub>) кг/кг с.в.; энтальпия h = 1,006·t + w·(2501 + 1,86·t), кДж/кг; плотность ρ = P/(287,055·T)·1/(1 + 1,6078·w). Влажный термометр — из психрометрического уравнения p<sub>s</sub>(t<sub>м</sub>) − p<sub>v</sub> = A·P·(t − t<sub>м</sub>), A ≈ 0,000662 1/К (бисекция). Для актов испытаний используйте поверенные приборы.</p>
+  </div>
+
+  <div class="section">
+    <h2>17. Фреоновая трасса R410A: диаметры и потеря производительности</h2>
+    <div class="grid grid-3">
+      <div class="field"><label>Холодопроизводительность, кВт</label><input type="number" id="engTraceQ" step="1" min="1" value="40"></div>
+      <div class="field"><label>Длина жидкостной линии, м</label><input type="number" id="engTraceLl" step="1" min="0" value="20"></div>
+      <div class="field"><label>Длина газовой линии, м</label><input type="number" id="engTraceLg" step="1" min="0" value="25"></div>
+      <div class="field"><label>Перепад высот наружный−внутренний, м (+ наружный выше)</label><input type="number" id="engTraceH" step="1" value="10"></div>
+      <div class="field"><label>Потеря по жидкостной линии, %/м</label><input type="number" id="engTraceKl" step="0.01" value="0.03"></div>
+      <div class="field"><label>Потеря по газовой линии, %/м</label><input type="number" id="engTraceKg" step="0.01" value="0.25"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engTraceGo" type="button">Рассчитать</button></div>
+    <p class="hint" id="engTraceOut" style="font-size:14px;"></p>
+    <p class="hint">Массовый расход m = Q/Δh<sub>исп</sub>, Δh = 150 кДж/кг (R410A: испарение +5 °C, конденсация +45 °C, переохлаждение 5 К). Плотности: жидкость ≈ 1050 кг/м³; всасывание ≈ 26 кг/м³ (+5 °C); нагнетание ≈ 80 кг/м³ (+50 °C). Скорости: жидкость 0,8–2,0 м/с; всасывание 8–15 м/с (в подъёмном участке ≥ 8 м/с для выноса масла); нагнетание 10–18 м/с. d = √(4·m/(π·ρ·v)). Потеря на высоту — 0,3 %/м. Масляные петли — при подъёме свыше 3 м каждые ~6 м. Все потери и диаметры уточняйте по таблицам производителя модели.</p>
+  </div>
+
+  <div class="section">
+    <h2>18. Трубопровод воды/гликоля: расход, диаметр, потери</h2>
+    <div class="grid grid-3">
+      <div class="field"><label>Мощность контура, кВт</label><input type="number" id="engPipeQ" step="1" min="1" value="100"></div>
+      <div class="field"><label>Рабочий перепад Δt, K</label><input type="number" id="engPipeDt" step="0.5" min="1" value="5"></div>
+      <div class="field"><label><label></label></label><select id="engPipeFl"><option value="998,4187,0.001" selected>Вода</option><option value="1032,3650,0.0032">Этиленгликоль 30 %</option><option value="1075,3260,0.0065">Этиленгликоль 50 %</option></select></div>
+      <div class="field"><label>Длина трассы, м</label><input type="number" id="engPipeL" step="1" min="1" value="50"></div>
+      <div class="field"><label>Отводов 90°, шт</label><input type="number" id="engPipeN90" step="1" min="0" value="8"></div>
+      <div class="field"><label>Тройников, шт</label><input type="number" id="engPipeNT" step="1" min="0" value="2"></div>
+      <div class="field"><label>K арматуры/клапанов, Σζ</label><input type="number" id="engPipeKv" step="0.5" min="0" value="5"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engPipeGo" type="button">Рассчитать</button></div>
+    <p class="hint" id="engPipeOut" style="font-size:14px;"></p>
+    <p class="hint">Расход m = Q/(c<sub>p</sub>·Δt), кг/с; объёмный G = 3600·m/ρ. Скорость v = G/3600/(π·d²/4) — рекомендуемая 1,0–2,5 м/с (выбирается ближайший больший условный проход). Потери: Дарси–Вейсбах Δp = (λ·L/d + Σζ)·ρv²/2; λ = 0,316/Re<sup>0,25</sup> при Re > 2300, иначе 64/Re; Σζ = 0,9·отводы + 1,8·тройники + ζ<sub>арматуры</sub>. Норма удельных потерь — 100–250 Па/м.</p>
+  </div>
+
+  <div class="section">
+    <h2>19. Насос водяного контура (ЦВУ)</h2>
+    <div class="grid grid-3">
+      <div class="field"><label>Расход, м³/ч</label><input type="number" id="engPumpG" step="0.1" min="0.1" value="17.2"></div>
+      <div class="field"><label>Потери сети (расч. к. 18), кПа</label><input type="number" id="engPumpDp" step="1" min="0" value="80"></div>
+      <div class="field"><label>Статический подъём, м</label><input type="number" id="engPumpH" step="0.5" min="0" value="5"></div>
+      <div class="field"><label>КПД насоса, доли</label><input type="number" id="engPumpEta" step="0.05" min="0.2" max="0.9" value="0.65"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engPumpGo" type="button">Рассчитать</button></div>
+    <p class="hint" id="engPumpOut" style="font-size:14px;"></p>
+    <p class="hint">Напор H = Δp/(ρ·g) + h<sub>ст</sub>, м. Гидравлическая мощность P<sub>г</sub> = ρ·g·Q·H (Вт); электрическая P = P<sub>г</sub>/η. К рабочей точке добавляйте запас 10–15 % на неучтённые сопротивления и загрязнение; выбирайте насос по каталогу с рабочей точкой в трети правой части характеристики. Для N+1 контуров — по одному насосу на каждый, без общего резервного коллектора без обоснования.</p>
+  </div>
+
+  <div class="section">
+    <h2>20. Расширительный бак системы холодоснабжения</h2>
+    <div class="grid grid-3">
+      <div class="field"><label>Объём системы, л</label><input type="number" id="engExpV" step="10" min="10" value="500"></div>
+      <div class="field"><label>Рабочий перепад ΔT, K</label><input type="number" id="engExpDt" step="1" min="1" value="20"></div>
+      <div class="field"><label><label></label></label><select id="engExpFl"><option value="0.00026" selected>Вода</option><option value="0.00034">Этиленгликоль 30 %</option><option value="0.00042">Этиленгликоль 50 %</option></select></div>
+      <div class="field"><label>Давление наполнения (статика), бар</label><input type="number" id="engExpP0" step="0.1" min="0.5" value="1.5"></div>
+      <div class="field"><label>Настройка предохранительного клапана, бар</label><input type="number" id="engExpPv" step="0.1" min="1" value="4"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engExpGo" type="button">Рассчитать</button></div>
+    <p class="hint" id="engExpOut" style="font-size:14px;"></p>
+    <p class="hint">Расширение ΔV = V<sub>сист</sub>·ε·ΔT; объём бака V = ΔV·P<sub>кл</sub>/(P<sub>кл</sub> − P<sub>0</sub>) (закон Бойля—Мариотта), с запасом 10 %. Эффективный коэффициент расширения ε: вода ≈ 0,00026 1/К в диапазоне 7–45 °C; гликоли выше — по данным производителя теплоносителя. Проверьте также полезный объём на отбор воздуха и минимальное давление на всасе насоса (кавитация: NPSH).</p>
+  </div>
+
+  <div class="section">
+    <h2>21. Регулирующий клапан: Kvs ↔ перепад давления</h2>
+    <div class="grid grid-3">
+      <div class="field"><label>Расход, м³/ч</label><input type="number" id="engKvsQ" step="0.1" min="0.1" value="17.2"></div>
+      <div class="field"><label>Перепад на клапане, бар</label><input type="number" id="engKvsDp" step="0.05" min="0.01" value="0.3"></div>
+      <div class="field"><label>Kvs клапана</label><input type="number" id="engKvsK" step="0.5" min="0.5" value="25"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;">
+      <button class="btn btn-yellow" id="engKvsGoQ" type="button">Расход и ΔP → Kvs</button>
+      <button class="btn btn-outline" id="engKvsGoK" type="button">Kvs → перепад</button>
+    </div>
+    <p class="hint" id="engKvsOut" style="font-size:14px;"></p>
+    <p class="hint">Kvs = Q/√Δp; обратный расчёт Δp = (Q/Kvs)². Ряд Kvs: 1,0; 1,6; 2,5; 4; 6,3; 10; 16; 25; 40; 63; 100. Для регулирующих контуров принимайте авторитет клапана 0,3–0,5 (доля перепада контура на клапане) — иначе характеристика управления искажается. Для гликоля вводите поправку на вязкость по каталогу производителя арматуры.</p>
+  </div>
+
+  <div class="section">
+    <h2>22. Фрикулинг: часы и годовая экономия</h2>
+    <div class="grid grid-3">
+      <div class="field"><label>Регион (климатическая норма)</label>
+        <select id="engFreeRegion">
+          <option value="">— ввести часы вручную —</option>
+          <option value="Москва" selected>Москва</option>
+          <option value="Санкт-Петербург">Санкт-Петербург</option>
+          <option value="Екатеринбург">Екатеринбург</option>
+          <option value="Новосибирск">Новосибирск</option>
+          <option value="Нижний Новгород">Нижний Новгород</option>
+          <option value="Казань">Казань</option>
+          <option value="Самара">Самара</option>
+          <option value="Ростов-на-Дону">Ростов-на-Дону</option>
+          <option value="Краснодар">Краснодар</option>
+          <option value="Красноярск">Красноярск</option>
+          <option value="Иркутск">Иркутск</option>
+          <option value="Хабаровск">Хабаровск</option>
+          <option value="Владивосток">Владивосток</option>
+          <option value="Тюмень">Тюмень</option>
+          <option value="Омск">Омск</option>
+          <option value="Норильск">Норильск</option>
+          <option value="Якутск">Якутск</option>
+        </select>
+      </div>
+      <div class="field"><label>Холодильная нагрузка, кВт</label><input type="number" id="engFreeQ" step="1" min="1" value="100"></div>
+      <div class="field"><label>Часов в год при t<sub>нар</sub> < 7 °C</label><input type="number" id="engFreeH7" step="10" min="0" value="1500"></div></div>
+      <div class="field"><label>Часов при 7–10 °C</label><input type="number" id="engFreeH10" step="10" min="0" value="1000"></div>
+      <div class="field"><label>Часов при 10–13 °C</label><input type="number" id="engFreeH13" step="10" min="0" value="800"></div>
+      <div class="field"><label>Часов при 13–16 °C</label><input type="number" id="engFreeH16" step="10" min="0" value="700"></div>
+      <div class="field"><label>COP компрессорной части</label><input type="number" id="engFreeCop" step="0.1" min="1" value="3.5"></div>
+      <div class="field"><label>Доля вентиляторов от компрессорной, %</label><input type="number" id="engFreeF" step="1" min="0" value="8"></div>
+      <div class="field"><label>Тариф, ₽/кВт·ч</label><input type="number" id="engFreeTar" step="0.5" min="0" value="8"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engFreeGo" type="button">Рассчитать экономию</button></div>
+    <p class="hint" id="engFreeOut" style="font-size:14px;"></p>
+    <p class="hint">Часы по выбранному региону подставляются по нормам СП 131.13330.2025 (средние месячные температуры, данные ГГО) методом бинов; разброс внутри месяца откалиброван по табличным продолжительностям периодов со среднесуточной температурой ≤ 0, ≤ 8 и ≤ 10 °C (невязка ~1 %). После подстановки часы можно править вручную. Модель покрытия нагрузки: при t < 7 °C — 100 % нагрузки (полный фрикулинг), 7–10 °C — 85 %, 10–13 °C — 60 %, 13–16 °C — 30 %. Сэкономленная электроэнергия компрессоров = Σ(доля·Q·часы)/COP; вентиляторы и насосы продолжают работать (их доля не экономится). Границы и доли зависят от схемы (прямой, гликолевый, с промежуточным контуром) и точки росы наружного воздуха; для точных годовых оценок используйте данные метеостанции площадки.</p>
+  </div>
+
+  <div class="section">
+    <h2>23. PUE и годовое энергопотребление</h2>
+    <div class="grid grid-3">
+      <div class="field"><label>ИТ-нагрузка, кВт·ч/год</label><input type="number" id="engPueIt" step="1000" min="1" value="1752000"></div>
+      <div class="field"><label>Охлаждение, кВт·ч/год</label><input type="number" id="engPueCool" step="1000" min="0" value="876000"></div>
+      <div class="field"><label>Освещение, кВт·ч/год</label><input type="number" id="engPueLight" step="1000" min="0" value="35000"></div>
+      <div class="field"><label>Прочее и потери, кВт·ч/год</label><input type="number" id="engPueOther" step="1000" min="0" value="87000"></div>
+      <div class="field"><label>Тариф, ₽/кВт·ч</label><input type="number" id="engPueTar" step="0.5" min="0" value="8"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engPueGo" type="button">Рассчитать</button></div>
+    <p class="hint" id="engPueOut" style="font-size:14px;"></p>
+    <p class="hint">PUE = W<sub>общ</sub>/W<sub>ИТ</sub> по методике ГОСТ Р ИСО/МЭК 30134-2 (категория измерения — по фактическому уровню оборудования счётчиков: PUE 1–4). Отчётность — за 12 скользящих месяцев. Нормативных потолков PUE в РФ нет; ориентиры — 1,2–1,4 для новых машинных залов, 1,5–1,8 для залах с DX без фрикулинга.</p>
+  </div>
+
+  <div class="section">
+    <h2>24. Теплоприток через ограждения и инфильтрацию</h2>
+    <div class="grid grid-3">
+      <div class="field"><label>Площадь ограждений, м²</label><input type="number" id="engWallA" step="5" min="0" value="200"></div>
+      <div class="field"><label>Приведённое U, Вт/(м²·К)</label><input type="number" id="engWallU" step="0.05" min="0.05" value="0.35"></div>
+      <div class="field"><label>Перепад снаружи/внутри, K</label><input type="number" id="engWallDt" step="0.5" min="0" value="10"></div>
+      <div class="field"><label>Объём помещения, м³</label><input type="number" id="engWallV" step="10" min="0" value="500"></div>
+      <div class="field"><label>Кратность инфильтрации, 1/ч</label><input type="number" id="engWallN" step="0.1" min="0" value="0.5"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engWallGo" type="button">Рассчитать</button></div>
+    <p class="hint" id="engWallOut" style="font-size:14px;"></p>
+    <p class="hint">Трансмиссионный теплоприток Q = U·A·ΔT; инфильтрация Q<sub>инф</sub> = 0,337·n·V·ΔT (Вт). В явную нагрузку добавляйте солнечный теплоприток через окна и кровлю (в серверных без окон обычно неактуально) и людей/освещение по нормам. Для машинных залов ЦОД ограждения дают обычно доли процента нагрузки — расчёт нужен для серверных в контуре здания и модульных решений.</p>
+  </div>
+
+  <div class="section">
+    <h2>25. Дренаж конденсата</h2>
+    <div class="grid grid-3">
+      <div class="field"><label>Скрытая холодопроизводительность, кВт</label><input type="number" id="engDrainQ" step="0.5" min="0.1" value="5"></div>
+      <div class="field"><label>Часов работы в сутки</label><input type="number" id="engDrainH" step="1" min="1" max="24" value="24"></div>
+    </div>
+    <div class="btn-row" style="margin-top:10px;"><button class="btn btn-yellow" id="engDrainGo" type="button">Рассчитать</button></div>
+    <p class="hint" id="engDrainOut" style="font-size:14px;"></p>
+    <p class="hint">Конденсат m = Q<sub>скр</sub>/r, r ≈ 2450 кДж/кг (≈ 1,47 л/ч на кВт скрытой мощности). Диаметр дренажа — по каталогу модели; общий сифон обязателен (исключает запахи и подсос воздуха), уклон 1–2 %, температура воды до 60 °C. При DLC-зонах дренажи проектируются вместе с локализацией протечек по СП 541.</p>
+  </div>
+
+</section>
+
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-in">
+    <div><span id="footerTm">ИМПУЛЬС</span> • <span id="footerOrg">ООО «Системотехника»</span></div>
+    <div><span data-req="addr">125239, г. Москва, ул. Коптевская, д. 73, стр. 1</span> • <a data-req="tel" href="tel:+74952550339">+7 (495) 255-03-39</a> • <a data-req="mail" href="mailto:info@sstmk.ru">info@sstmk.ru</a></div>
+    <div style="opacity:.6; font-size:11px; flex-basis:100%;">инженерные калькуляторы ×25 (сборка 2.2) • психрометрия • воздух • R410A • гидравлика чиллеров и ЦВУ • насосы • фрикулинг • PUE • дренаж • питание + охлаждение от ГК «Системотехника» • данные по мануалам и официальным данным ACwatt</div>
+  </div>
+
+<script>
+(function(){
+'use strict';
+/* ---------- Инженерия ---------- */
+  var engSel = document.getElementById('engAirMode');
+  if (engSel) {
+    engSel.addEventListener('change', function () {
+      var qMode = engSel.value === 'q';
+      document.getElementById('engAirQ1').style.display = qMode ? '' : 'none';
+      document.getElementById('engAirQ2').style.display = qMode ? '' : 'none';
+      document.getElementById('engAirV1').style.display = qMode ? 'none' : '';
+      document.getElementById('engAirV2').style.display = qMode ? 'none' : '';
+    });
+
+    document.getElementById('engAirGo').addEventListener('click', function () {
+      var out = document.getElementById('engAirOut');
+      var loss = parseFloat(document.getElementById('engAirLoss').value) || 0;
+      var k = 1 + Math.max(0, loss) / 100;
+      if (engSel.value === 'q') {
+        var q = parseFloat(document.getElementById('engAirQ').value);
+        var dt = parseFloat(document.getElementById('engAirDt').value);
+        if (!(q > 0) || !(dt > 0)) { out.textContent = 'Укажите тепловыделение и Δt.'; return; }
+        var l = q * 2982 / dt * k;
+        out.textContent = 'Требуемый расход воздуха: ' + Math.round(l).toLocaleString('ru-RU') + ' м³/ч' + (loss > 0 ? ' (с запасом ' + loss + '%)' : '') + '. Для сравнения: серии P ~700–2300, S ~2000–5500, IR ~2850–11600, L ~8550–32000 м³/ч.';
+      } else {
+        var v = parseFloat(document.getElementById('engAirV').value);
+        var n = parseFloat(document.getElementById('engAirN').value);
+        if (!(v > 0) || !(n > 0)) { out.textContent = 'Укажите объём помещения и кратность.'; return; }
+        var l2 = v * n * k;
+        out.textContent = 'Требуемый расход воздуха: ' + Math.round(l2).toLocaleString('ru-RU') + ' м³/ч (' + n + ' × ' + v + ' м³' + (loss > 0 ? ', с запасом ' + loss + '%' : '') + ').';
+      }
+    });
+
+    function esSat(t) { return 6.112 * Math.exp(17.62 * t / (243.12 + t)); }
+    function rhoSat(t) { return 216.7 * esSat(t) / (t + 273.15); }
+    function pvFromRho(rho, tAir) { return rho * (273.15 + tAir) / 216.7; }
+    function dewFromPv(pv) {
+      if (!(pv > 0)) return NaN;
+      var g = Math.log(pv / 6.112);
+      return 243.12 * g / (17.62 - g);
+    }
+
+    document.getElementById('engHumRhGo').addEventListener('click', function () {
+      var out = document.getElementById('engHumOut');
+      var t = parseFloat(document.getElementById('engHumT').value);
+      var rh = parseFloat(document.getElementById('engHumRh').value);
+      if (isNaN(t) || !(rh >= 0 && rh <= 100)) { out.textContent = 'Укажите температуру и RH в диапазоне 0–100%.'; return; }
+      var abs = rh / 100 * rhoSat(t);
+      out.textContent = 'При ' + t + ' °C и ' + rh + ' % RH: абсолютная влажность ≈ ' + abs.toFixed(2) + ' г/м³; парциальное давление пара ≈ ' + (rh / 100 * esSat(t)).toFixed(2) + ' гПа; точка росы ≈ ' + dewFromPv(pvFromRho(abs, t)).toFixed(1) + ' °C.';
+    });
+
+    document.getElementById('engHumAbsGo').addEventListener('click', function () {
+      var out = document.getElementById('engHumOut');
+      var t = parseFloat(document.getElementById('engHumT').value);
+      var a = parseFloat(document.getElementById('engHumAbs').value);
+      if (isNaN(t) || !(a > 0)) { out.textContent = 'Укажите температуру и абсолютную влажность.'; return; }
+      var rs = rhoSat(t);
+      if (a > rs) { out.textContent = a + ' г/м³ при ' + t + ' °C превышает насыщение (' + rs.toFixed(2) + ' г/м³) — таких условий не существует, избыток пара сконденсируется.'; return; }
+      out.textContent = 'При ' + t + ' °C и ' + a + ' г/м³: RH ≈ ' + (a / rs * 100).toFixed(1) + ' %; точка росы ≈ ' + dewFromPv(pvFromRho(a, t)).toFixed(1) + ' °C.';
+    });
+
+    document.getElementById('engDewGo').addEventListener('click', function () {
+      var out = document.getElementById('engDewOut');
+      var tDew = parseFloat(document.getElementById('engDewT').value);
+      var a = parseFloat(document.getElementById('engDewAbs').value);
+      if (a > 0) {
+        if (isNaN(tDew)) { out.textContent = 'Для пересчёта абсолютной влажности укажите также температуру воздуха — она нужна для перевода г/м³ в парциальное давление.'; return; }
+        var pvA = pvFromRho(a, tDew);
+        var td = dewFromPv(pvA);
+        out.textContent = 'Абсолютная влажность ' + a + ' г/м³ при ' + tDew + ' °C соответствует парциальному давлению ' + pvA.toFixed(2) + ' гПа; точка росы ≈ ' + td.toFixed(1) + ' °C. Конденсат выпадет на поверхностях холоднее ' + td.toFixed(1) + ' °C.';
+        return;
+      }
+      var t = parseFloat(document.getElementById('engDewT').value);
+      var rh = parseFloat(document.getElementById('engDewRh').value);
+      if (isNaN(t) || !(rh >= 0 && rh <= 100)) { out.textContent = 'Укажите температуру и RH (0–100%) или абсолютную влажность.'; return; }
+      var gamma = Math.log(Math.max(rh, 0.1) / 100) + (17.62 * t) / (243.12 + t);
+      var td2 = 243.12 * gamma / (17.62 - gamma);
+      out.textContent = 'При ' + t + ' °C / ' + rh + ' % RH точка росы ≈ ' + td2.toFixed(1) + ' °C. Поверхности холоднее этого значения будут покрываться конденсатом.';
+    });
+  }
+
+    /* ---------- Фреоны: насыщение по калибровочным точкам ---------- */
+    var REF = {
+      'R410A': { pts: [[-50, 1.78], [-30, 3.98], [-10, 6.79], [0, 7.99], [10, 10.85], [20, 14.35], [30, 18.68], [40, 23.83], [50, 29.99], [60, 37.4]], glide: 0.1 },
+      'R32': { pts: [[-50, 1.83], [-30, 4.15], [-10, 7.2], [0, 8.13], [10, 10.95], [20, 14.9], [30, 19.6], [40, 25.2], [50, 31.9], [60, 39.9]], glide: 0 },
+      'R407C': { pts: [[-50, 1.18], [-30, 2.6], [-10, 4.85], [0, 6.3], [10, 8.4], [20, 11.3], [30, 14.7], [40, 18.9], [50, 23.8], [60, 29.6]], glide: 4.5 },
+      'R404A': { pts: [[-40, 1.46], [-20, 3.16], [0, 5.7], [10, 7.6], [20, 10.0], [30, 12.9], [40, 16.4], [50, 20.6], [60, 25.7]], glide: 0.7 },
+      'R507': { pts: [[-40, 1.55], [-20, 3.35], [0, 6.05], [10, 8.1], [20, 10.6], [30, 13.7], [40, 17.4], [50, 21.9], [60, 27.2]], glide: 0 },
+      'R134a': { pts: [[-40, 0.51], [-20, 1.33], [0, 2.92], [10, 4.15], [20, 5.73], [30, 7.7], [40, 10.17], [50, 13.19], [60, 16.82], [70, 21.17]], glide: 0 },
+      'R22': { pts: [[-40, 1.05], [-20, 2.45], [0, 4.98], [10, 6.81], [20, 9.13], [30, 11.94], [40, 15.33], [50, 19.42], [60, 24.27]], glide: 0 },
+      'R290': { pts: [[-30, 2.0], [-10, 3.4], [0, 4.76], [10, 6.3], [20, 8.35], [30, 10.8], [40, 13.6], [50, 17.0]], glide: 0 }
+    };
+
+    function tSatFromP(ref, pAbs) {
+      var pts = ref.pts;
+      if (!(pAbs > 0) || pAbs <= pts[0][1] || pAbs >= pts[pts.length - 1][1]) return null;
+      for (var i = 1; i < pts.length; i++) {
+        if (pAbs <= pts[i][1]) {
+          var l0 = Math.log(pts[i - 1][1]), l1 = Math.log(pts[i][1]);
+          return pts[i - 1][0] + (pts[i][0] - pts[i - 1][0]) * (Math.log(pAbs) - l0) / (l1 - l0);
+        }
+      }
+      return null;
+    }
+
+    function pSatFromT(ref, t) {
+      var pts = ref.pts;
+      if (t < pts[0][0] || t > pts[pts.length - 1][0]) return null;
+      for (var i = 1; i < pts.length; i++) {
+        if (t <= pts[i][0]) {
+          var l0 = Math.log(pts[i - 1][1]), l1 = Math.log(pts[i][1]);
+          return Math.exp(l0 + (l1 - l0) * (t - pts[i - 1][0]) / (pts[i][0] - pts[i - 1][0]));
+        }
+      }
+      return null;
+    }
+
+    document.getElementById('engRefGo').addEventListener('click', function () {
+      var out = document.getElementById('engRefOut');
+      var ref = REF[document.getElementById('engRefSel').value];
+      var p = parseFloat(document.getElementById('engRefP').value);
+      var isAbs = document.getElementById('engRefPMode').value === 'a';
+      var pAbs = isAbs ? p : p + 1.013;
+      var tSat = tSatFromP(ref, pAbs);
+      if (!tSat) { out.textContent = 'Давление вне диапазона калибровки фреона (' + ref.pts[0][1] + '…' + ref.pts[ref.pts.length - 1][1] + ' бар абс). Проверьте значение и тип давления.'; return; }
+      var msg = document.getElementById('engRefSel').value + ': при ' + p + ' бар ' + (isAbs ? 'абс' : 'изб') + ' → t° насыщения ≈ ' + tSat.toFixed(1) + ' °C' + (ref.glide > 1 ? ' (средняя; глайд ≈ ' + ref.glide + ' K)' : '') + '.';
+      var ts = parseFloat(document.getElementById('engRefTsup').value);
+      var tb = parseFloat(document.getElementById('engRefTsub').value);
+      if (!isNaN(ts)) {
+        var sh = ts - tSat;
+        var shMsg = sh < 3 ? ' — очень мал, риск залива компрессора' : sh <= 12 ? ' — в норме' : sh <= 20 ? ' — высоковат, проверьте заправку/ТРВ' : ' — высокий, вероятна нехватка фреона или недогруз';
+        msg += ' Перегрев: ' + sh.toFixed(1) + ' K' + shMsg + '.';
+      }
+      if (!isNaN(tb)) {
+        var sc = tSat - tb;
+        var scMsg = sc < 3 ? ' — мало, вероятен недостаток фреона' : sc <= 10 ? ' — в норме' : sc <= 15 ? ' — повышенное' : ' — высокое, проверьте переохладитель/регулировку';
+        msg += ' Переохлаждение: ' + sc.toFixed(1) + ' K' + scMsg + '.';
+      }
+      out.textContent = msg;
+    });
+
+    document.getElementById('engPtGo').addEventListener('click', function () {
+      var box = document.getElementById('engPtOut');
+      var name = document.getElementById('engPtSel').value;
+      var ref = REF[name];
+      var step = parseInt(document.getElementById('engPtStep').value, 10);
+      var t0 = Math.ceil(ref.pts[0][0] / step) * step;
+      var t1 = Math.floor(ref.pts[ref.pts.length - 1][0] / step) * step;
+      var rows = '';
+      for (var t = t0; t <= t1; t += step) {
+        var pa = pSatFromT(ref, t);
+        rows += '<tr><td>' + t + '</td><td>' + pa.toFixed(2) + '</td><td>' + (pa - 1.013).toFixed(2) + '</td><td>' + (pa / 10).toFixed(3) + '</td></tr>';
+      }
+      box.innerHTML = '<table><thead><tr><th>t°, °C</th><th>P абс, бар</th><th>P изб, бар</th><th>P абс, МПа</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+        '<p class="hint">' + name + (ref.glide > 1 ? ' — зеотропная смесь, показана средняя температура насыщения (глайд ≈ ' + ref.glide + ' K).' : '.') + ' Давление абс. = изб. + 1,013 бар. Таблица построена по справочным точкам с интерполяцией — для charged-операций сверяйте с таблицей производителя.</p>';
+    });
+
+    var engVelShape = document.getElementById('engVelShape');
+    engVelShape.addEventListener('change', function () {
+      var rect = engVelShape.value === 'r';
+      document.getElementById('engVelD1').style.display = rect ? 'none' : '';
+      document.getElementById('engVelW1').style.display = rect ? '' : 'none';
+      document.getElementById('engVelH1').style.display = rect ? '' : 'none';
+    });
+
+    document.getElementById('engVelGo').addEventListener('click', function () {
+      var out = document.getElementById('engVelOut');
+      var q = parseFloat(document.getElementById('engVelQ').value);
+      if (!(q > 0)) { out.textContent = 'Укажите расход воздуха.'; return; }
+      if (engVelShape.value === 'c') {
+        var d = parseFloat(document.getElementById('engVelD').value);
+        if (!(d > 0)) { out.textContent = 'Укажите диаметр в мм.'; return; }
+        var a = Math.PI * Math.pow(d / 1000, 2) / 4;
+        var v = q / 3600 / a;
+        out.textContent = 'Сечение Ø' + d + ' мм (A = ' + (a * 1e4).toFixed(0) + ' см²): скорость ≈ ' + v.toFixed(2) + ' м/с при ' + Math.round(q).toLocaleString('ru-RU') + ' м³/ч.';
+      } else {
+        var w = parseFloat(document.getElementById('engVelW').value);
+        var h = parseFloat(document.getElementById('engVelH').value);
+        if (!(w > 0) || !(h > 0)) { out.textContent = 'Укажите ширину и высоту в мм.'; return; }
+        var ar = (w / 1000) * (h / 1000);
+        var vr = q / 3600 / ar;
+        var deq = 1.3 * Math.pow(w * h, 0.625) / Math.pow(w + h, 0.25);
+        out.textContent = 'Сечение ' + w + '×' + h + ' мм (A = ' + (ar * 1e4).toFixed(0) + ' см²): скорость ≈ ' + vr.toFixed(2) + ' м/с при ' + Math.round(q).toLocaleString('ru-RU') + ' м³/ч. Эквивалентный диаметр ≈ ' + deq.toFixed(0) + ' мм.';
+      }
+    });
+
+    var engPowMode = document.getElementById('engPowMode');
+    engPowMode.addEventListener('change', function () {
+      var toL = engPowMode.value === 'l';
+      document.getElementById('engPowL1').style.display = toL ? 'none' : '';
+      document.getElementById('engPowT1').style.display = '';
+      document.getElementById('engPowQ1').style.display = toL ? '' : 'none';
+    });
+
+    document.getElementById('engPowGo').addEventListener('click', function () {
+      var out = document.getElementById('engPowOut');
+      var tAir = parseFloat(document.getElementById('engPowTemp').value);
+      if (isNaN(tAir)) tAir = 24;
+      var rho = 353 / (273.15 + tAir);
+      var shr = parseFloat(document.getElementById('engPowShr').value);
+      if (!(shr > 0.05 && shr <= 1)) shr = 1;
+      var dt = parseFloat(document.getElementById('engPowT').value);
+      if (engPowMode.value === 'q') {
+        var l = parseFloat(document.getElementById('engPowL').value);
+        if (!(l > 0) || !(dt > 0)) { out.textContent = 'Укажите расход и Δt.'; return; }
+        var qq = rho * 1.006 * l * dt / 3600;
+        out.textContent = 'Явная мощность ≈ ' + qq.toFixed(2) + ' кВт при ' + Math.round(l).toLocaleString('ru-RU') + ' м³/ч и Δt = ' + dt + ' K (ρ ≈ ' + rho.toFixed(3) + ' кг/м³ при ' + tAir + ' °C).' + (shr < 1 ? ' Полное тепло ≈ ' + (qq / shr).toFixed(2) + ' кВт при SHR = ' + shr + '.' : '');
+      } else {
+        var q2 = parseFloat(document.getElementById('engPowQ').value);
+        if (!(q2 > 0) || !(dt > 0)) { out.textContent = 'Укажите мощность и Δt.'; return; }
+        var l2 = q2 * 3600 / (rho * 1.006 * dt);
+        out.textContent = 'Требуемый расход ≈ ' + Math.round(l2).toLocaleString('ru-RU') + ' м³/ч для отвода ' + q2 + ' кВт явного тепла при Δt = ' + dt + ' K (ρ ≈ ' + rho.toFixed(3) + ' кг/м³ при ' + tAir + ' °C).';
+      }
+    });
+
+    /* ---------- 8. Бак-аккумулятор и расход теплоносителя ---------- */
+    document.getElementById('engTankGo').addEventListener('click', function () {
+      var out = document.getElementById('engTankOut');
+      var q = parseFloat(document.getElementById('engTankQ').value);
+      var t = parseFloat(document.getElementById('engTankT').value);
+      var dt = parseFloat(document.getElementById('engTankDt').value);
+      var c = parseFloat(document.getElementById('engTankFluid').value);
+      if (!(q > 0) || !(t > 0) || !(dt > 0)) { out.textContent = 'Укажите мощность, время и Δt.'; return; }
+      var v = q * t * 60 / (c * dt);
+      out.textContent = 'Объём бака ≈ ' + v.toFixed(2) + ' м³ (' + Math.round(v * 1000).toLocaleString('ru-RU') + ' л) — накопить ' + q + ' кВт × ' + t + ' мин при Δt = ' + dt + ' K. Рекомендуется бак с запасом 10–20%.';
+    });
+
+    var engFlowMode = document.getElementById('engFlowMode');
+    engFlowMode.addEventListener('change', function () {
+      var air = engFlowMode.value === 'air';
+      document.getElementById('engFlowQ1').style.display = air ? 'none' : '';
+      document.getElementById('engFlowA1').style.display = air ? '' : 'none';
+      document.getElementById('engFlowA2').style.display = air ? '' : 'none';
+    });
+
+    document.getElementById('engFlowGo').addEventListener('click', function () {
+      var out = document.getElementById('engFlowOut');
+      var q = parseFloat(document.getElementById('engFlowQ').value);
+      var airSide = engFlowMode.value === 'air';
+      if (airSide) {
+        var la = parseFloat(document.getElementById('engFlowAir').value);
+        var dta = parseFloat(document.getElementById('engFlowAirDt').value);
+        if (!(la > 0) || !(dta > 0)) { out.textContent = 'Укажите расход воздуха и Δt воздуха.'; return; }
+        var rhoAir = 353 / (273.15 + 24);
+        q = rhoAir * 1.006 * la * dta / 3600;
+      }
+      var dtf = parseFloat(document.getElementById('engFlowDt').value);
+      var c2 = parseFloat(document.getElementById('engFlowFluid').value);
+      if (!(q > 0) || !(dtf > 0)) { out.textContent = 'Укажите мощность и Δt теплоносителя.'; return; }
+      var g = q * 3600 / (c2 * dtf);
+      out.textContent = 'Тепловая мощность: ' + q.toFixed(2) + ' кВт' + (airSide ? ' (по воздушной стороне)' : '') + '. Расход теплоносителя ≈ ' + g.toFixed(2) + ' м³/ч (' + Math.round(g * 1000).toLocaleString('ru-RU') + ' л/ч; ' + (g * 1000 / 60).toFixed(1) + ' л/мин) при Δt = ' + dtf + ' K.';
+    });
+
+    /* ---------- 9. Адиабатика ---------- */
+    function adPs(t) { return 6.112 * Math.exp(17.62 * t / (243.12 + t)); }
+    function adW(t, rh, PkPa) { var pv = rh / 100 * adPs(t); return 622 * pv / (PkPa * 10 - pv); }
+    function adH(t, wG) { return 1.006 * t + (wG / 1000) * (2501 + 1.805 * t); }
+    function adHSat(t, PkPa) { return adH(t, 622 * adPs(t) / (PkPa * 10 - adPs(t))); }
+
+    var engAdMode = document.getElementById('engAdMode');
+    engAdMode.addEventListener('change', function () {
+      var byT = engAdMode.value === 't2';
+      document.getElementById('engAdEff1').style.display = byT ? 'none' : '';
+      document.getElementById('engAdT21').style.display = byT ? '' : 'none';
+    });
+
+    document.getElementById('engAdGo').addEventListener('click', function () {
+      var out = document.getElementById('engAdOut');
+      var L = parseFloat(document.getElementById('engAdQ').value);
+      var t1 = parseFloat(document.getElementById('engAdT1').value);
+      var rh1 = parseFloat(document.getElementById('engAdRh1').value);
+      var P = parseFloat(document.getElementById('engAdP').value) || 101.3;
+      if (!(L > 0) || isNaN(t1) || !(rh1 >= 0 && rh1 <= 100)) { out.textContent = 'Укажите расход, t° и RH входа.'; return; }
+      var h1 = adH(t1, adW(t1, rh1, P));
+      var lo = -40, hi = t1, twb;
+      for (var i = 0; i < 60; i++) {
+        var mid = (lo + hi) / 2;
+        if (adHSat(mid, P) < h1) lo = mid; else hi = mid;
+      }
+      twb = (lo + hi) / 2;
+      if (t1 - twb < 0.5) { out.textContent = 'Адиабатика неэффективна: воздух близок к насыщению (t° мокрого ≈ ' + twb.toFixed(1) + ' °C) — охладить нечем.'; return; }
+      var t2, eff;
+      if (engAdMode.value === 't2') {
+        t2 = parseFloat(document.getElementById('engAdT2').value);
+        if (isNaN(t2)) { out.textContent = 'Укажите выходную температуру.'; return; }
+        if (t2 < twb - 0.1) { out.textContent = 't° выхода ниже температуры мокрого термометра (' + twb.toFixed(1) + ' °C) — физически недостижимо для адиабатного увлажнения. Проверьте измерения.'; return; }
+        eff = (t1 - t2) / (t1 - twb) * 100;
+      } else {
+        eff = parseFloat(document.getElementById('engAdEff').value);
+        if (!(eff > 0 && eff <= 100)) { out.textContent = 'Укажите эффективность 0–100%.'; return; }
+        t2 = t1 - eff / 100 * (t1 - twb);
+      }
+      var w1 = adW(t1, rh1, P);
+      var w2 = (h1 - 1.006 * t2) / (2501 + 1.805 * t2) * 1000;
+      var rho = 353 / (273.15 + t1);
+      var water = rho * L * (w2 - w1) / 1000;
+      var pv2 = w2 * P * 10 / (622 + w2);
+      var rh2 = Math.min(pv2 / adPs(t2) * 100, 100);
+      var qSens = rho * 1.006 * L * (t1 - t2) / 3600;
+      out.textContent = 't° мокрого входа ≈ ' + twb.toFixed(1) + ' °C. Выход: t2 ≈ ' + t2.toFixed(1) + ' °C (охлаждение ' + (t1 - t2).toFixed(1) + ' K), RH2 ≈ ' + rh2.toFixed(0) + ' %, эффективность ≈ ' + eff.toFixed(0) + ' %. Вода на испарение ≈ ' + water.toFixed(1) + ' л/ч (' + (water / 60).toFixed(2) + ' л/мин). Явное охлаждение ≈ ' + qSens.toFixed(1) + ' кВт.';
+    });
+
+  
+})();
+</script>
+
+<script>
+
+(function () {
+  'use strict';
+
+  var BREAKERS = [6,10,13,16,20,25,32,40,50,63,80,100,125,160,200,250,315,400];
+  var BTU = 3412.14, KCAL = 859.845;
+
+  function el(id) { return document.getElementById(id); }
+  function parseNum(v) {
+    if (v == null) return 0;
+    var n = parseFloat(String(v).replace(',', '.').replace(/\s/g, ''));
+    return isFinite(n) && n > 0 ? n : 0;
+  }
+  function nf(n, d) { return n.toLocaleString('ru-RU', { minimumFractionDigits: d, maximumFractionDigits: d }); }
+  function fmt(n, d) { return n.toFixed(d).replace('.', ','); }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+  var SECTIONS = [
+    { id: 'acwRowsCompressor', title: 'Компрессор(ы)', hasStart: true },
+    { id: 'acwRowsFans', title: 'Вентиляторы (испаритель / внутренний блок)', hasStart: false },
+    { id: 'acwRowsCondenser', title: 'Конденсаторный блок (наружный)', hasStart: true },
+    { id: 'acwRowsAuto', title: 'Автоматика', hasStart: false },
+    { id: 'acwRowsHumid', title: 'Пароувлажнитель', hasStart: false }
+  ];
+
+  function addRow(containerId, hasStart, defName) {
+    var c = el(containerId);
+    var row = document.createElement('div');
+    row.className = 'acw-crow';
+    row.innerHTML =
+      '<input class="acw-name" placeholder="' + defName + (c.children.length + 1) + '">' +
+      '<input class="acw-num" data-kind="run" inputmode="decimal" placeholder="0">' +
+      (hasStart ? '<input class="acw-num" data-kind="start" inputmode="decimal" placeholder="0">' : '<div class="acw-dash">—</div>') +
+      '<input class="acw-num" data-kind="max" inputmode="decimal" placeholder="0">' +
+      '<button class="acw-del" type="button" title="Удалить строку">×</button>';
+    row.querySelector('.acw-del').addEventListener('click', function () { row.remove(); recalcCurrents(); });
+    row.addEventListener('input', recalcCurrents);
+    c.appendChild(row);
+    recalcCurrents();
+  }
+
+  document.querySelectorAll('.acw-add').forEach(function (b) {
+    b.addEventListener('click', function () {
+      addRow(b.getAttribute('data-target'), b.getAttribute('data-start') === '1', b.getAttribute('data-name'));
+    });
+  });
+
+  function sumSection(container) {
+    var s = { run: 0, start: 0, max: 0 };
+    container.querySelectorAll('.acw-crow').forEach(function (r) {
+      var q = function (kind) { var e = r.querySelector('.acw-num[data-kind="' + kind + '"]'); return e ? parseNum(e.value) : 0; };
+      s.run += q('run'); s.start += q('start'); s.max += q('max');
+    });
+    return s;
+  }
+
+  function computeCurrents() {
+    var runAll = 0, maxAll = 0, startAll = 0, runRest = 0, maxRest = 0;
+    SECTIONS.forEach(function (sec) {
+      var s = sumSection(el(sec.id));
+      runAll += s.run; maxAll += s.max;
+      if (sec.hasStart) startAll += s.start;
+      else { runRest += s.run; maxRest += s.max; }
+    });
+    var modeEl = document.querySelector('input[name="acw-startmode"]:checked');
+    var mode = modeEl ? modeEl.value : 'run';
+    var I_run = runAll, I_max = maxAll;
+    var I_start = mode === 'only' ? startAll : mode === 'max' ? startAll + maxRest : startAll + runRest;
+
+    var three = el('acwPhase').value === '3';
+    var U = three ? 400 : 230;
+    var cos = Math.min(1, Math.max(0.1, parseNum(el('acwCos').value) || 0.9));
+    var k = three ? Math.sqrt(3) : 1;
+    var pRun = k * U * cos * I_run / 1000;
+    var pMax = k * U * cos * I_max / 1000;
+    var pInner = k * U * cos * runRest / 1000;
+    var br = I_max > 0 ? BREAKERS.find(function (b) { return b >= I_max; }) : null;
+
+    return { I_run: I_run, I_max: I_max, I_start: I_start, pRun: pRun, pMax: pMax, pInner: pInner,
+             breaker: br, mode: mode,
+             phase: three ? '3 фазы, 400 В' : '1 фаза, 230 В', cos: cos };
+  }
+
+  function recalcCurrents() {
+    var c = computeCurrents();
+    el('acwTRun').innerHTML = nf(c.I_run, 1) + ' <small>А</small>';
+    el('acwTRunP').textContent = '≈ ' + nf(c.pRun, 2) + ' кВт';
+    el('acwTMax').innerHTML = nf(c.I_max, 1) + ' <small>А</small>';
+    el('acwTMaxP').textContent = nf(c.pMax, 2);
+    el('acwTBreaker').textContent = c.breaker ? 'автомат: ' + c.breaker + ' А' : 'автомат: —';
+    el('acwTStart').innerHTML = nf(c.I_start, 1) + ' <small>А</small>';
+    recalcQ();
+  }
+
+  function computeQ() {
+    var unit = el('acwQUnits').value;
+    var conv = unit === 'btu' ? 1 / BTU : unit === 'kcal' ? 1 / KCAL : 1;
+    var Qs = parseNum(el('acwQSens').value) * conv;
+    var Qf = parseNum(el('acwQFull').value) * conv;
+    var Pe = parseNum(el('acwQPower').value);
+    var Pfull = parseNum(el('acwQPowerFull').value);
+    var bad = (Qs > 0 && Qf > 0 && Qs > Qf + 1e-9) || (Qf > 0 && Pe > 0 && Qs - Pe < -1e-9);
+    return { unit: unit, Qs: Qs, Qf: Qf, Pe: Pe, Pfull: Pfull, bad: bad,
+             Qnet: Qs - Pe, Qlat: Qf - Qs,
+             shr: Qf > 0 ? Qs / Qf : null,
+             eer: Pfull > 0 ? Qf / Pfull : null,
+             eerNet: Pfull > 0 && Qs - Pe > 0 ? (Qs - Pe) / Pfull : null };
+  }
+
+  function recalcQ() {
+    var q = computeQ();
+    el('acwQErr').style.display = q.bad ? 'block' : 'none';
+    function set(idMain, idExtra, kw) {
+      if (kw > 0 && !q.bad) {
+        el(idMain).innerHTML = nf(kw, 2) + ' <small>кВт</small>';
+        el(idExtra).textContent = '≈ ' + nf(kw * BTU, 0) + ' BTU/h';
+      } else {
+        el(idMain).textContent = '—';
+        el(idExtra).textContent = '';
+      }
+    }
+    set('acwRSens', 'acwRSens2', q.Qs);
+    set('acwRFull', 'acwRFull2', q.Qf);
+    set('acwRNet', 'acwRNet2', q.Qnet);
+    set('acwRLat', 'acwRLat2', q.Qlat);
+    el('acwRShr').textContent = (q.shr != null && !q.bad) ? nf(q.shr * 100, 1) + ' %' : '—';
+    el('acwREer').textContent = (q.eer != null && !q.bad) ? nf(q.eer, 2) : '—';
+    el('acwREer2').textContent = (q.eerNet != null && !q.bad)
+      ? 'EER = полная / полное потребление · по чистой: ' + nf(q.eerNet, 2)
+      : 'полная / полное потребление (укажите полное потребление)';
+  }
+
+  el('acwBtnInner').addEventListener('click', function () {
+    var c = computeCurrents();
+    el('acwQPower').value = c.pInner.toFixed(2).replace('.', ',');
+    recalcQ();
+  });
+  el('acwBtnFull').addEventListener('click', function () {
+    var c = computeCurrents();
+    el('acwQPowerFull').value = c.pRun.toFixed(2).replace('.', ',');
+    recalcQ();
+  });
+
+  el('acwPhase').addEventListener('change', recalcCurrents);
+  el('acwCos').addEventListener('input', recalcCurrents);
+  document.querySelectorAll('input[name="acw-startmode"]').forEach(function (r) { r.addEventListener('change', recalcCurrents); });
+  ['acwQSens', 'acwQFull', 'acwQPower', 'acwQPowerFull'].forEach(function (id) { el(id).addEventListener('input', recalcQ); });
+  el('acwQUnits').addEventListener('change', recalcQ);
+
+  /* ---------- 12. Скрытая холодопроизводительность по t° и влажности ---------- */
+  function latPs(t) { return 6.112 * Math.exp(17.62 * t / (243.12 + t)); }
+  function latW(t, rh, PkPa) { var pv = rh / 100 * latPs(t); return 622 * pv / (PkPa * 10 - pv); }
+  function latH(t, wG) { return 1.006 * t + (wG / 1000) * (2501 + 1.805 * t); }
+  function latDew(t, rh) { var g = Math.log(Math.max(rh, 0.1) / 100) + 17.62 * t / (243.12 + t); return 243.12 * g / (17.62 - g); }
+
+  function latCompute() {
+    var L = parseNum(el('acwLatL').value);
+    var t1 = parseFloat(el('acwLatT1').value);
+    var rh1 = parseFloat(el('acwLatRh1').value);
+    var P = parseFloat(el('acwLatP').value) || 101.3;
+    var mode = el('acwLatMode').value === 'coil' ? 'coil' : 'io';
+    var t2 = null, rh2 = null, tp = null, F = null, K = null, w2 = null, h2 = null;
+    if (mode === 'io') {
+      t2 = parseFloat(el('acwLatT2').value);
+      rh2 = parseFloat(el('acwLatRh2').value);
+      if (!(isFinite(t2) && rh2 >= 0 && rh2 <= 100)) return null;
+    } else {
+      tp = parseFloat(el('acwLatTp').value);
+      F = parseNum(el('acwLatF').value);
+      K = parseNum(el('acwLatK').value);
+      if (!(isFinite(tp) && F > 0 && K > 0)) return null;
+    }
+    if (!((L > 0) && isFinite(t1) && rh1 >= 0 && rh1 <= 100)) return null;
+    var w1 = latW(t1, rh1, P), h1 = latH(t1, w1), td1 = latDew(t1, rh1);
+    var E = null, ntU = null, dry = false;
+    if (mode === 'coil') {
+      var Gs = 353 / (273.15 + t1) * L / 3600;
+      ntU = K * F / (Gs * 1005);
+      E = 1 - Math.exp(-ntU);
+      var wA = latW(tp, 100, P), hA = latH(tp, wA);
+      if (t1 - E * (t1 - tp) >= td1) {
+        dry = true;
+        t2 = t1 - E * (t1 - tp);
+        w2 = w1; h2 = latH(t2, w1);
+      } else {
+        h2 = h1 - E * (h1 - hA);
+        w2 = w1 - E * (w1 - wA);
+        t2 = (h2 - 2.501 * w2) / (1.006 + 0.001805 * w2);
+      }
+      rh2 = 100 * (w2 * P * 10 / (622 + w2)) / latPs(t2);
+    } else {
+      w2 = latW(t2, rh2, P); h2 = latH(t2, w2);
+    }
+    var rho = 353 / (273.15 + (t1 + t2) / 2);
+    var qTot = rho * L * (h1 - h2) / 3600;
+    var qSens = rho * 1.006 * L * (t1 - t2) / 3600;
+    var qLat = qTot - qSens;
+    if (dry) { qSens = qTot; qLat = 0; }
+    var cond = rho * L * (w1 - w2) / 1000;
+    var shr = qTot > 0 ? qSens / qTot : null;
+    return { L: L, t1: t1, rh1: rh1, t2: t2, rh2: rh2, P: P, w1: w1, w2: w2, h1: h1, h2: h2,
+             qTot: qTot, qSens: qSens, qLat: qLat, cond: cond, shr: shr,
+             humidify: w2 > w1 + 1e-9, td1: td1, mode: mode, tp: tp, F: F, K: K, E: E, ntU: ntU, dry: dry };
+  }
+
+  el('acwLatMode').addEventListener('change', function () {
+    var coil = el('acwLatMode').value === 'coil';
+    el('acwLatT2F').style.display = coil ? 'none' : '';
+    el('acwLatRh2F').style.display = coil ? 'none' : '';
+    el('acwLatCoil').style.display = coil ? '' : 'none';
+  });
+
+  el('acwLatGo').addEventListener('click', function () {
+    var out = el('acwLatOut');
+    var la = latCompute();
+    if (!la) { out.textContent = 'Укажите расход, t° и RH входа, а также данные выхода (t°/RH) или поверхности (t°, F, K).'; return; }
+    if (la.humidify) {
+      out.textContent = 'Влага на выходе больше входа (w2 = ' + la.w2.toFixed(2) + ' > w1 = ' + la.w1.toFixed(2) + ' г/кг) — идёт увлажнение, а не осушение: скрытая мощность не отводится.';
+      return;
+    }
+    var shrTxt = la.shr !== null ? ' (SHR ≈ ' + (la.shr * 100).toFixed(0) + ' %)' : '';
+    var dewMsg = ' Точка росы входа ≈ ' + la.td1.toFixed(1) + ' °C — ' + (la.t2 < la.td1 ? 't° выхода ниже точки росы: влага конденсируется, скрытая часть неизбежна' : 't° выхода выше точки росы: конденсации нет');
+    if (la.mode === 'coil') {
+      var hdr = 'Поверхность: t_p = ' + la.tp.toFixed(1) + ' °C; F = ' + nf(la.F, 1) + ' м²; K = ' + nf(la.K, 0) + ' Вт/(м²·К); тепловой КПД ≈ ' + (la.E * 100).toFixed(0) + ' % (NTU = ' + la.ntU.toFixed(2) + '). ';
+      if (la.dry) {
+        out.textContent = hdr + (la.qSens <= 0.005 ? 'Поверхность не холоднее воздуха — охлаждения нет.' : 'Поверхность выше точки росы (' + la.td1.toFixed(1) + ' °C) — сухое охлаждение: скрытая = 0, конденсат = 0. Выход: t° ≈ ' + la.t2.toFixed(1) + ' °C, RH ≈ ' + la.rh2.toFixed(0) + ' %; явная ≈ ' + la.qSens.toFixed(2) + ' кВт.');
+        return;
+      }
+      out.textContent = hdr + 'Выход: t° ≈ ' + la.t2.toFixed(1) + ' °C, RH ≈ ' + la.rh2.toFixed(0) + ' %; w: ' + la.w1.toFixed(2) + ' → ' + la.w2.toFixed(2) + ' г/кг; h: ' + la.h1.toFixed(1) + ' → ' + la.h2.toFixed(1) + ' кДж/кг. Полная ≈ ' + la.qTot.toFixed(2) + ' кВт; явная ≈ ' + la.qSens.toFixed(2) + ' кВт; СКРЫТАЯ ≈ ' + la.qLat.toFixed(2) + ' кВт' + shrTxt + '. Конденсат ≈ ' + la.cond.toFixed(1) + ' л/ч (' + (la.cond / 60).toFixed(2) + ' л/мин).' + dewMsg;
+      return;
+    }
+    out.textContent = 'Влагосодержание: w1 = ' + la.w1.toFixed(2) + ' → w2 = ' + la.w2.toFixed(2) + ' г/кг; энтальпия: h1 = ' + la.h1.toFixed(1) + ' → h2 = ' + la.h2.toFixed(1) + ' кДж/кг. Полная мощность ≈ ' + la.qTot.toFixed(2) + ' кВт; явная ≈ ' + la.qSens.toFixed(2) + ' кВт; СКРЫТАЯ ≈ ' + la.qLat.toFixed(2) + ' кВт' + shrTxt + '. Конденсат ≈ ' + la.cond.toFixed(1) + ' л/ч (' + (la.cond / 60).toFixed(2) + ' л/мин).' + dewMsg;
+  });
+
+  /* ---------- 13. Теплообменник воздух–жидкость (этиленгликоль) ---------- */
+  var GLY = {0:{cp:4.19,rho:999,fz:0,mu:1.31},20:{cp:3.96,rho:1033,fz:-9,mu:2.0},30:{cp:3.81,rho:1052,fz:-16,mu:2.9},35:{cp:3.73,rho:1062,fz:-21,mu:3.5},40:{cp:3.64,rho:1071,fz:-28,mu:4.2},50:{cp:3.47,rho:1090,fz:-37,mu:6.2},60:{cp:3.30,rho:1108,fz:-47,mu:9.0}};
+
+  function hxCompute() {
+    var L = parseNum(el('engHxL').value);
+    var t1 = parseFloat(el('engHxT1').value);
+    var rh1 = parseFloat(el('engHxRh1').value);
+    var t2t = parseFloat(el('engHxT2').value);
+    var W = parseNum(el('engHxW').value), H = parseNum(el('engHxH').value);
+    var Nr = parseNum(el('engHxRows').value);
+    var sf = parseNum(el('engHxSf').value), dm = parseNum(el('engHxDm').value), st = parseNum(el('engHxSt').value);
+    var dtJ = parseFloat(el('engHxDtL').value);
+    var conc = parseFloat(el('engHxConc').value);
+    var Kset = parseNum(el('engHxK').value);
+    var pa = Math.max(1, Math.round(parseNum(el('engHxPa').value) || 1));
+    var P = 101.3;
+    if (!(L > 0 && isFinite(t1) && rh1 >= 0 && rh1 <= 100 && W > 0 && H > 0 && Nr > 0 && sf > 0 && dm > 0 && st > 0 && dtJ > 0)) return null;
+    if (!(t2t < t1)) return { fail: 'target' };
+    var w1 = latW(t1, rh1, P), h1 = latH(t1, w1), td1 = latDew(t1, rh1);
+    var Af = W * H / 1e6, vf = L / 3600 / Af;
+    var depth = Nr * 0.022, Vol = Af * depth;
+    var beta = 0.9 * (2 / (sf / 1000) + Math.PI * (dm / 1000) / ((st / 1000) * (sf / 1000)));
+    var Fair = beta * Vol;
+    var K = Kset > 0 ? Math.min(80, Kset) : Math.min(55, Math.max(15, 28 * Math.pow(vf / 2.5, 0.55)));
+    var Gs = 353 / (273.15 + t1) * L / 3600;
+    var ntU = K * Fair / (Gs * 1005);
+    var E = 1 - Math.exp(-ntU);
+    var f = function (p) {
+      var wA = latW(p, 100, P), hA = latH(p, wA);
+      var h2x = h1 - E * (h1 - hA), w2x = w1 - E * (w1 - wA);
+      return (h2x - 2.501 * w2x) / (1.006 + 0.001805 * w2x);
+    };
+    var tp, dry, w2, h2, fail = null;
+    var tPdry = t1 - (t1 - t2t) / E;
+    if (tPdry >= td1) {
+      tp = tPdry; dry = true; w2 = w1; h2 = latH(t2t, w1);
+    } else {
+      dry = false;
+      var lo = t2t - 25, hi = td1;
+      if (f(lo) > t2t + 0.02) fail = f(lo);
+      else {
+        var a = lo, b = hi;
+        for (var i = 0; i < 60; i++) { var m = (a + b) / 2; if (f(m) < t2t) a = m; else b = m; }
+        tp = (a + b) / 2;
+        var wA = latW(tp, 100, P), hA = latH(tp, wA);
+        h2 = h1 - E * (h1 - hA); w2 = w1 - E * (w1 - wA);
+      }
+    }
+    if (fail !== null) return { fail: 'surface', t2max: fail, E: E, ntU: ntU, Fair: Fair, vf: vf, K: K, W: W, H: H, Nr: Nr };
+    var pv2 = w2 * P * 10 / (622 + w2);
+    var rh2 = 100 * pv2 / latPs(t2t);
+    var rho = 353 / (273.15 + (t1 + t2t) / 2);
+    var qTot = rho * L * (h1 - h2) / 3600;
+    var qSens = rho * 1.006 * L * (t1 - t2t) / 3600;
+    var qLat = qTot - qSens;
+    if (dry) { qSens = qTot; qLat = 0; }
+    var cond = rho * L * (w1 - w2) / 1000;
+    var g = GLY[conc] || GLY[30];
+    var Gl = qTot / (g.cp * dtJ);
+    var Vl = Gl * 3600 / g.rho;
+    var twIn = tp - dtJ / 2, twOut = tp + dtJ / 2;
+    var rhoAir = 353 / (273.15 + t1);
+    var dpAir = Nr * (2.2 + 6 / sf) * (rhoAir * vf * vf / 2);
+    var di = dm / 1000 - 0.0007;
+    var Nt = Math.max(1, Math.round(H / st)) * Nr;
+    var Npar = Math.max(1, Nt / pa);
+    var Aint = Npar * Math.PI * di * di / 4;
+    var vInt = Vl / 3600 / Aint;
+    var Re = g.rho * vInt * di / (g.mu / 1000);
+    var lam = Re < 2300;
+    var lamF = lam ? 64 / Math.max(Re, 1) : 0.316 / Math.pow(Math.max(Re, 2300), 0.25);
+    var Lp = (W / 1000) * pa;
+    var dpLiq = lamF * (Lp / di) * (g.rho * vInt * vInt / 2) * 1.3;
+    return { L: L, t1: t1, rh1: rh1, t2t: t2t, W: W, H: H, Nr: Nr, sf: sf, dm: dm, st: st, P: P,
+             w1: w1, h1: h1, td1: td1, Af: Af, vf: vf, depth: depth, Vol: Vol, beta: beta, Fair: Fair, K: K, Gs: Gs, ntU: ntU, E: E,
+             tp: tp, dry: dry, w2: w2, h2: h2, rh2: rh2, qTot: qTot, qSens: qSens, qLat: qLat, cond: cond,
+             conc: conc, cp: g.cp, rhoL: g.rho, fz: g.fz, dtJ: dtJ, Gl: Gl, Vl: Vl, twIn: twIn, twOut: twOut,
+             pa: pa, dpAir: dpAir, dpLiq: dpLiq, vInt: vInt, Re: Re, lam: lam, di: di, Nt: Nt, Npar: Npar, Aint: Aint,
+             freeze: twIn <= g.fz + 1 };
+  }
+
+  el('engHxGo').addEventListener('click', function () {
+    var out = el('engHxOut');
+    var r = hxCompute();
+    if (!r) { out.textContent = 'Заполните расход, t°/RH входа, целевую t° выхода (ниже входной) и габариты теплообменника.'; return; }
+    if (r.fail === 'target') { out.textContent = 'Целевая t° выхода должна быть ниже t° входа.'; return; }
+    if (r.fail === 'surface') {
+      out.textContent = 'Поверхности недостаточно: даже при температуре поверхности ' + r.t2max.toFixed(1) + ' °C (без конденсации) выход воздуха ≈ ' + r.t2max.toFixed(1) + ' °C — выше целевого ' + el('engHxT2').value + ' °C. Увеличьте число рядов, габариты или примите более высокую целевую t° (текущий КПД ε ≈ ' + (r.E * 100).toFixed(0) + ' %).';
+      return;
+    }
+    out.textContent = 'Жидкость (ЭГ ' + r.conc + ' %): вход ' + r.twIn.toFixed(1) + ' °C / выход ' + r.twOut.toFixed(1) + ' °C (Δt ' + r.dtJ.toFixed(1) + ' К; средняя ≈ t° поверхности ' + r.tp.toFixed(1) + ' °C). Расход: ' + nf(r.Vl * 1000 / 60, 0) + ' л/мин ≈ ' + nf(r.Vl, 1) + ' м³/ч (' + nf(r.Gl * 3.6, 1) + ' т/ч). Мощность: полная ≈ ' + r.qTot.toFixed(2) + ' кВт (явная ≈ ' + r.qSens.toFixed(2) + ', скрытая ≈ ' + r.qLat.toFixed(2) + (r.dry ? ', сухой режим' : '') + '); конденсат ≈ ' + r.cond.toFixed(1) + ' л/ч. Выход воздуха: ' + r.t2t.toFixed(1) + ' °C / RH ≈ ' + r.rh2.toFixed(0) + ' %. КПД ε ≈ ' + (r.E * 100).toFixed(0) + ' % (NTU ' + r.ntU.toFixed(2) + '; F ' + nf(r.Fair, 0) + ' м²; v во фронте ' + r.vf.toFixed(2) + ' м/с; K ' + nf(r.K, 0) + ' Вт/(м²·К); сопротивление: воздух ≈ ' + nf(r.dpAir, 0) + ' Па (' + r.Nr + ' рядов), жидкость ≈ ' + nf(r.dpLiq / 1000, 2) + ' кПа (v в трубках ' + r.vInt.toFixed(2) + ' м/с, Re ' + nf(r.Re, 0) + (r.lam ? ', ламинарный' : ', турбулентный') + (r.dpLiq > 50000 ? ' — выше 50 кПа, проверьте напор насоса!' : '') + ')' + (r.freeze ? '. ВНИМАНИЕ: t° входа жидкости ' + r.twIn.toFixed(1) + ' °C ниже точки замерзания раствора (' + r.fz + ' °C) — повысьте концентрацию!' : '');
+  });
+
+  /* ---------- 14. Сопротивление воздушных фильтров ---------- */
+  var FLTB = {
+    g3p:{name:'G3 панельный', a:0.006, b:1.0e-6, k:3.5},
+    g4p:{name:'G4 панельный', a:0.012, b:1.5e-6, k:3.5},
+    g4b:{name:'G4 карманный', a:0.012, b:3.7e-5, k:3.5},
+    m5b:{name:'M5 карманный', a:0.025, b:4.0e-5, k:3.0},
+    f6b:{name:'F6 карманный', a:0.045, b:4.5e-5, k:2.7},
+    f7b:{name:'F7 карманный', a:0.070, b:4.5e-5, k:2.7},
+    f8b:{name:'F8 карманный', a:0.100, b:5.0e-5, k:2.7},
+    f9b:{name:'F9 карманный', a:0.130, b:5.5e-5, k:2.7},
+    e10:{name:'E10 компакт', a:0.18, b:3.0e-5, k:2.2},
+    h13:{name:'H13 компакт (абсолют)', a:0.65, b:3.0e-6, k:2.0},
+    h14:{name:'H14 компакт (абсолют)', a:0.90, b:3.0e-6, k:2.0}
+  };
+
+  var FLTSZ = {
+    panel:{name:'Панельный', depths:[48,96], f:function (W,H,d) { return W*H*1.4; }},
+    bag:{name:'Карманный', depths:[360,500,600], f:function (W,H,d) { return W*H*(2.5+d/34); }},
+    compact:{name:'Кассетный (компакт, фольга)', depths:[96,146,292], f:function (W,H,d) { return W*H*d/15; }},
+    hepa:{name:'Абсолютный mini-pleat', depths:[78,146,292,600], f:function (W,H,d) { return W*H*d/9; }},
+    vcell:{name:'Клин (V-cell)', depths:[292,600], f:function (W,H,d) { return W*H*d/4.6; }}
+  };
+  var FLTCLS = {panel:['g3p','g4p'], bag:['g4b','m5b','f6b','f7b','f8b','f9b'],
+                compact:['m5b','f6b','f7b','f8b','f9b','e10'], hepa:['e10','h13','h14'], vcell:['e10','h13','h14']};
+
+  function fltCompute() {
+    var L = parseNum(el('engFltL').value);
+    var cl = el('engFltClass').value;
+    var pt = parseNum(el('engFltPt').value) || 80;
+    var bySize = el('engFltMode').value === 'size';
+    var F = 0, sizeInfo = null;
+    if (bySize) {
+      var tp = el('engFltType').value;
+      var dm2 = el('engFltDim').value.split('x');
+      var W = parseFloat(dm2[0]), H = parseFloat(dm2[1]);
+      var d = parseFloat(el('engFltDepth').value);
+      var nSec = Math.max(1, Math.round(parseNum(el('engFltN').value) || 1));
+      var sz = FLTSZ[tp];
+      var Fu = sz.f(W / 1000, H / 1000, d);
+      F = Fu * nSec;
+      sizeInfo = { tp: tp, W: W, H: H, d: d, nSec: nSec, Fu: Fu, name: sz.name };
+    } else {
+      F = parseNum(el('engFltF').value);
+    }
+    if (!(L > 0 && F > 0 && FLTB[cl])) return null;
+    var b = FLTB[cl];
+    var q = L / F;
+    var dp0 = b.a * q + b.b * q * q;
+    var dpc = dp0 * b.k;
+    var v = q / 3600;
+    var disc = b.a * b.a + 4 * b.b * pt;
+    var qRec = (-b.a + Math.sqrt(disc)) / (2 * b.b);
+    var fRec = L / qRec;
+    return { L: L, F: F, cl: cl, b: b, q: q, dp0: dp0, dpc: dpc, v: v, pt: pt, qRec: qRec, fRec: fRec, bySize: bySize, sizeInfo: sizeInfo };
+  }
+
+  el('engFltGo').addEventListener('click', function () {
+    var out = el('engFltOut');
+    var r = fltCompute();
+    if (!r) { out.textContent = 'Укажите расход и площадь фильтрующего материала.'; return; }
+    var ratio = r.fRec > r.F ? 'нужно ещё ×' + nf(r.fRec / r.F, 2) : 'запас ×' + nf(r.F / r.fRec, 2);
+    var sizeTxt = '';
+    var clsWarn = '';
+    if (r.sizeInfo) {
+      sizeTxt = ' · типоразмер: ' + r.sizeInfo.name.toLowerCase() + ' ' + r.sizeInfo.W + '×' + r.sizeInfo.H + '×' + r.sizeInfo.d + ' мм × ' + r.sizeInfo.nSec + ' шт (' + nf(r.sizeInfo.Fu, 2) + ' м²/шт)';
+      if (FLTCLS[r.sizeInfo.tp] && FLTCLS[r.sizeInfo.tp].indexOf(r.cl) < 0) clsWarn = ' Тип фильтра не соответствует выбранному классу — проверьте.';
+    }
+    out.textContent = r.b.name + ' (L = ' + nf(r.L, 0) + ' м³/ч, площадь ' + nf(r.F, 1) + ' м²' + sizeTxt + '): начальное сопротивление ≈ ' + nf(r.dp0, 0) + ' Па (нагрузка ' + nf(r.q, 0) + ' м³/(ч·м²), скорость ' + nf(r.v, 2) + ' м/с); к моменту замены ≈ ' + nf(r.dpc, 0) + ' Па (×' + nf(r.b.k, 1) + ' от начального). Рекомендуемая площадь для ΔP ≤ ' + nf(r.pt, 0) + ' Па: ≈ ' + nf(r.fRec, 1) + ' м² — сейчас ' + nf(r.F, 1) + ' м² (' + ratio + ').' + clsWarn +
+      (r.dp0 > 120 ? ' Начальное сопротивление выше 120 Па — вентилятор должен иметь запас по напору.' : '') +
+      (r.b.b > 1e-5 && r.q > 1200 ? ' Высокая удельная нагрузка для карманного/компактного фильтра (обычно ≤ 1200 м³/(ч·м²)).' : '') +
+      ((r.cl === 'h13' || r.cl === 'h14') && r.q > 600 ? ' Для абсолютных фильтров нормальная удельная нагрузка 250–600 м³/(ч·м²).' : '');
+  });
+
+  el('engFltMode').addEventListener('change', function () {
+    var bySize = el('engFltMode').value === 'size';
+    el('engFltF-f').style.display = bySize ? 'none' : '';
+    el('engFltSize').style.display = bySize ? '' : 'none';
+  });
+  el('engFltType').addEventListener('change', function () {
+    var sz = FLTSZ[el('engFltType').value];
+    el('engFltDepth').innerHTML = sz.depths.map(function (d) { return '<option value="' + d + '"' + (d === sz.depths[0] ? ' selected' : '') + '>' + d + '</option>'; }).join('');
+  });
+
+  /* ---------- 15. ПИ/ПИД-регулятор ---------- */
+  function pidCompute() {
+    var byCurve = el('engPidMode').value === 'curve';
+    var K, T, L;
+    if (byCurve) {
+      var du = parseNum(el('engPidDu').value);
+      var dTv = parseNum(el('engPidDtV').value);
+      var t0 = parseNum(el('engPidT0').value);
+      var t63 = parseNum(el('engPidT63').value);
+      if (!(du > 0 && dTv > 0 && t63 > t0)) return null;
+      K = dTv / du; T = t63 - t0; L = t0;
+    } else {
+      K = parseNum(el('engPidK').value);
+      T = parseNum(el('engPidT').value);
+      L = parseNum(el('engPidL').value);
+      if (!(K > 0 && T > 0 && L >= 0)) return null;
+    }
+    var isPid = el('engPidType').value === 'pid';
+    var Ku = parseNum(el('engPidKu').value), Tu = parseNum(el('engPidTu').value);
+    var lamSet = parseNum(el('engPidLam').value);
+    var range = parseNum(el('engPidRange').value) || 50;
+    var step = parseNum(el('engPidStep').value) || 1;
+    var dur = parseNum(el('engPidDur').value) || 60;
+    var lam = lamSet > 0 ? lamSet : 3 * L;
+    var M = [];
+    function addM(name, Kp, Ti, Td, color) { if (Kp > 0 && Ti > 0) M.push({ name: name, Kp: Kp, Ti: Ti, Td: Td, color: color }); }
+    if (isPid) {
+      addM('CHR 0 % (ПИД)', 0.6*T/(K*L), T, 0.5*L, '#2e7d32');
+      addM('CHR 20 % (ПИД)', 1.2*T/(K*L), 2*L, 0.42*L, '#1565c0');
+    } else {
+      addM('CHR 0 % (ПИ)', 0.35*T/(K*L), 1.2*L, null, '#2e7d32');
+      addM('CHR 20 % (ПИ)', 0.6*T/(K*L), L, null, '#1565c0');
+    }
+    addM('Лямбда/IMC (λ = ' + nf(lam, 1) + ' мин)', T/(K*(lam+L)), T, isPid ? 0.5*L : null, '#6a1b9a');
+    if (Ku > 0 && Tu > 0) {
+      if (isPid) addM('Циглер–Никольс (ПИД)', 0.6*Ku, Tu/2, Tu/8, '#e65100');
+      else addM('Циглер–Никольс (ПИ)', 0.45*Ku, Tu/1.2, null, '#e65100');
+    }
+    if (!M.length) return null;
+    var dt = Math.min(0.05, dur/1500);
+    var n = Math.max(200, Math.round(dur/dt));
+    var nShift = Math.max(1, Math.round(L/dt));
+    var tStep = Math.min(5, dur/8);
+    var curves = M.map(function (m) {
+      var y = new Array(n).fill(0);
+      var u = new Array(n).fill(0);
+      var integ = 0, ePrev = 0, i, e, uu, ud, r;
+      for (i = 1; i < n; i++) {
+        r = (i*dt >= tStep) ? -step : 0;
+        e = r - y[i-1];
+        uu = m.Kp * e;
+        integ += e*dt;
+        uu += m.Kp/m.Ti*integ;
+        if (m.Td) { uu += m.Kp*m.Td*(e - ePrev)/dt; ePrev = e; }
+        u[i] = uu;
+        ud = u[Math.max(0, i - nShift)];
+        y[i] = y[i-1] + (-y[i-1] + K*ud)/T*dt;
+      }
+      var over = null;
+      for (i = Math.round(tStep/dt); i < n; i++) {
+        var dev = y[i] + step;
+        if (dev < 0) over = Math.max(over || 0, -dev/step*100);
+      }
+      var tol = 0.02*step, lastOut = -1;
+      for (i = Math.round(tStep/dt); i < n; i++) {
+        if (Math.abs(y[i] + step) > tol) lastOut = i;
+      }
+      var tSet = lastOut < n - 1 ? (lastOut + 1)*dt : null;
+      return { y: y, over: over, tSet: tSet };
+    });
+    return { K: K, T: T, L: L, M: M, curves: curves, step: step, dur: dur, range: range, isPid: isPid, byCurve: byCurve, dt: dt, n: n, tStep: tStep };
+  }
+
+  function pidDraw(d, cv) {
+    if (!cv || !cv.getContext) return;
+    var ctx = cv.getContext('2d');
+    var W = cv.width, H = cv.height;
+    ctx.clearRect(0, 0, W, H);
+    ctx.font = '12px sans-serif';
+    var ymin = -d.step, ymax = 0;
+    d.curves.forEach(function (c) { c.y.forEach(function (v) { if (v < ymin) ymin = v; if (v > ymax) ymax = v; }); });
+    ymin *= 1.15; ymax = Math.max(ymax, 0.05);
+    var padL = 55, padR = 12, padT = 15, padB = 30;
+    function X(i) { return padL + (W - padL - padR)*i/(d.n - 1); }
+    function Y(v) { return padT + (H - padT - padB)*(ymax - v)/(ymax - ymin); }
+    var k;
+    ctx.strokeStyle = '#e0e0e0'; ctx.fillStyle = '#666'; ctx.lineWidth = 1;
+    for (k = 0; k <= 5; k++) {
+      var v = ymin + (ymax - ymin)*k/5, py = Y(v);
+      ctx.beginPath(); ctx.moveTo(padL, py); ctx.lineTo(W - padR, py); ctx.stroke();
+      ctx.fillText(nf(v, 1), 5, py + 4);
+    }
+    for (k = 0; k <= 6; k++) {
+      var tx = padL + (W - padL - padR)*k/6;
+      ctx.beginPath(); ctx.moveTo(tx, padT); ctx.lineTo(tx, H - padB); ctx.stroke();
+      ctx.fillText(nf(d.dur*k/6, 0), tx - 12, H - padB + 16);
+    }
+    ctx.fillText('мин', W - padR - 28, H - padB + 16);
+    ctx.strokeStyle = '#999'; ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(padL, Y(-d.step)); ctx.lineTo(W - padR, Y(-d.step)); ctx.stroke();
+    ctx.setLineDash([]);
+    d.curves.forEach(function (c, idx) {
+      ctx.strokeStyle = d.M[idx].color; ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      c.y.forEach(function (v, i) { if (i) ctx.lineTo(X(i), Y(v)); else ctx.moveTo(X(0), Y(v)); });
+      ctx.stroke();
+    });
+  }
+
+  function engPidRun() {
+    var out = el('engPidOut');
+    var d = pidCompute();
+    if (!d) { out.textContent = 'Проверьте K, T, L (K > 0, T > 0, L ≥ 0) или данные кривой разгона.'; return; }
+    var txt = 'Модель: K = ' + nf(d.K, 2) + ' °C/%, T = ' + nf(d.T, 1) + ' мин, L = ' + nf(d.L, 1) + ' мин' + (d.byCurve ? ' (из кривой разгона)' : '') + '. ';
+    d.M.forEach(function (m, i) {
+      var c = d.curves[i];
+      txt += m.name + ': Kp = ' + nf(m.Kp, 1) + ' %/°C, Ti = ' + nf(m.Ti*60, 0) + ' с' + (m.Td ? ', Td = ' + nf(m.Td*60, 0) + ' с' : '') + ', Xp ≈ ' + nf(100/m.Kp, 1) + ' °C, перерег. ' + (c.over !== null ? nf(c.over, 0) + ' %' : 'нет') + ', установление ≈ ' + (c.tSet !== null ? nf(c.tSet, 1) + ' мин' : '> ' + nf(d.dur, 0) + ' мин') + '. ';
+    });
+    out.textContent = txt;
+    el('engPidLegend').innerHTML = d.M.map(function (m) {
+      return '<span style="color:' + m.color + '">■</span> ' + m.name;
+    }).join(' &nbsp; ');
+    pidDraw(d, el('engPidCv'));
+  }
+  el('engPidGo').addEventListener('click', engPidRun);
+  engPidRun();
+
+  el('engPidMode').addEventListener('change', function () {
+    var byCurve = el('engPidMode').value === 'curve';
+    ['engPidKF','engPidTF','engPidLF'].forEach(function (id) { el(id).style.display = byCurve ? 'none' : ''; });
+    ['engPidCu','engPidCvW','engPidC0','engPidC3'].forEach(function (id) { el(id).style.display = byCurve ? '' : 'none'; });
+  });
+
+  addRow('acwRowsCompressor', true, 'Компрессор');
+  addRow('acwRowsFans', false, 'Вентилятор');
+  addRow('acwRowsCondenser', true, 'Конденсаторный блок');
+  addRow('acwRowsAuto', false, 'Автоматика');
+  addRow('acwRowsHumid', false, 'Пароувлажнитель');
+
+  /* ---------- отчёты ---------- */
+  function collectRows(sec) {
+    var out = [];
+    el(sec.id).querySelectorAll('.acw-crow').forEach(function (r, i) {
+      var name = r.querySelector('.acw-name').value.trim() || ('строка ' + (i + 1));
+      var q = function (kind) { var e = r.querySelector('.acw-num[data-kind="' + kind + '"]'); return e ? parseNum(e.value) : null; };
+      out.push({ name: name, run: q('run'), start: sec.hasStart ? q('start') : null, max: q('max') });
+    });
+    return out;
+  }
+
+  function gatherData() {
+    var c = computeCurrents();
+    var q = computeQ();
+    var unitName = { kw: 'кВт', btu: 'BTU/h', kcal: 'ккал/ч' }[q.unit];
+    var modeText = { run: 'пусковые + рабочие остальных', max: 'пусковые + максимальные остальных', only: 'только пусковые' }[c.mode];
+    var secs = SECTIONS.map(function (s) { return { title: s.title, hasStart: s.hasStart, rows: collectRows(s) }; });
+    var raw = {
+      sens: el('acwQSens').value.trim() || '—',
+      full: el('acwQFull').value.trim() || '—',
+      power: el('acwQPower').value.trim() || '—',
+      powerFull: el('acwQPowerFull').value.trim() || '—'
+    };
+    return { c: c, q: q, lat: latCompute(), unitName: unitName, modeText: modeText, secs: secs, raw: raw, date: new Date().toLocaleString('ru-RU') };
+  }
+
+  function buildText(d) {
+    var L = [];
+    L.push('ТМ «ИМПУЛЬС» — РАСЧЁТ ПОТРЕБЛЕНИЯ И ХОЛОДОПРОИЗВОДИТЕЛЬНОСТИ КОНДИЦИОНЕРА');
+    L.push('Дата: ' + d.date);
+    L.push('');
+    L.push('СЕТЬ: ' + d.c.phase + ', cos ф = ' + d.c.cos.toFixed(2));
+    L.push('');
+    L.push('КОМПОНЕНТЫ И ТОКИ, А');
+    d.secs.forEach(function (sec) {
+      L.push('');
+      L.push(sec.title + ':');
+      if (!sec.rows.length) L.push('  (нет данных)');
+      sec.rows.forEach(function (r, i) {
+        var s = '  ' + (i + 1) + '. ' + r.name + ':';
+        s += ' рабочий ' + (r.run !== null ? fmt(r.run, 1) : '—');
+        if (sec.hasStart) s += ', пусковой ' + (r.start !== null ? fmt(r.start, 1) : '—');
+        s += ', максимальный ' + (r.max !== null ? fmt(r.max, 1) : '—') + ' А';
+        L.push(s);
+      });
+    });
+    L.push('');
+    L.push('ИТОГИ ПО ТОКАМ');
+    L.push('  Рабочий ток: ' + fmt(d.c.I_run, 1) + ' А (ок. ' + fmt(d.c.pRun, 2) + ' кВт)');
+    L.push('  Максимальный ток: ' + fmt(d.c.I_max, 1) + ' А (ок. ' + fmt(d.c.pMax, 2) + ' кВт; рекомендуемый автомат: ' + (d.c.breaker ? d.c.breaker + ' А' : '—') + ')');
+    L.push('  Пусковой ток: ' + fmt(d.c.I_start, 1) + ' А (формула: ' + d.modeText + ')');
+    L.push('');
+    L.push('ХОЛОДОПРОИЗВОДИТЕЛЬНОСТЬ (ввод в ' + d.unitName + ')');
+    L.push('  Явная (sensible): ' + d.raw.sens + ' ' + d.unitName);
+    L.push('  Полная (total): ' + d.raw.full + ' ' + d.unitName);
+    L.push('  Потребление внутренних потребителей: ' + d.raw.power + ' ' + d.unitName);
+    L.push('  Полное потребление (для EER): ' + d.raw.powerFull + ' ' + d.unitName);
+    L.push('');
+    L.push('РЕЗУЛЬТАТЫ');
+    var line = function (kw) { return (kw > 0 && !d.q.bad) ? fmt(kw, 2) + ' кВт (ок. ' + nf(kw * BTU, 0) + ' BTU/h)' : '—'; };
+    L.push('  Явная: ' + line(d.q.Qs));
+    L.push('  Полная: ' + line(d.q.Qf));
+    L.push('  Чистая (явная - потребление внутренних): ' + line(d.q.Qnet));
+    L.push('  Скрытая (полная - явная): ' + line(d.q.Qlat));
+    L.push('  Доля явной теплоты (SHR): ' + (d.q.shr != null && !d.q.bad ? fmt(d.q.shr * 100, 1) + ' %' : '—'));
+    L.push('  EER (полная / полное потребление): ' + (d.q.eer != null && !d.q.bad ? fmt(d.q.eer, 2) : '—'));
+    L.push('  EER по чистой: ' + (d.q.eerNet != null && !d.q.bad ? fmt(d.q.eerNet, 2) : '—'));
+    if (d.lat) {
+      L.push('');
+      L.push('СКРЫТАЯ ХОЛОДОПРОИЗВОДИТЕЛЬНОСТЬ (по t° и влажности)');
+      L.push('  Расход: ' + nf(d.lat.L, 0) + ' м³/ч; вход ' + fmt(d.lat.t1, 1) + ' °C / ' + fmt(d.lat.rh1, 0) + ' %; P = ' + fmt(d.lat.P, 1) + ' кПа');
+      if (d.lat.mode === 'coil') {
+        L.push('  Поверхность: t_p = ' + fmt(d.lat.tp, 1) + ' °C; F = ' + nf(d.lat.F, 1) + ' м²; K = ' + nf(d.lat.K, 0) + ' Вт/(м²·К); тепловой КПД ' + fmt(d.lat.E * 100, 0) + ' % (NTU = ' + fmt(d.lat.ntU, 2) + ')');
+        L.push('  Выход (расчётный): ' + fmt(d.lat.t2, 1) + ' °C / ' + fmt(d.lat.rh2, 0) + ' %' + (d.lat.dry ? ' — поверхность сухая, скрытая = 0' : ''));
+      } else {
+        L.push('  Выход: ' + fmt(d.lat.t2, 1) + ' °C / ' + fmt(d.lat.rh2, 0) + ' %');
+      }
+      if (d.lat.humidify) {
+        L.push('  Влага растёт (w2 > w1) — увлажнение, осушения нет.');
+      } else {
+        L.push('  w: ' + fmt(d.lat.w1, 2) + ' → ' + fmt(d.lat.w2, 2) + ' г/кг; h: ' + fmt(d.lat.h1, 1) + ' → ' + fmt(d.lat.h2, 1) + ' кДж/кг');
+        L.push('  Точка росы входа: ' + fmt(d.lat.td1, 1) + ' °C (t° выхода ' + fmt(d.lat.t2, 1) + ' °C — ' + (d.lat.t2 < d.lat.td1 ? 'ниже точки росы, осушение' : 'выше точки росы, без осушения') + ')');
+        L.push('  Полная: ' + fmt(d.lat.qTot, 2) + ' кВт; явная: ' + fmt(d.lat.qSens, 2) + ' кВт; СКРЫТАЯ: ' + fmt(d.lat.qLat, 2) + ' кВт');
+        L.push('  Конденсат: ' + fmt(d.lat.cond, 1) + ' л/ч');
+      }
+    }
+    if (d.q.bad) { L.push(''); L.push('  ВНИМАНИЕ: введённые данные противоречивы (см. предупреждение в калькуляторе).'); }
+    L.push('');
+    L.push('Примечание: в потребление для чистой холодопроизводительности включаются потребители,');
+    L.push('рассеивающие тепло в поток воздуха (вентиляторы испарителя, автоматика, пароувлажнитель).');
+    return L.join('\r\n');
+  }
+
+  el('acwBtnTxt').addEventListener('click', function () {
+    var blob = new Blob(['\ufeff' + buildText(gatherData())], { type: 'text/plain;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'raschet_konditsionera.txt';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  });
+
+  function buildReportHtml(d) {
+    var f1 = function (n) { return n === null ? '—' : fmt(n, 1); };
+    var h = '';
+    h += '<h1>ТМ «Импульс» — расчёт потребления и холодопроизводительности кондиционера</h1>';
+    h += '<p class="rdate">Дата: ' + d.date + '</p>';
+    h += '<h3>Сеть</h3><p>' + d.c.phase + ', cos φ = ' + d.c.cos.toFixed(2) + '</p>';
+    h += '<h3>Компоненты и токи, А</h3>';
+    d.secs.forEach(function (sec) {
+      h += '<p><b>' + esc(sec.title) + '</b></p>';
+      if (!sec.rows.length) { h += '<p><i>нет данных</i></p>'; return; }
+      h += '<table><tr><th>Наименование</th><th>Рабочий</th><th>Пусковой</th><th>Максимальный</th></tr>';
+      sec.rows.forEach(function (r) {
+        h += '<tr><td>' + esc(r.name) + '</td>'
+           + '<td class="acw-num">' + f1(r.run) + '</td>'
+           + '<td class="acw-num">' + (sec.hasStart ? f1(r.start) : '—') + '</td>'
+           + '<td class="acw-num">' + f1(r.max) + '</td></tr>';
+      });
+      h += '</table>';
+    });
+    h += '<h3>Итоги по токам</h3>';
+    h += '<div class="acw-big">Рабочий ток: ' + fmt(d.c.I_run, 1) + ' А (≈ ' + fmt(d.c.pRun, 2) + ' кВт)</div>';
+    h += '<div class="acw-big">Максимальный ток: ' + fmt(d.c.I_max, 1) + ' А (≈ ' + fmt(d.c.pMax, 2) + ' кВт; рекомендуемый автомат: ' + (d.c.breaker ? d.c.breaker + ' А' : '—') + ')</div>';
+    h += '<div class="acw-big">Пусковой ток: ' + fmt(d.c.I_start, 1) + ' А (формула: ' + d.modeText + ')</div>';
+    h += '<h3>Холодопроизводительность</h3>';
+    h += '<p>Ввод: явная ' + d.raw.sens + ' ' + d.unitName + ', полная ' + d.raw.full + ' ' + d.unitName
+       + ', потребление внутренних: ' + d.raw.power + ' ' + d.unitName
+       + ', полное потребление: ' + d.raw.powerFull + ' ' + d.unitName + '</p>';
+    if (d.q.bad) h += '<p><b>ВНИМАНИЕ: введённые данные противоречивы (явная превышает полную или чистая отрицательна).</b></p>';
+    h += '<table><tr><th>Параметр</th><th>кВт</th><th>BTU/h</th></tr>';
+    var row = function (t, kw) {
+      var ok = kw > 0 && !d.q.bad;
+      h += '<tr><td>' + t + '</td><td class="acw-num">' + (ok ? fmt(kw, 2) : '—') + '</td><td class="acw-num">' + (ok ? nf(kw * BTU, 0) : '—') + '</td></tr>';
+    };
+    row('Явная (sensible)', d.q.Qs);
+    row('Полная (total)', d.q.Qf);
+    row('Чистая (net) = явная − потребление внутренних', d.q.Qnet);
+    row('Скрытая (latent) = полная − явная', d.q.Qlat);
+    h += '</table>';
+    h += '<p>SHR: ' + (d.q.shr != null && !d.q.bad ? fmt(d.q.shr * 100, 1) + ' %' : '—')
+       + ' · EER (полная / полное потребление): ' + (d.q.eer != null && !d.q.bad ? fmt(d.q.eer, 2) : '—')
+       + ' · EER по чистой: ' + (d.q.eerNet != null && !d.q.bad ? fmt(d.q.eerNet, 2) : '—') + '</p>';
+    if (d.lat) {
+      h += '<h3>Скрытая холодопроизводительность (по t° и влажности)</h3>';
+      h += '<p>Расход: ' + nf(d.lat.L, 0) + ' м³/ч; вход ' + fmt(d.lat.t1, 1) + ' °C / ' + fmt(d.lat.rh1, 0) + ' % RH; P = ' + fmt(d.lat.P, 1) + ' кПа</p>';
+      if (d.lat.mode === 'coil') {
+        h += '<p>Поверхность: t_p = ' + fmt(d.lat.tp, 1) + ' °C; F = ' + nf(d.lat.F, 1) + ' м²; K = ' + nf(d.lat.K, 0) + ' Вт/(м²·К); тепловой КПД ' + fmt(d.lat.E * 100, 0) + ' % (NTU = ' + fmt(d.lat.ntU, 2) + ')</p>';
+        h += '<p>Выход (расчётный): ' + fmt(d.lat.t2, 1) + ' °C / ' + fmt(d.lat.rh2, 0) + ' % RH' + (d.lat.dry ? ' — поверхность сухая, скрытая = 0' : '') + '</p>';
+      } else {
+        h += '<p>Выход: ' + fmt(d.lat.t2, 1) + ' °C / ' + fmt(d.lat.rh2, 0) + ' % RH</p>';
+      }
+      if (d.lat.humidify) {
+        h += '<p>Влага на выходе больше входа (w2 = ' + d.lat.w2.toFixed(2) + ' > w1 = ' + d.lat.w1.toFixed(2) + ' г/кг) — увлажнение, осушения нет.</p>';
+      } else {
+        h += '<table><tr><th>Параметр</th><th>Значение</th></tr>';
+        h += '<tr><td>Влагосодержание w1 → w2</td><td class="acw-num">' + fmt(d.lat.w1, 2) + ' → ' + fmt(d.lat.w2, 2) + ' г/кг</td></tr>';
+        h += '<tr><td>Энтальпия h1 → h2</td><td class="acw-num">' + fmt(d.lat.h1, 1) + ' → ' + fmt(d.lat.h2, 1) + ' кДж/кг</td></tr>';
+        h += '<tr><td>Точка росы входа</td><td class="acw-num">' + fmt(d.lat.td1, 1) + ' °C</td></tr>';
+        h += '<tr><td>Полная мощность</td><td class="acw-num">' + fmt(d.lat.qTot, 2) + ' кВт</td></tr>';
+        h += '<tr><td>Явная мощность</td><td class="acw-num">' + fmt(d.lat.qSens, 2) + ' кВт</td></tr>';
+        h += '<tr><td>СКРЫТАЯ мощность</td><td class="acw-num">' + fmt(d.lat.qLat, 2) + ' кВт</td></tr>';
+        h += '<tr><td>Конденсат</td><td class="acw-num">' + fmt(d.lat.cond, 1) + ' л/ч</td></tr>';
+        h += '</table>';
+      }
+    }
+    h += '<p class="rnote">Примечание: в потребление для чистой холодопроизводительности включаются потребители, рассеивающие тепло в поток воздуха (вентиляторы испарителя, автоматика, пароувлажнитель). Компрессор и наружный конденсаторный блок не вычитаются.</p>';
+    return h;
+  }
+
+  el('acwBtnPdf').addEventListener('click', function () {
+    el('acwReport').innerHTML = buildReportHtml(gatherData());
+    document.body.classList.add('acw-print');
+    window.print();
+  });
+  window.addEventListener('afterprint', function () { document.body.classList.remove('acw-print'); });
+})();
+</script>
+
+<script>
+
+(function () {
+  window.addEventListener('error', function (e) {
+    var el = document.getElementById('jsErrorBanner');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'jsErrorBanner';
+      el.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:3000;max-width:540px;background:#fdeaea;border:1px solid #b03030;border-radius:10px;padding:10px 14px;font:13px/1.4 sans-serif;color:#7a1010;box-shadow:0 6px 20px rgba(0,0,0,.25);';
+      document.body.appendChild(el);
+    }
+    el.textContent = 'Ошибка скрипта на странице: ' + e.message + ' (строка ' + (e.lineno || '?') + ', символ ' + (e.colno || '?') + ')';
+  });
+
+  document.querySelectorAll('main table').forEach(function (tb) {
+    if (!tb.parentElement || tb.parentElement.classList.contains('table-wrap')) return;
+    var w = document.createElement('div');
+    w.className = 'table-wrap';
+    tb.parentNode.insertBefore(w, tb);
+    w.appendChild(tb);
+  });
+})();
+</script>
+
+<script>
+
+/* ============ Инженерный пакет ОВИК (сборка 2.2): калькуляторы 16–25 ============ */
+(function () {
+  'use strict';
+  function el(id) { return document.getElementById(id); }
+  function num(id, def) { var v = parseFloat(String(el(id).value).replace(',', '.')); return isFinite(v) ? v : def; }
+  function f(v, d) { if (!isFinite(v)) return '—'; return v.toLocaleString('ru-RU', { minimumFractionDigits: d, maximumFractionDigits: d }); }
+  function pws(t) { return 611.2 * Math.exp(17.62 * t / (243.12 + t)); }
+
+  /* 16. Психрометрия */
+  function psyRun() {
+    var T = num('engPsyT', 24), rh = num('engPsyRh', 50), P = num('engPsyP', 101.3) * 1000;
+    if (!(T > -60 && T < 80) || rh <= 0 || rh > 100 || P < 50000) { el('engPsyOut').textContent = 'Проверьте входные данные: T от −60 до +80 °C, RH 1–100 %, давление 50–110 кПа.'; return; }
+    var pv = rh / 100 * pws(T);
+    var w = 0.62198 * pv / (P - pv);
+    var h = 1.006 * T + w * (2501 + 1.86 * T);
+    var rho = (P / (287.055 * (T + 273.15))) / (1 + 1.6078 * w);
+    var lnpv = Math.log(pv / 611.2);
+    var td = 243.12 * lnpv / (17.62 - lnpv);
+    var lo = -50, hi = T, tw = T;
+    for (var i = 0; i < 80; i++) {
+      var mid = (lo + hi) / 2;
+      var g = pws(mid) - 0.000662 * P * (T - mid) - pv;
+      if (g < 0) lo = mid; else hi = mid;
+      tw = mid;
+    }
+    el('engPsyOut').textContent = 'Влажный термометр: ' + f(tw, 1) + ' °C · Точка росы: ' + f(td, 1) + ' °C · Влагосодержание: ' + f(w * 1000, 1) + ' г/кг с.в. · Энтальпия: ' + f(h, 1) + ' кДж/кг с.в. · Плотность: ' + f(rho, 3) + ' кг/м³ · Парциальное давление пара: ' + f(pv / 1000, 2) + ' кПа';
+  }
+
+  /* 17. Фреоновая трасса R410A */
+  function pickStd(d) {
+    var std = [9.5, 12.7, 15.9, 19.1, 22.2, 28.6, 34.9, 41.2, 53.9, 66.7, 79.4, 92.5];
+    for (var i = 0; i < std.length; i++) if (std[i] >= d) return std[i];
+    return std[std.length - 1];
+  }
+  function traceRun() {
+    var Q = num('engTraceQ', 40), Ll = num('engTraceLl', 20), Lg = num('engTraceLg', 25), H = num('engTraceH', 10);
+    var kl = num('engTraceKl', 0.03), kg = num('engTraceKg', 0.25);
+    if (!(Q > 0) || Ll < 0 || Lg < 0) { el('engTraceOut').textContent = 'Проверьте мощность и длины (неотрицательные).'; return; }
+    var m = Q / 150; /* кг/с */
+    var dLmin = Math.sqrt(4 * m / (Math.PI * 1050 * 2.0)) * 1000, dLmax = Math.sqrt(4 * m / (Math.PI * 1050 * 0.8)) * 1000;
+    var dSmin = Math.sqrt(4 * m / (Math.PI * 26 * 15)) * 1000, dSmax = Math.sqrt(4 * m / (Math.PI * 26 * 8)) * 1000;
+    var dDmin = Math.sqrt(4 * m / (Math.PI * 80 * 18)) * 1000, dDmax = Math.sqrt(4 * m / (Math.PI * 80 * 10)) * 1000;
+    var loss = kl * Ll + kg * Lg + 0.3 * Math.abs(H);
+    var loops = H > 3 ? Math.ceil(H / 6) : 0;
+    el('engTraceOut').textContent = 'Жидкость: Ø' + f(dLmin, 1) + '–' + f(dLmax, 1) + ' мм (ближайший стандарт Ø' + pickStd(dLmax) + ') · Всасывание: Ø' + f(dSmin, 1) + '–' + f(dSmax, 1) + ' мм (ст. Ø' + pickStd(dSmax) + ') · Нагнетание: Ø' + f(dDmin, 1) + '–' + f(dDmax, 1) + ' мм (ст. Ø' + pickStd(dDmax) + '). Потеря производительности ≈ ' + f(loss, 1) + ' %' + (H > 0 && loops ? ' · масляные петли: ' + loops + ' шт. (каждые ~6 м подъёма)' : '') + '. Значения справочные — сверяйте с таблицами производителя модели.';
+  }
+
+  /* 18. Трубопровод воды/гликоля */
+  function pipeRun() {
+    var Q = num('engPipeQ', 100), dt = num('engPipeDt', 5), L = num('engPipeL', 50);
+    var n90 = num('engPipeN90', 8), nT = num('engPipeNT', 2), kv = num('engPipeKv', 5);
+    var fl = String(el('engPipeFl').value).split(',');
+    var rho = parseFloat(fl[0]), cp = parseFloat(fl[1]), mu = parseFloat(fl[2]);
+    if (!(Q > 0) || !(dt > 0) || L <= 0) { el('engPipeOut').textContent = 'Проверьте мощность, перепад и длину (положительные).'; return; }
+    var m = Q / (cp / 1000 * dt); /* кг/с */
+    var G = m * 3600 / rho; /* м³/ч */
+    var DNs = [[25, 27.1], [32, 35.9], [40, 42.5], [50, 53.5], [65, 69.5], [80, 82.5], [100, 107.1], [125, 130.0], [150, 159.0]];
+    var dn = null, d = null, v = 0;
+    for (var i = 0; i < DNs.length; i++) {
+      d = DNs[i][1] / 1000;
+      v = G / 3600 / (Math.PI * d * d / 4);
+      if (v <= 2.5) { dn = DNs[i][0]; break; }
+    }
+    if (dn === null) { dn = 'более DN150'; d = 0.159; v = G / 3600 / (Math.PI * d * d / 4); }
+    var re = rho * v * d / mu;
+    var lam = re > 2300 ? 0.316 / Math.pow(re, 0.25) : 64 / Math.max(re, 1);
+    var zeta = n90 * 0.9 + nT * 1.8 + kv;
+    var dpLine = lam * (L / d) * rho * v * v / 2 / 1000; /* кПа */
+    var dpArm = zeta * rho * v * v / 2 / 1000;
+    var pperm = dpLine * 1000 / L;
+    el('engPipeOut').textContent = 'Расход: ' + f(G, 1) + ' м³/ч (' + f(m, 2) + ' кг/с) · Выбранный проход: ' + (typeof dn === 'number' ? 'DN' + dn : dn) + ' · скорость ' + f(v, 2) + ' м/с · Потери трения: ' + f(dpLine, 1) + ' кПа (' + f(pperm, 0) + ' Па/м) · Арматура: ' + f(dpArm, 1) + ' кПа · Итого Δp сети: ' + f(dpLine + dpArm, 1) + ' кПа';
+  }
+
+  /* 19. Насос */
+  function pumpRun() {
+    var G = num('engPumpG', 17.2), dp = num('engPumpDp', 80), hs = num('engPumpH', 5), eta = num('engPumpEta', 0.65);
+    if (!(G > 0) || dp < 0 || hs < 0 || !(eta > 0.05 && eta <= 0.95)) { el('engPumpOut').textContent = 'Проверьте расход, потери и КПД (0,2–0,9).'; return; }
+    var H = dp * 1000 / (998 * 9.81) + hs;
+    var Qm = G / 3600;
+    var ph = 998 * 9.81 * Qm * H / 1000;
+    var pe = ph / eta;
+    el('engPumpOut').textContent = 'Напор насоса: ' + f(H, 1) + ' м · Гидравлическая мощность: ' + f(ph, 2) + ' кВт · Электрическая (при КПД ' + f(eta * 100, 0) + ' %): ' + f(pe, 2) + ' кВт · Годовая энергия (8760 ч): ' + f(pe * 8760, 0) + ' кВт·ч. Подбирайте по каталогу с запасом 10–15 %.';
+  }
+
+  /* 20. Расширительный бак */
+  function expRun() {
+    var V = num('engExpV', 500), dt = num('engExpDt', 20), p0 = num('engExpP0', 1.5), pv = num('engExpPv', 4);
+    var eps = parseFloat(String(el('engExpFl').value));
+    if (!(V > 0) || !(dt > 0) || !(p0 > 0) || !(pv > p0)) { el('engExpOut').textContent = 'Проверьте объём, перепад и давления: настройка клапана должна быть выше давления наполнения.'; return; }
+    var dV = V * eps * dt;
+    var Vb = dV * pv / (pv - p0) * 1.1;
+    el('engExpOut').textContent = 'Расширение теплоносителя: ' + f(dV, 1) + ' л · Расчётный объём бака (с запасом 10 %): ' + f(Vb, 1) + ' л. Проверьте минимальное давление на всасе насоса (NPSH) и завоздушивание; при объёме системы более 10 м³ рассмотрите открыто-дыхательный бак или мембранные группы большего номинала.';
+  }
+
+  /* 21. Kvs */
+  function kvsRunQ() {
+    var Q = num('engKvsQ', 17.2), dp = num('engKvsDp', 0.3);
+    if (!(Q > 0) || !(dp > 0)) { el('engKvsOut').textContent = 'Проверьте расход и перепад (положительные).'; return; }
+    var kv = Q / Math.sqrt(dp);
+    el('engKvsOut').textContent = 'Требуемый Kvs: ' + f(kv, 1) + ' → ближайший из ряда: ' + pickKvs(kv) + '. При обратном расчёте: Δp на этом клапане при данном расходе — кнопка «Kvs → перепад».';
+  }
+  function kvsRunK() {
+    var kv = num('engKvsK', 25), Q = num('engKvsQ', 17.2);
+    if (!(kv > 0) || !(Q > 0)) { el('engKvsOut').textContent = 'Проверьте Kvs и расход (положительные).'; return; }
+    var dp = Math.pow(Q / kv, 2);
+    el('engKvsOut').textContent = 'Перепад на клапане Kvs ' + f(kv, 1) + ' при расходе ' + f(Q, 1) + ' м³/ч: ' + f(dp, 3) + ' бар (' + f(dp * 1000, 0) + ' кПа). Авторитет клапана = Δp клапана / Δp контура; цель — 0,3–0,5.';
+  }
+  function pickKvs(kv) {
+    var row = [1.0, 1.6, 2.5, 4, 6.3, 10, 16, 25, 40, 63, 100, 160, 250];
+    for (var i = 0; i < row.length; i++) if (row[i] >= kv) return row[i];
+    return row[row.length - 1];
+  }
+
+  /* 22. Фрикулинг */
+  var REGIONS = {
+    "Москва": [4637, 637, 740, 927],
+    "Санкт-Петербург": [4789, 590, 898, 881],
+    "Екатеринбург": [5037, 618, 739, 862],
+    "Новосибирск": [5117, 571, 685, 785],
+    "Нижний Новгород": [4795, 549, 709, 903],
+    "Казань": [4780, 499, 627, 812],
+    "Самара": [4473, 551, 563, 730],
+    "Ростов-на-Дону": [3670, 614, 713, 501],
+    "Краснодар": [3249, 466, 922, 589],
+    "Красноярск": [5316, 633, 687, 754],
+    "Иркутск": [5296, 637, 712, 798],
+    "Хабаровск": [4771, 492, 583, 738],
+    "Владивосток": [4467, 803, 842, 888],
+    "Тюмень": [5103, 626, 732, 842],
+    "Омск": [4989, 564, 674, 800],
+    "Норильск": [6865, 635, 802, 435],
+    "Якутск": [5849, 480, 510, 578]
+  };
+  function applyRegion() {
+    var r = el('engFreeRegion').value;
+    if (r && REGIONS[r]) {
+      el('engFreeH7').value = REGIONS[r][0];
+      el('engFreeH10').value = REGIONS[r][1];
+      el('engFreeH13').value = REGIONS[r][2];
+      el('engFreeH16').value = REGIONS[r][3];
+    }
+  }
+  function freeRun() {
+    var Q = num('engFreeQ', 100), h7 = num('engFreeH7', 1500), h10 = num('engFreeH10', 1000), h13 = num('engFreeH13', 800), h16 = num('engFreeH16', 700);
+    var cop = num('engFreeCop', 3.5), fan = num('engFreeF', 8) / 100, tar = num('engFreeTar', 8);
+    if (!(Q > 0) || !(cop > 0) || fan < 0 || fan > 1 || tar < 0) { el('engFreeOut').textContent = 'Проверьте нагрузку, COP и тариф (положительные).'; return; }
+    var eth = Q * (h7 * 1 + h10 * 0.85 + h13 * 0.6 + h16 * 0.3); /* кВт·ч тепла */
+    var eel = eth / cop;
+    var rub = eel * tar;
+    el('engFreeOut').textContent = 'Отобрано тепла фрикулингом: ' + f(eth, 0) + ' кВт·ч/год · Сэкономлено электроэнергии компрессоров: ' + f(eel, 0) + ' кВт·ч/год (' + f(eel / 8760 / (Q / cop), 0) + ' % компрессорной мощности) · Экономия: ' + f(rub, 0) + ' ₽/год. Часы заполните по данным площадки (СП 131.13330 или метеостанция).';
+  }
+
+  /* 23. PUE */
+  function pueRun() {
+    var it = num('engPueIt', 1752000), cool = num('engPueCool', 876000), light = num('engPueLight', 35000), other = num('engPueOther', 87000), tar = num('engPueTar', 8);
+    if (!(it > 0) || cool < 0 || light < 0 || other < 0 || tar < 0) { el('engPueOut').textContent = 'Проверьте данные (ИТ-нагрузка — положительная).'; return; }
+    var tot = it + cool + light + other;
+    var pue = tot / it;
+    el('engPueOut').textContent = 'PUE: ' + f(pue, 2) + ' (категория по объёму измерений — см. ГОСТ Р ИСО/МЭК 30134-2) · Доля охлаждения: ' + f(cool / it * 100, 0) + ' % от ИТ · Стоимость охлаждения: ' + f(cool * tar, 0) + ' ₽/год · Всего электроэнергии: ' + f(tot, 0) + ' кВт·ч/год (' + f(tot * tar, 0) + ' ₽/год).';
+  }
+
+  /* 24. Ограждения и инфильтрация */
+  function wallRun() {
+    var A = num('engWallA', 200), U = num('engWallU', 0.35), dt = num('engWallDt', 10), V = num('engWallV', 500), n = num('engWallN', 0.5);
+    if (A < 0 || U < 0 || dt < 0 || V < 0 || n < 0) { el('engWallOut').textContent = 'Проверьте данные (неотрицательные).'; return; }
+    var qw = U * A * dt;
+    var qi = 0.337 * n * V * dt;
+    el('engWallOut').textContent = 'Через ограждения: ' + f(qw, 0) + ' Вт · Инфильтрация: ' + f(qi, 0) + ' Вт · Итого: ' + f((qw + qi) / 1000, 2) + ' кВт явной нагрузки. Для машинных залов ЦОД это обычно доли процента ИТ-нагрузки; критично для серверных в контуре здания и модульных решений.';
+  }
+
+  /* 25. Дренаж конденсата */
+  function drainRun() {
+    var Q = num('engDrainQ', 5), h = num('engDrainH', 24);
+    if (!(Q > 0) || !(h > 0 && h <= 24)) { el('engDrainOut').textContent = 'Проверьте скрытую мощность и часы (1–24).'; return; }
+    var lph = Q * 3600 / 2450;
+    var lday = lph * h;
+    var lyr = lday * 365;
+    el('engDrainOut').textContent = 'Конденсат: ' + f(lph, 1) + ' л/ч · ' + f(lday, 0) + ' л/сутки · ' + f(lyr / 1000, 1) + ' м³/год. Дренаж: сифон обязателен, уклон 1–2 %; при DLC-зонах — вместе с локализацией протечек по СП 541.';
+  }
+
+  el('engPsyGo').addEventListener('click', psyRun);
+  el('engTraceGo').addEventListener('click', traceRun);
+  el('engPipeGo').addEventListener('click', pipeRun);
+  el('engPumpGo').addEventListener('click', pumpRun);
+  el('engExpGo').addEventListener('click', expRun);
+  el('engKvsGoQ').addEventListener('click', kvsRunQ);
+  el('engKvsGoK').addEventListener('click', kvsRunK);
+  el('engFreeGo').addEventListener('click', freeRun);
+  el('engFreeRegion').addEventListener('change', function () { applyRegion(); freeRun(); });
+  el('engPueGo').addEventListener('click', pueRun);
+  el('engWallGo').addEventListener('click', wallRun);
+  el('engDrainGo').addEventListener('click', drainRun);
+  applyRegion();
+  psyRun(); traceRun(); pipeRun(); pumpRun(); expRun(); kvsRunQ(); freeRun(); pueRun(); wallRun(); drainRun();
+})();
+</script>
+
+<script>
+  (function () {
+    var links = document.querySelectorAll('.nav-link');
+    links.forEach(function (a) {
+      a.addEventListener('click', function () {
+        links.forEach(function (x) { x.classList.remove('active'); });
+        a.classList.add('active');
+      });
+    });
+  })();
+</script>
+</body>
+</html>
