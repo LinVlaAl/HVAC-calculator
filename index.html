@@ -2352,6 +2352,223 @@
     });
   })();
 </script>
+<style>
+/* ===== Инженерия · дополнения сборки 2.3 ===== */
+/* ===== Инженерия ОВИК · Fluent Design (Windows 11), нейтрально-синяя гамма (сборка 2.2) ===== */
+:root {
+  --bg:#eef2f7; --card:#ffffff; --soft:#f4f6fa; --line:#e1e6ee;
+  --text:#1f2937; --muted:#5b6b7e;
+  --accent:#0078d4; --accent-dark:#0a4d8c; --accent2:#ffc11e;
+  --accent-hover:#106ebe; --accent-soft:rgba(0,120,212,.08);
+  --shadow-sm: 0 1px 2px rgba(16,32,56,.05), 0 4px 14px rgba(16,32,56,.07);
+  --shadow-md: 0 8px 28px rgba(16,32,56,.14);
+  --ring: 0 0 0 3px rgba(0,120,212,.28);
+}
+body { font-size: 15px; font-family: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "SF Pro Text", sans-serif; }
+h1, .page-title, h2, h3, button, .btn, .lead, .hint { font-family: inherit; }
+.page-title { font-size: 30px; font-weight: 700; letter-spacing: -.4px; margin: 12px 0 8px; color: #1a2330; }
+.lead { font-size: 15px; line-height: 1.6; color: var(--muted); }
+/* шапка */
+.site-header { background: rgba(255,255,255,.85); backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4); box-shadow: 0 1px 0 var(--line); }
+.tm { color: #1a2330; }
+/* карточки */
+.section, .ios-card { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+  padding: 18px 18px 16px; box-shadow: var(--shadow-sm); transition: box-shadow .18s; }
+.section:hover, .ios-card:hover { box-shadow: var(--shadow-md); }
+.section > h2, .ios-card h2 { font-size: 18px; font-weight: 700; margin: 0 0 12px; border: none; padding: 0; color: #1a2330; }
+/* сгруппированные списки */
+.ios-group { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin: 12px 0; background: var(--card); }
+.ios-row { display: flex; align-items: center; gap: 10px; padding: 8px 14px; border-bottom: 1px solid var(--line); background: var(--card); }
+.ios-row:last-child { border-bottom: none; }
+.ios-row .ios-lbl { flex: 1 1 auto; font-size: 13.5px; font-weight: 500; color: var(--text); line-height: 1.4; }
+.ios-row input, .ios-row select { width: 140px; max-width: 46%; text-align: right; border: none; background: transparent;
+  font: inherit; font-size: 15px; color: var(--text); padding: 4px 6px; outline: none; border-radius: 6px; -moz-appearance: textfield; }
+.ios-row input:focus, .ios-row select:focus { background: var(--accent-soft); outline: 2px solid var(--accent); outline-offset: -2px; }
+/* обычные поля — в стиле текстовых боксов Win11 */
+.field { gap: 5px; }
+.field label { font-size: 12px; color: var(--muted); font-weight: 600; }
+.field input, .field select, .field textarea { background: var(--card); border: 1px solid #c9d2de; border-radius: 6px;
+  padding: 8px 12px; font: inherit; font-size: 15px; color: var(--text); outline: none;
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,.04); transition: border-color .14s, box-shadow .14s; }
+.field input:hover, .field select:hover, .field textarea:hover { border-color: #a9b6c6; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); box-shadow: var(--ring); }
+/* кнопки */
+button, .btn { border-radius: 8px; font-weight: 600; }
+button { background: var(--card); border: 1px solid rgba(0,0,0,.12); color: var(--text); padding: 7px 14px;
+  font-size: 13px; transition: background .12s, border-color .12s, box-shadow .12s; }
+button:hover { background: #f7f9fb; border-color: rgba(0,0,0,.18); }
+button:active { background: #eef1f5; transform: scale(.98); }
+.btn { padding: 11px 24px; font-size: 14.5px; border: 1px solid transparent; }
+.btn-yellow { background: var(--accent2); color: #1a2330; border-color: transparent; box-shadow: 0 2px 8px rgba(255,193,30,.4); }
+.btn-yellow:hover { background: #f0b60a; }
+.btn-outline { background: var(--card); color: var(--accent); border: 1px solid rgba(0,120,212,.5); }
+.btn-outline:hover { background: var(--accent-soft); border-color: var(--accent); }
+.io-btn { display: inline-block; border: 1px solid transparent; background: var(--accent); color: #fff;
+  font: inherit; font-weight: 600; font-size: 14px; border-radius: 8px; padding: 10px 22px; cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0,0,0,.12); transition: background .12s, box-shadow .12s, transform .08s; }
+.io-btn:hover { background: var(--accent-hover); box-shadow: 0 2px 8px rgba(0,90,180,.3); }
+.io-btn:active { background: #005a9e; transform: scale(.98); box-shadow: none; }
+.io-btn-ghost { display: inline-block; border: 1px solid rgba(0,0,0,.12); background: var(--card); color: var(--text);
+  font: inherit; font-weight: 600; font-size: 13px; border-radius: 8px; padding: 7px 14px; cursor: pointer;
+  transition: background .12s, border-color .12s, color .12s; }
+.io-btn-ghost:hover { background: #f6f8fb; border-color: rgba(0,0,0,.2); }
+.io-btn-ghost:active { background: #eef1f5; }
+.io-row-btns { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 12px; align-items: center; }
+.io-out { background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px;
+  font-size: 14px; line-height: 1.6; margin-top: 12px; white-space: pre-line; }
+.io-out b { color: var(--accent); }
+.io-out .io-warn { color: #c42b1c; font-weight: 700; }
+.io-out .io-ok { color: #0f7b3d; font-weight: 700; }
+/* сегмент-контрол */
+.seg-bar { flex-basis: 100%; order: 5; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none;
+  background: rgba(0,0,0,.05); border: none; border-radius: 9px; padding: 3px; margin-top: 8px; -webkit-overflow-scrolling: touch; }
+.seg-bar::-webkit-scrollbar { display: none; }
+.seg-item { flex: 1 0 auto; border: none; background: transparent; color: var(--muted); border-radius: 7px;
+  padding: 7px 13px; font-size: 12.5px; font-weight: 600; cursor: pointer; white-space: nowrap;
+  text-align: center; box-shadow: none; transition: all .15s; }
+.seg-item:hover { color: var(--text); }
+.seg-item:active { background: rgba(0,0,0,.05); }
+.seg-item.active { background: var(--card); color: var(--accent); box-shadow: 0 1px 4px rgba(16,32,56,.16); }
+/* панель действий */
+.eng-actions { display: flex; gap: 9px; flex-wrap: wrap; margin: 14px 0 4px; align-items: center; }
+.eng-chips { display: flex; gap: 8px; overflow-x: auto; padding: 8px 0 8px; scrollbar-width: none; flex-basis: 100%; }
+.eng-chips::-webkit-scrollbar { display: none; }
+.eng-chip { flex: 0 0 auto; background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+  padding: 6px 13px; font-size: 12.5px; font-weight: 600; color: var(--accent); cursor: pointer; white-space: nowrap;
+  transition: all .14s; }
+.eng-chip:hover { background: var(--accent-soft); border-color: rgba(0,120,212,.4); }
+.help-i { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px;
+  border-radius: 50%; background: var(--card); border: 1px solid rgba(0,0,0,.14); color: var(--accent);
+  font-size: 10.5px; font-weight: 800; cursor: pointer; flex: 0 0 auto; margin-left: 6px; user-select: none;
+  vertical-align: 1px; transition: all .13s; }
+.help-i:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+/* нижние листы */
+.io-sheet-bg { position: fixed; inset: 0; background: rgba(24,32,44,.4); z-index: 5000; display: none;
+  align-items: flex-end; justify-content: center; backdrop-filter: blur(2px); }
+.io-sheet-bg.open { display: flex; }
+.io-sheet { background: #f7f9fc; width: 100%; max-width: 640px; max-height: 84vh; overflow-y: auto;
+  border: 1px solid var(--line); border-radius: 12px 12px 0 0; padding: 16px 22px 30px;
+  box-shadow: 0 -8px 48px rgba(16,32,56,.3); animation: iosUp .2s cubic-bezier(.2,.8,.3,1); overscroll-behavior: contain; }
+@media (min-width: 640px) { .io-sheet-bg { align-items: center; padding: 24px; }
+  .io-sheet { border-radius: 10px; padding-bottom: 20px; box-shadow: 0 24px 64px rgba(16,32,56,.28); } }
+@keyframes iosUp { from { transform: translateY(24px); opacity: .35; } to { transform: none; opacity: 1; } }
+.io-sheet .io-grab { width: 36px; height: 4px; border-radius: 2px; background: rgba(0,0,0,.16); margin: 0 auto 12px; }
+.io-sheet h3 { margin: 0 0 10px; color: #1a2330; font-size: 18px; font-weight: 700; }
+.io-sheet .io-close { position: sticky; top: 0; float: right; border: 1px solid rgba(0,0,0,.12); background: var(--card);
+  border-radius: 50%; width: 30px; height: 30px; font-size: 13px; cursor: pointer; color: var(--muted); }
+.io-sheet .io-close:hover { background: #f0f2f6; }
+.io-sheet h4 { margin: 16px 0 6px; font-size: 11.5px; color: var(--accent); font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
+.io-sheet p, .io-sheet li { font-size: 13.5px; line-height: 1.6; }
+.io-sheet ul { margin: 4px 0; padding-left: 20px; }
+.io-sheet .io-f { background: #eef1f6; border: 1px solid #e1e6ee; border-radius: 8px; padding: 9px 13px; margin: 6px 0;
+  font-family: "Cascadia Mono", Consolas, ui-monospace, monospace; font-size: 12.5px; line-height: 1.55;
+  overflow-x: auto; white-space: pre-wrap; color: #1a2330; }
+.io-sheet .io-norm { display: inline-block; background: var(--accent-soft); border: 1px solid rgba(0,120,212,.25);
+  border-radius: 5px; padding: 4px 10px; font-size: 11.5px; font-weight: 600; color: var(--accent); margin: 3px 5px 3px 0; }
+.io-sheet .io-norm-note { font-size: 12.5px; color: var(--muted); margin-top: 10px; line-height: 1.5; }
+/* чек-лист */
+.ckl-row { display: flex; align-items: center; gap: 11px; padding: 9px 14px; border-bottom: 1px solid var(--line); font-size: 13.5px; cursor: pointer; }
+.ckl-row:last-child { border-bottom: none; }
+.ckl-row input { width: 18px; height: 18px; accent-color: var(--accent); }
+.ckl-row.done .ckl-t { text-decoration: line-through; color: var(--muted); }
+.ckl-bar { height: 5px; border-radius: 3px; background: rgba(0,0,0,.07); margin: 10px 0; overflow: hidden; }
+.ckl-bar > div { height: 100%; background: var(--accent); width: 0; transition: width .35s; border-radius: 3px; }
+/* таблицы — светлая шапка в духе Win11 DataGrid */
+table { border-collapse: collapse; }
+th { background: #eef3f9; color: #24344d; font-weight: 700; border: 1px solid #dde4ee; }
+td { border: 1px solid #e6ebf2; }
+tr.sel-best td { background: rgba(255,193,30,.16) !important; }
+.table-wrap { border-radius: 8px; overflow: auto; background: var(--card); border: 1px solid var(--line); }
+.table-wrap table { background: transparent; }
+/* тёмная тема */
+body.dark { color-scheme: dark; background: #171c24; color: #e6ecf2; }
+body.dark {
+  --bg:#171c24; --card:#212832; --soft:#1a2029; --line:#2c3440;
+  --text:#e6ecf2; --muted:#9aa7b5;
+  --accent:#4cc2ff; --accent-hover:#2f9fe0; --accent-dark:#9fd4ff; --accent2:#ffc11e; --accent-soft:rgba(76,194,255,.12);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.4), 0 4px 14px rgba(0,0,0,.3);
+  --shadow-md: 0 8px 28px rgba(0,0,0,.5);
+  --ring: 0 0 0 3px rgba(76,194,255,.3);
+}
+body.dark .site-header { background: rgba(28,34,44,.85); box-shadow: 0 1px 0 #2c3440; }
+body.dark .tm, body.dark .page-title { color: #eef4fa; }
+body.dark .page-title { color: #eef4fa; }
+body.dark .section > h2, body.dark h2, body.dark h3, body.dark .ios-card h2 { color: #dfe9f2; border-color: transparent; }
+body.dark nav.main-nav a { color: #e6ecf2; }
+body.dark nav.main-nav a:hover { color: #ffc11e; }
+body.dark nav.main-nav a.active { color: #fff; background: rgba(76,194,255,.18); }
+body.dark .lead { color: #9aa7b5; }
+body.dark #xsTheme { background: rgba(255,255,255,.06); border-radius: 50%; }
+body.dark table { background: transparent; }
+body.dark th { background: #262e3a; color: #dfe9f2; border-color: #2c3440; }
+body.dark td { border-color: #2c3440; }
+body.dark tr:nth-child(even) td { background: rgba(255,255,255,.02); }
+body.dark tbody tr:hover td { background: rgba(76,194,255,.08) !important; }
+body.dark tr.sel-best td { background: rgba(255,193,30,.14) !important; }
+body.dark .card p { color: #c6d3df; }
+body.dark .st-ok { color: #6fd68a; }
+body.dark .st-warn { color: #ffd066; }
+body.dark .st-bad, body.dark .ci-del, body.dark .acw-err, body.dark .acw-tile.acw-hot .acw-val { color: #ff8f8f; }
+body.dark .warn { background: #3a2f10; color: #ffe9a8; }
+body.dark input, body.dark select, body.dark textarea { background: #1a2029; color: #e6ecf2; border-color: #38424f; }
+body.dark .field input, body.dark .field select, body.dark .field textarea { background: #1a2029; color: #e6ecf2; border-color: #38424f; }
+body.dark .field input:focus, body.dark .field select:focus { border-color: var(--accent); box-shadow: var(--ring); }
+body.dark .ios-row input:focus { background: rgba(76,194,255,.1); outline: 2px solid var(--accent); outline-offset: -2px; }
+body.dark .field input[readonly], body.dark input[readonly], body.dark textarea[readonly],
+body.dark select[disabled], body.dark input:disabled, body.dark select:disabled { color: #7f93a8; opacity: .75; }
+body.dark .ap-block label input { background: #1a2029; color: #e6ecf2; border-color: #38424f; }
+body.dark input[type="checkbox"], body.dark input[type="radio"] { accent-color: #4cc2ff; }
+body.dark button:not(.btn):not(.btn-yellow):not(.io-btn):not(.io-btn-ghost):not(.seg-item):not(.io-close):not(#xsTheme):not(.help-i):not(.eng-chip) {
+  background: #262e3a; color: #e6ecf2; border-color: #38424f; }
+body.dark button:hover { background: #2e3846; }
+body.dark .btn-outline { background: transparent; color: #4cc2ff; border-color: rgba(76,194,255,.5); }
+body.dark .add-cart-btn { background: #262e3a; color: #e6ecf2; border-color: #38424f; }
+body.dark .io-btn { background: #2f7fd4; color: #fff; }
+body.dark .io-btn:hover { background: #4cc2ff; color: #10222e; }
+body.dark .btn-yellow { background: #ffc11e; color: #1a2330; }
+body.dark .io-btn-ghost { background: #262e3a; color: #e6ecf2; border-color: #38424f; }
+body.dark .io-btn-ghost:hover { background: #2e3846; }
+body.dark .io-out { background: #1a2029; border-color: #2c3440; color: #e6ecf2; }
+body.dark .io-out b { color: #4cc2ff; }
+body.dark .io-out .io-ok { color: #6fd68a; }
+body.dark .io-out .io-warn { color: #ff8f8f; }
+body.dark .seg-bar { background: rgba(255,255,255,.06); }
+body.dark .seg-item.active { background: #323c4a; color: #4cc2ff; box-shadow: 0 1px 4px rgba(0,0,0,.4); }
+body.dark .io-sheet { background: #20262f; color: #e6ecf2; border-color: #2c3440; box-shadow: 0 -8px 48px rgba(0,0,0,.6); }
+body.dark .io-sheet h3 { color: #eef4fa; }
+body.dark .io-sheet .io-f { background: #1a2029; border-color: #2c3440; color: #dfe9f2; }
+body.dark .io-sheet .io-norm { background: rgba(76,194,255,.12); border-color: rgba(76,194,255,.3); color: #4cc2ff; }
+body.dark .io-sheet .io-close { background: #262e3a; color: #e6ecf2; border-color: #38424f; }
+body.dark .io-sheet .io-grab { background: rgba(255,255,255,.2); }
+body.dark .help-i { background: #212832; border-color: #38424f; color: #4cc2ff; }
+body.dark .help-i:hover { background: #4cc2ff; border-color: #4cc2ff; color: #10222e; }
+body.dark .eng-chip { background: #212832; border-color: #2c3440; color: #4cc2ff; }
+body.dark .ckl-row.done .ckl-t { color: #64788c; }
+body.dark .table-wrap { background: #212832; border-color: #2c3440; }
+body.dark footer.site-footer { background: #10141b; }
+#xsTheme { background: none; border: none; cursor: pointer; font-size: 15px; padding: 6px 10px; color: var(--accent); font: inherit; box-shadow: none; }
+.ckl-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 2px; }
+.ckl-cnt { font-size: 13.5px; font-weight: 700; color: var(--accent); }
+.ckl-row .ckl-t { font-size: 13.5px; line-height: 1.45; }
+.ckl-row .ckl-t b { color: var(--accent-dark); margin-right: 2px; }
+/* кнопка «вверх» */
+#engTop { position: fixed; right: 18px; bottom: 26px; z-index: 4000; width: 44px; height: 44px; border-radius: 12px;
+  background: var(--accent); color: #fff; font-size: 20px; font-weight: 700; border: none; cursor: pointer;
+  opacity: 0; visibility: hidden; transform: translateY(14px); transition: opacity .25s, transform .25s, background .15s;
+  box-shadow: 0 4px 16px rgba(0,90,180,.35); padding: 0; line-height: 1; }
+#engTop.show { opacity: 1; visibility: visible; transform: none; }
+#engTop:hover { background: var(--accent-hover); }
+#engTop:active { transform: scale(.96); }
+@media (max-width: 720px) { #engTop { bottom: 78px; right: 14px; } }
+/* печать отчёта */
+#printEng { display: none; }
+body.print-eng main, body.print-eng .site-header, body.print-eng footer.site-footer { display: none !important; }
+body.print-eng #printEng { display: block; }
+@media print { .io-sheet-bg, .seg-bar { display: none !important; } }
+/* мобильная сетка новых калькуляторов — 2 колонки, как у нативных */
+@media (max-width: 720px) { .grid-4 { grid-template-columns: 1fr 1fr; } .io-out { font-size: 13.5px; } }
+
+</style>
 <script>
 /* ===== Инженерия ОВИК · данные справок, инструкций и нормативов ===== */
 window.ENG_HELP = {
@@ -3031,28 +3248,48 @@ var CHECKLIST = [
 function calcSection(c, idx) {
   var s = document.createElement("section");
   s.className = "section eng-calc"; s.id = "eng-calc-" + c.k; s.setAttribute("data-cat", c.cat);
-  var h = '<h2>' + esc(c.title) + '</h2><div class="io-row-btns" style="margin:0 0 10px;">' +
-    '<button type="button" class="io-btn-ghost" data-instr="' + c.k + '">ℹ️ Инструкция</button>' +
-    '<button type="button" class="io-btn-ghost" data-share="' + c.k + '">⧉ Поделиться</button>' +
-    '<button type="button" class="io-btn-ghost" data-rep="' + c.k + '">📄 В отчёт</button></div>';
-  var grp = '<div class="ios-group">';
+  /* та же сетка, что у нативных калькуляторов: колонки по числу полей */
+  var cols = c.fields.length <= 2 ? "grid" : (c.fields.length <= 3 ? "grid grid-3" : "grid grid-4");
+  var h = '<h2>' + esc(c.title) + '</h2><div class="' + cols + '">';
   c.fields.forEach(function (f) {
     var def = f.d; if (f.obj && (!def || def === 0) && OBJ[f.obj] != null) def = OBJ[f.obj];
+    var inp;
     if (f.t === "sel") {
-      grp += '<div class="ios-row"><span class="ios-lbl">' + esc(f.l) +
-        '<span class="help-i" data-h="' + esc(f.k) + '" data-calc="' + c.k + '">i</span></span>' +
-        '<select id="x_' + f.k + '">' + f.opts.map(function (o) { return '<option' + (o === f.d ? " selected" : "") + '>' + esc(o) + '</option>'; }).join('') + '</select></div>';
+      inp = '<select id="x_' + f.k + '">' + f.opts.map(function (o) { return '<option' + (o === f.d ? " selected" : "") + '>' + esc(o) + '</option>'; }).join('') + '</select>';
     } else {
-      grp += '<div class="ios-row"><span class="ios-lbl">' + esc(f.l) +
-        '<span class="help-i" data-h="' + esc(f.k) + '" data-calc="' + c.k + '">i</span></span>' +
-        '<input type="' + (f.t === "text" ? "text" : "number") + '" id="x_' + f.k + '" value="' + esc(def) + '"' +
-        (f.t === "number" ? ' step="any"' : '') + '></div>';
+      inp = '<input type="' + (f.t === "text" ? "text" : "number") + '" id="x_' + f.k + '" value="' + esc(def) + '"' + (f.t === "number" ? ' step="any"' : '') + '>';
     }
+    h += '<div class="field"><label>' + esc(f.l) +
+      '<span class="help-i" data-h="' + esc(f.k) + '" title="Справка">?</span></label>' + inp + '</div>';
   });
-  grp += '</div>';
-  s.innerHTML = h + grp + '<div class="io-row-btns"><button type="button" class="io-btn" data-run="' + c.k + '">Рассчитать</button></div>' +
-    '<div class="io-out" id="out_' + c.k + '">Нажмите «Рассчитать».</div>';
+  h += '</div>';
+  h += '<div class="btn-row" style="margin-top:12px;">' +
+    '<button type="button" class="btn btn-yellow" data-run="' + c.k + '">Рассчитать</button>' +
+    '<button type="button" class="btn btn-outline" data-instr="' + c.k + '">ℹ️ Инструкция</button>' +
+    '<button type="button" class="btn btn-outline" data-share="' + c.k + '">⧉ Поделиться</button>' +
+    '<button type="button" class="btn btn-outline" data-rep="' + c.k + '">📄 В отчёт</button></div>';
+  h += '<div class="io-out" id="out_' + c.k + '">Нажмите «Рассчитать».</div>';
+  s.innerHTML = h;
+  /* прямые привязки — работают независимо от делегирования */
+  var runBtn = s.querySelector('[data-run="' + c.k + '"]');
+  if (runBtn) runBtn.addEventListener("click", function () { runCalc(c.k); });
+  s.querySelectorAll("[data-instr]").forEach(function (b) { b.addEventListener("click", function () { openInstr(b.getAttribute("data-instr")); }); });
+  s.querySelectorAll("[data-share]").forEach(function (b) { b.addEventListener("click", function () { shareLink(b.getAttribute("data-share")); }); });
+  s.querySelectorAll("[data-rep]").forEach(function (b) { b.addEventListener("click", function () { addToReport(b.getAttribute("data-rep")); }); });
+  s.querySelectorAll(".help-i").forEach(function (sp) {
+    sp.addEventListener("click", function (ev) {
+      ev.stopPropagation();
+      var fk = sp.getAttribute("data-h");
+      var txt = null;
+      c.fields.forEach(function (f) { if (f.k === fk) txt = f.help; });
+      sheet("<h3>Что это и зачем</h3><p>" + esc(txt || "Параметр входит в формулу расчёта — см. «ℹ️ Инструкция» на карточке.") + "</p>");
+    });
+  });
   return s;
+}
+function addToReport(k) {
+  if (LAST[k] && REPORT.indexOf(k) < 0) REPORT.push(k), lsw("eng_report_v1", REPORT);
+  sheet("<h3>В отчёт</h3><p>«" + esc(LAST[k] ? LAST[k].title : k) + "» добавлен в отчёт. Собрать и распечатать — кнопка «📄 Отчёт» вверху страницы.</p>");
 }
 
 /* ---------- нижний лист ---------- */
@@ -3278,20 +3515,42 @@ function checklistSection() {
   var state = ls("eng_ckl_v1") || {};
   var rows = CHECKLIST.map(function (it, i) {
     var on = state[i] ? " checked" : "";
-    return '<label class="ckl-row' + (state[i] ? " done" : "") + '"><input type="checkbox" data-ckl="' + i + '"' + on + '><span class="ckl-t">' + (i + 1) + ". " + esc(it[0]) + '</span></label>';
+    return '<label class="ckl-row' + (state[i] ? " done" : "") + '"><input type="checkbox" data-ckl="' + i + '"' + on + '>' +
+      '<span class="ckl-t"><b>' + (i + 1) + '.</b> ' + esc(it[0]) + '</span></label>';
   }).join("");
-  s.innerHTML = '<h2>44. Чек-лист пусконаладки</h2><div class="ckl-bar"><div id="cklBar"></div></div><div class="ios-group" id="cklRows">' + rows + '</div>' +
+  s.innerHTML = '<h2>44. Чек-лист пусконаладки</h2>' +
+    '<div class="ckl-head"><span class="ckl-cnt" id="cklCnt"></span>' +
+    '<button type="button" class="io-btn-ghost" id="cklReset">Сбросить всё</button></div>' +
+    '<div class="ckl-bar"><div id="cklBar"></div></div>' +
+    '<div class="ios-group" id="cklRows">' + rows + '</div>' +
     '<div class="io-row-btns"><button type="button" class="io-btn-ghost" id="cklExport">Экспорт чек-листа (TXT)</button></div>';
+  var barEl = s.querySelector("#cklBar"), cntEl = s.querySelector("#cklCnt");
+  function upd() {
+    var st = ls("eng_ckl_v1") || {};
+    var n = CHECKLIST.filter(function (_, i) { return st[i]; }).length;
+    if (barEl) barEl.style.width = Math.round(n / CHECKLIST.length * 100) + "%";
+    if (cntEl) cntEl.textContent = "Готово " + n + " из " + CHECKLIST.length + " · " + Math.round(n / CHECKLIST.length * 100) + "%";
+  }
   s.querySelectorAll("[data-ckl]").forEach(function (cb) {
     cb.addEventListener("change", function () {
       var st = ls("eng_ckl_v1") || {};
       st[cb.getAttribute("data-ckl")] = cb.checked;
       lsw("eng_ckl_v1", st);
       cb.closest(".ckl-row").classList.toggle("done", cb.checked);
-      cklBar();
+      upd();
     });
   });
-  byId("cklExport").addEventListener("click", function () {
+  var rsBtn = s.querySelector("#cklReset");
+  if (rsBtn) rsBtn.addEventListener("click", function () {
+    if (!confirm("Сбросить все отметки чек-листа?")) return;
+    lsw("eng_ckl_v1", {});
+    s.querySelectorAll("[data-ckl]").forEach(function (cb) {
+      cb.checked = false; cb.closest(".ckl-row").classList.remove("done");
+    });
+    upd();
+  });
+  var exBtn = s.querySelector("#cklExport");
+  if (exBtn) exBtn.addEventListener("click", function () {
     var st = ls("eng_ckl_v1") || {};
     var txt = "ЧЕК-ЛИСТ ПНР · Инженерия ОВИК · " + new Date().toLocaleString("ru-RU") + " · автор LinVlaAL\n\n" +
       CHECKLIST.map(function (it, i) { return (st[i] ? "[x]" : "[ ]") + " " + (i + 1) + ". " + it[0]; }).join("\n");
@@ -3299,13 +3558,8 @@ function checklistSection() {
     a.href = URL.createObjectURL(new Blob([txt], { type: "text/plain;charset=utf-8" }));
     a.download = "pnr_checklist.txt"; a.click();
   });
-  function cklBar() {
-    var st = ls("eng_ckl_v1") || {};
-    var n = CHECKLIST.filter(function (_, i) { return st[i]; }).length;
-    var bar = byId("cklBar");
-    if (bar) bar.style.width = Math.round(n / CHECKLIST.length * 100) + "%";
-  }
-  cklBar();
+  function n() { var st = ls("eng_ckl_v1") || {}; return CHECKLIST.filter(function (_, i) { return st[i]; }).length; }
+  upd();
   return s;
 }
 
@@ -3342,19 +3596,35 @@ function initTheme() {
   var saved = null; try { saved = localStorage.getItem("eng_theme"); } catch (e) {}
   function apply(dark) { document.body.classList.toggle("dark", dark); }
   apply(saved === "dark" || (saved == null && window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches));
-  var nav = document.querySelector(".main-nav");
-  if (nav) {
-    var b = document.createElement("button");
-    b.type = "button"; b.id = "xsTheme"; b.className = "nav-link";
-    function sync() { b.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙"; }
-    sync();
-    b.addEventListener("click", function () {
-      var dark = !document.body.classList.contains("dark");
-      apply(dark); try { localStorage.setItem("eng_theme", dark ? "dark" : "light"); } catch (e) {}
-      sync();
-    });
-    nav.appendChild(b);
+  var b = byId("xsTheme");
+  if (!b) {
+    b = document.createElement("button");
+    b.type = "button"; b.id = "xsTheme"; b.title = "Светлая / тёмная тема"; b.setAttribute("aria-label", "Переключить тему");
+    var host = document.querySelector(".site-header .header-in");
+    if (host) host.appendChild(b); else document.body.appendChild(b);
   }
+  function sync() { b.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙"; }
+  sync();
+  b.onclick = function () {
+    var dark = !document.body.classList.contains("dark");
+    apply(dark); try { localStorage.setItem("eng_theme", dark ? "dark" : "light"); } catch (e) {}
+    sync();
+  };
+}
+function initTop() {
+  var b = document.createElement("button");
+  b.type = "button"; b.id = "engTop"; b.title = "Вверх"; b.setAttribute("aria-label", "Прокрутить вверх");
+  b.textContent = "↑";
+  b.addEventListener("click", function () {
+    try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (e) { window.scrollTo(0, 0); }
+  });
+  document.body.appendChild(b);
+  function onScroll() {
+    var y = window.scrollY || document.documentElement.scrollTop || 0;
+    b.classList.toggle("show", y > 420);
+  }
+  try { window.addEventListener("scroll", onScroll, { passive: true }); } catch (e) { window.addEventListener("scroll", onScroll); }
+  onScroll();
 }
 function initPwa() {
   var m = { name: "Инженерия ОВИК — калькуляторы", short_name: "Инженерия", start_url: "./", display: "standalone", background_color: "#ffffff", theme_color: "#0a3d6b", icons: [{ src: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="36" fill="#0a3d6b"/><text x="96" y="128" font-size="84" font-family="Arial" font-weight="bold" fill="#ffc11e" text-anchor="middle">И</text></svg>'), sizes: "192x192", type: "image/svg+xml", purpose: "any maskable" }] };
@@ -3379,47 +3649,59 @@ function decorateExisting() {
     btns.innerHTML = '<button type="button" class="io-btn-ghost" data-instr-key="' + esc(title) + '">ℹ️ Инструкция</button>' +
       '<button type="button" class="io-btn-ghost" data-share-sec="' + esc(num) + '">⧉ Поделиться</button>';
     h2.parentNode.insertBefore(btns, h2.nextSibling);
+    var bi = btns.querySelector("[data-instr-key]");
+    if (bi) bi.addEventListener("click", function () { openInstr(title); });
+    var bs = btns.querySelector("[data-share-sec]");
+    if (bs) bs.addEventListener("click", function () { shareLink(num); });
     sec.querySelectorAll(".field").forEach(function (f) {
       var lbl = f.querySelector("label");
       if (!lbl) return;
       var inp = f.querySelector("input,select");
       var hid = inp && inp.id ? inp.id : "";
       var sp = document.createElement("span");
-      sp.className = "help-i"; sp.textContent = "i"; sp.setAttribute("data-help", hid);
+      sp.className = "help-i"; sp.textContent = "?"; sp.title = "Справка";
+      sp.addEventListener("click", function (ev) {
+        ev.stopPropagation();
+        openHelp(hid);
+      });
       lbl.appendChild(sp);
     });
   });
   document.addEventListener("click", function (e) {
     var h = e.target.closest && e.target.closest("[data-help]");
     if (h) { e.stopPropagation(); openHelp(h.getAttribute("data-help")); return; }
-    var hi = e.target.closest && e.target.closest(".help-i[data-calc]");
-    if (hi) { e.stopPropagation(); openHelp(hi.getAttribute("data-calc") + ":" + hi.getAttribute("data-h")); return; }
   }, true);
 }
 
 /* ---------- сегменты-категории ---------- */
 function initSegments() {
+  /* сегмент-контрол — в шапку сайта */
+  var seg = document.createElement("div");
+  seg.className = "seg-bar"; seg.id = "segBar";
+  seg.innerHTML = CATS.map(function (c) { return '<button type="button" class="seg-item' + (c[0] === "all" ? " active" : "") + '" data-cat="' + c[0] + '">' + c[1] + '</button>'; }).join("");
+  var headerIn = document.querySelector(".site-header .header-in");
+  if (headerIn) headerIn.appendChild(seg);
+  /* панель действий + журнал — после интро на странице */
   var bar = document.createElement("div");
-  bar.className = "eng-top";
-  bar.innerHTML = '<div class="seg-bar" id="segBar">' + CATS.map(function (c) { return '<button type="button" class="seg-item' + (c[0] === "all" ? " active" : "") + '" data-cat="' + c[0] + '">' + c[1] + '</button>'; }).join("") + '</div>' +
-    '<div class="io-row-btns" style="margin:4px 0 2px">' +
-    '<button type="button" class="io-btn-ghost" id="btnObj">📦 Объект</button>' +
+  bar.className = "eng-actions";
+  bar.innerHTML = '<button type="button" class="io-btn-ghost" id="btnObj">📦 Объект</button>' +
     '<button type="button" class="io-btn-ghost" id="btnProj">📁 Проекты</button>' +
     '<button type="button" class="io-btn-ghost" id="btnRep">📄 Отчёт</button>' +
-    '<button type="button" class="io-btn-ghost" id="btnDemo">🎓 Демо-задачи</button></div>' +
+    '<button type="button" class="io-btn-ghost" id="btnDemo">🎓 Демо-задачи</button>' +
     '<div class="eng-chips" id="engChips"></div>';
   var page = byId("page-eng");
   var lead = page.querySelector(".lead");
   if (lead && lead.parentNode) lead.parentNode.insertBefore(bar, lead.nextSibling);
   else page.insertBefore(bar, page.firstChild);
-  bar.querySelectorAll("[data-cat]").forEach(function (b) {
+  seg.querySelectorAll("[data-cat]").forEach(function (b) {
     b.addEventListener("click", function () {
-      bar.querySelectorAll("[data-cat]").forEach(function (x) { x.classList.remove("active"); });
+      seg.querySelectorAll("[data-cat]").forEach(function (x) { x.classList.remove("active"); });
       b.classList.add("active");
       var cat = b.getAttribute("data-cat");
       document.querySelectorAll("#page-eng .section").forEach(function (s) {
         s.style.display = (cat === "all" || s.getAttribute("data-cat") === cat) ? "" : "none";
       });
+      if (cat !== "all") { var first = document.querySelector('#page-eng .section[data-cat="' + cat + '"]'); if (first) window.scrollTo({ top: first.getBoundingClientRect().top + window.scrollY - 90, behavior: "smooth" }); }
     });
   });
   byId("btnObj").onclick = objSheet;
@@ -3430,6 +3712,7 @@ function initSegments() {
 
 /* ---------- глобальные обработчики ---------- */
 function bindEvents() {
+  /* прямые привязки выполняются в calcSection и decorateExisting; здесь — только подстраховка делегированием */
   document.addEventListener("click", function (e) {
     var t;
     if ((t = e.target.closest && e.target.closest("[data-run]"))) { runCalc(t.getAttribute("data-run")); return; }
@@ -3437,45 +3720,48 @@ function bindEvents() {
     if ((t = e.target.closest && e.target.closest("[data-instr-key]"))) { openInstr(t.getAttribute("data-instr-key")); return; }
     if ((t = e.target.closest && e.target.closest("[data-share]"))) { shareLink(t.getAttribute("data-share")); return; }
     if ((t = e.target.closest && e.target.closest("[data-share-sec]"))) { shareLink(t.getAttribute("data-share-sec")); return; }
-    if ((t = e.target.closest && e.target.closest("[data-rep]"))) {
-      var k = t.getAttribute("data-rep");
-      if (LAST[k] && REPORT.indexOf(k) < 0) REPORT.push(k), lsw("eng_report_v1", REPORT);
-      sheet("<h3>В отчёт</h3><p>«" + esc(LAST[k] ? LAST[k].title : k) + "» добавлен в отчёт. Соберите и распечатайте через «📄 Отчёт» вверху страницы.</p>");
-      return;
-    }
+    if ((t = e.target.closest && e.target.closest("[data-rep]"))) { addToReport(t.getAttribute("data-rep")); return; }
   }, false);
-  /* help-i внутри новых калькуляторов */
-  document.addEventListener("click", function (e) {
-    var h = e.target.closest && e.target.closest(".help-i[data-calc]");
-    if (!h) return;
-    var ck = h.getAttribute("data-calc"), fk = h.getAttribute("data-h");
-    var c = null; for (var i = 0; i < CALCS.length; i++) if (CALCS[i].k === ck) c = CALCS[i];
-    var txt = c && c.fields.filter(function (f) { return f.k === fk; }).map(function (f) { return f.help; })[0];
-    if (txt) { e.stopPropagation(); sheet("<h3>Что это и зачем</h3><p>" + esc(txt) + "</p>"); }
-  }, true);
 }
 
 /* ---------- старт ---------- */
+function safe(fn, name) {
+  try { fn(); } catch (e) {
+    try { console.error("[eng] " + name, e); } catch (x) {}
+    var b = document.createElement("div");
+    b.style.cssText = "background:#b03030;color:#fff;padding:9px 14px;border-radius:8px;font:600 12.5px sans-serif;margin:8px 0";
+    b.textContent = "Не загрузился модуль «" + name + "»: " + ((e && e.message) || e);
+    var p = byId("page-eng");
+    if (p) p.insertBefore(b, p.firstChild);
+  }
+}
 function init() {
-  initTheme(); initPwa();
-  decorateExisting();
-  initSegments();
+  safe(initTheme, "тема");
+  safe(initTop, "кнопка вверх");
+  safe(initPwa, "PWA");
+  safe(decorateExisting, "кнопки калькуляторов");
+  safe(initSegments, "панель инструментов");
   var page = byId("page-eng");
   if (!page) return;
-  var ck = checklistSection();
-  page.appendChild(ck);
-  CALCS.forEach(function (c) { page.appendChild(calcSection(c, 0)); });
-  page.appendChild(normsSection());
-  var bg = document.createElement("div");
-  bg.id = "ioSheetBg"; bg.className = "io-sheet-bg";
-  document.body.appendChild(bg);
-  var pr = document.createElement("div");
-  pr.id = "printEng";
-  document.body.appendChild(pr);
-  bindEvents();
-  renderRecent();
-  loadFromHash();
-  track("visit", "");
+  safe(function () { CALCS.forEach(function (c) { page.appendChild(calcSection(c, 0)); }); }, "новые калькуляторы");
+  safe(function () {
+    var ck = checklistSection();
+    page.appendChild(ck);
+    var bar0 = ck.querySelector("#cklBar");
+    if (bar0) { var st0 = ls("eng_ckl_v1") || {}; var n0 = CHECKLIST.filter(function (_, i) { return st0[i]; }).length; bar0.style.width = Math.round(n0 / CHECKLIST.length * 100) + "%"; }
+  }, "чек-лист");
+  safe(function () { page.appendChild(normsSection()); }, "нормативы");
+  safe(function () {
+    var bg = document.createElement("div");
+    bg.id = "ioSheetBg"; bg.className = "io-sheet-bg";
+    document.body.appendChild(bg);
+    var pr = document.createElement("div");
+    pr.id = "printEng";
+    document.body.appendChild(pr);
+  }, "листы");
+  safe(renderRecent, "журнал недавних");
+  safe(loadFromHash, "ссылка с параметрами");
+  safe(function () { track("visit", ""); }, "счётчик");
 }
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
 else init();
